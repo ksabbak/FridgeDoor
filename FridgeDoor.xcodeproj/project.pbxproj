@@ -12,9 +12,12 @@
 		A964EDAD1C7396F4000697DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A964EDAB1C7396F4000697DE /* Main.storyboard */; };
 		A964EDAF1C7396F4000697DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A964EDAE1C7396F4000697DE /* Assets.xcassets */; };
 		A964EDB21C7396F4000697DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */; };
+		D5FFE461BE70EB07132A840C /* Pods_FridgeDoor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F24CBA4B6B60AF0B1B016C6 /* Pods_FridgeDoor.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		373F2E3CB8C799D34C932288 /* Pods-FridgeDoor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FridgeDoor.release.xcconfig"; path = "Pods/Target Support Files/Pods-FridgeDoor/Pods-FridgeDoor.release.xcconfig"; sourceTree = "<group>"; };
+		8F24CBA4B6B60AF0B1B016C6 /* Pods_FridgeDoor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FridgeDoor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A964EDA41C7396F4000697DE /* FridgeDoor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FridgeDoor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A964EDA71C7396F4000697DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A964EDA91C7396F4000697DE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +25,7 @@
 		A964EDAE1C7396F4000697DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A964EDB11C7396F4000697DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A964EDB31C7396F4000697DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F388A12778494815682F6B6C /* Pods-FridgeDoor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FridgeDoor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FridgeDoor/Pods-FridgeDoor.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +33,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5FFE461BE70EB07132A840C /* Pods_FridgeDoor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E582FAC36561EFF122C1F01 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8F24CBA4B6B60AF0B1B016C6 /* Pods_FridgeDoor.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A964ED9B1C7396F4000697DE = {
 			isa = PBXGroup;
 			children = (
 				A964EDA61C7396F4000697DE /* FridgeDoor */,
 				A964EDA51C7396F4000697DE /* Products */,
+				FB8DDBC3A0313798D60DD791 /* Pods */,
+				4E582FAC36561EFF122C1F01 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +79,15 @@
 			path = FridgeDoor;
 			sourceTree = "<group>";
 		};
+		FB8DDBC3A0313798D60DD791 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F388A12778494815682F6B6C /* Pods-FridgeDoor.debug.xcconfig */,
+				373F2E3CB8C799D34C932288 /* Pods-FridgeDoor.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -71,9 +95,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A964EDB61C7396F4000697DE /* Build configuration list for PBXNativeTarget "FridgeDoor" */;
 			buildPhases = (
+				D643334B96D43A84E8E73842 /* Check Pods Manifest.lock */,
 				A964EDA01C7396F4000697DE /* Sources */,
 				A964EDA11C7396F4000697DE /* Frameworks */,
 				A964EDA21C7396F4000697DE /* Resources */,
+				6EBAB47BBCA514A44A28F795 /* Embed Pods Frameworks */,
+				BE498E02AC94F6B6003C9F89 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -130,6 +157,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6EBAB47BBCA514A44A28F795 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FridgeDoor/Pods-FridgeDoor-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BE498E02AC94F6B6003C9F89 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FridgeDoor/Pods-FridgeDoor-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D643334B96D43A84E8E73842 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A964EDA01C7396F4000697DE /* Sources */ = {
@@ -246,6 +321,7 @@
 		};
 		A964EDB71C7396F4000697DE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F388A12778494815682F6B6C /* Pods-FridgeDoor.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = FridgeDoor/Info.plist;
@@ -257,6 +333,7 @@
 		};
 		A964EDB81C7396F4000697DE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 373F2E3CB8C799D34C932288 /* Pods-FridgeDoor.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = FridgeDoor/Info.plist;
@@ -285,6 +362,7 @@
 				A964EDB81C7396F4000697DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
