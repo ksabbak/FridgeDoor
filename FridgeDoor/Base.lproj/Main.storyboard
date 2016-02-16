@@ -1,25 +1,222 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="z8R-eT-1B5">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--List View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ListViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Zso-6G-Zrl"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="667"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-108.5" y="321.5"/>
+        </scene>
+        <!--Details View Controller-->
+        <scene sceneID="2X8-kV-VhJ">
+            <objects>
+                <viewController id="pfR-NO-xqy" customClass="DetailsViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0k9-4m-XNi"/>
+                        <viewControllerLayoutGuide type="bottom" id="C5x-RT-ZDL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sl6-w1-qbQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iPp-S7-87O" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="357.5" y="321.5"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="IIK-4w-Pgu">
+            <objects>
+                <viewController id="AMT-qa-RyX" customClass="SettingsViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Wzj-ut-ldn"/>
+                        <viewControllerLayoutGuide type="bottom" id="B04-XV-cDa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wlJ-4s-Wyp">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="300" height="667"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SUk-vW-rbQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-543" y="321.5"/>
+        </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="TVa-MY-ugx">
+            <objects>
+                <viewController id="PBt-cQ-uoG" customClass="ProfileViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="q2D-mQ-KcH"/>
+                        <viewControllerLayoutGuide type="bottom" id="jF8-IZ-YAl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="boK-08-CW6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6N5-Wy-LJd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1170.5" y="1094.5"/>
+        </scene>
+        <!--Edit Profile View Controller-->
+        <scene sceneID="FUH-Td-8lb">
+            <objects>
+                <viewController id="oZH-yi-yiO" customClass="EditProfileViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="a1Y-3l-jd9"/>
+                        <viewControllerLayoutGuide type="bottom" id="jTe-eu-ZiG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="M8c-CG-gUR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hzB-Mo-8rK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-734.5" y="1094.5"/>
+        </scene>
+        <!--Re Add View Controller-->
+        <scene sceneID="IIJ-kl-Duz">
+            <objects>
+                <viewController id="fiD-1Z-Tz4" customClass="ReAddViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aO6-IV-atX"/>
+                        <viewControllerLayoutGuide type="bottom" id="C4w-yt-lff"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VVa-Nk-AZl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Iyd-QO-2Ra" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-108.5" y="1094.5"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="OQQ-Ar-WjM">
+            <objects>
+                <viewController id="I1C-Pr-kE9" customClass="LoginViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sVL-mf-bTv"/>
+                        <viewControllerLayoutGuide type="bottom" id="Hat-JN-pSu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OCj-Vo-ChP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dDj-A2-pyB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="396.5" y="-456.5"/>
+        </scene>
+        <!--Create Account View Controller-->
+        <scene sceneID="2Aw-wz-4Ff">
+            <objects>
+                <viewController id="nrg-Ai-W6x" customClass="CreateAccountViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Od8-TC-NyG"/>
+                        <viewControllerLayoutGuide type="bottom" id="RC4-Xm-blH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nem-Hz-3o4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hDW-sE-LMe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="827.5" y="-456.5"/>
+        </scene>
+        <!--Start Or Join Group View Controller-->
+        <scene sceneID="CE3-xa-Ik5">
+            <objects>
+                <viewController id="amV-DM-4kV" customClass="StartOrJoinGroupViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KOR-MP-sgj"/>
+                        <viewControllerLayoutGuide type="bottom" id="e89-Yo-J4v"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Aon-eM-8dX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DJ7-Qo-Alp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1032.5" y="-456.5"/>
+        </scene>
+        <!--Create Group View Controller-->
+        <scene sceneID="SGi-Aa-K6h">
+            <objects>
+                <viewController id="Wg3-rw-1n0" customClass="CreateGroupViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="QJP-1S-pke"/>
+                        <viewControllerLayoutGuide type="bottom" id="dRU-gB-WQh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yrp-h8-P88">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mEV-Q5-W1E" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-596.5" y="-456.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="qA5-iU-lcL">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="z8R-eT-1B5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="375"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="V3G-B3-r2A">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="DZ4-gC-jXx"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rhu-A5-lOp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-108.5" y="-310.5"/>
         </scene>
     </scenes>
 </document>
