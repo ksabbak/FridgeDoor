@@ -8,9 +8,18 @@
 
 import UIKit
 
+@objc
+protocol CenterViewControllerDelegate {
+    optional func toggleLeftPanel()
+    optional func toggleRightPanel()
+    optional func collapseSidePanels()
+}
+
 class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    var delegate: CenterViewControllerDelegate?
+
     
     var tempArray:[String] = []       //DELETE ME: This is a temporary array for testing reasons.
     
@@ -20,6 +29,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // Do any additional setup after loading the view.
     }
 
+
+    @IBAction func onSettingsButtonTapped(sender: UIBarButtonItem)
+    {
+    delegate?.toggleLeftPanel?()
+    }
 
     
     

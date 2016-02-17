@@ -19,6 +19,7 @@
 		5ADEA84A1C73ABF20089BB1D /* StartOrJoinGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8401C73ABF20089BB1D /* StartOrJoinGroupViewController.swift */; };
 		5ADEA84D1C73ABFF0089BB1D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ADEA84B1C73ABFF0089BB1D /* Main.storyboard */; };
 		5ADEA8511C73C6F20089BB1D /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8501C73C6F20089BB1D /* ListViewController.swift */; };
+		5ADEA8531C74BD6E0089BB1D /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8521C74BD6E0089BB1D /* ContainerViewController.swift */; };
 		A964EDA81C7396F4000697DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A964EDA71C7396F4000697DE /* AppDelegate.swift */; };
 		A964EDAF1C7396F4000697DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A964EDAE1C7396F4000697DE /* Assets.xcassets */; };
 		A964EDB21C7396F4000697DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */; };
@@ -39,6 +40,7 @@
 		5ADEA8401C73ABF20089BB1D /* StartOrJoinGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartOrJoinGroupViewController.swift; sourceTree = "<group>"; };
 		5ADEA84C1C73ABFF0089BB1D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5ADEA8501C73C6F20089BB1D /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		5ADEA8521C74BD6E0089BB1D /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		8F24CBA4B6B60AF0B1B016C6 /* Pods_FridgeDoor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FridgeDoor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A964EDA41C7396F4000697DE /* FridgeDoor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FridgeDoor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A964EDA71C7396F4000697DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				5ADEA83A1C73ABF20089BB1D /* EditProfileViewController.swift */,
 				5ADEA8501C73C6F20089BB1D /* ListViewController.swift */,
 				5ADEA84B1C73ABFF0089BB1D /* Main.storyboard */,
+				5ADEA8521C74BD6E0089BB1D /* ContainerViewController.swift */,
 				5ADEA83B1C73ABF20089BB1D /* Info.plist */,
 				5ADEA83C1C73ABF20089BB1D /* LoginViewController.swift */,
 				5ADEA83D1C73ABF20089BB1D /* ProfileViewController.swift */,
@@ -252,6 +255,7 @@
 				5ADEA8421C73ABF20089BB1D /* CreateGroupViewController.swift in Sources */,
 				A964EDA81C7396F4000697DE /* AppDelegate.swift in Sources */,
 				5ADEA8471C73ABF20089BB1D /* ProfileViewController.swift in Sources */,
+				5ADEA8531C74BD6E0089BB1D /* ContainerViewController.swift in Sources */,
 				5ADEA8431C73ABF20089BB1D /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

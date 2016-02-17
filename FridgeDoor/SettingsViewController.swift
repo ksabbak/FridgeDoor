@@ -8,28 +8,66 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath)
+        
+        return cell
     }
-    */
+
 
 }
+
+
+
+
+
+//class SidePanelViewController: UIViewController {
+//    
+//    @IBOutlet weak var tableView: UITableView!
+//    
+//    var animals: Array<Animal>!
+//    
+//    struct TableView {
+//        struct CellIdentifiers {
+//            static let AnimalCell = "AnimalCell"
+//        }
+//    }
+//    
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        
+//        tableView.reloadData()
+//    }
+//    
+//}
+
+// MARK: Table View Data Source
+
+//extension SidePanelViewController: UITableViewDataSource {
+//    
+//    
+//}
+
+// Mark: Table View Delegate
+
+//extension SidePanelViewController: UITableViewDelegate {
+//    
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//    }
+//    
+//}
+
+

@@ -9,7 +9,7 @@
         <!--List View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ListViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ListViewController" id="BYZ-38-t0r" customClass="ListViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -49,7 +49,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Zso-6G-Zrl">
-                        <barButtonItem key="leftBarButtonItem" title="Settings" id="5Da-zY-oPa"/>
+                        <barButtonItem key="leftBarButtonItem" title="Settings" id="5Da-zY-oPa">
+                            <connections>
+                                <action selector="onSettingsButtonTapped:" destination="BYZ-38-t0r" id="M3I-Ap-qqZ"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="gCf-H3-VLi">
                             <connections>
                                 <action selector="onAddButtonTapped:" destination="BYZ-38-t0r" id="YbQ-jP-s5X"/>
@@ -88,7 +92,7 @@
         <!--Settings View Controller-->
         <scene sceneID="IIK-4w-Pgu">
             <objects>
-                <viewController id="AMT-qa-RyX" customClass="SettingsViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" id="AMT-qa-RyX" customClass="SettingsViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Wzj-ut-ldn"/>
                         <viewControllerLayoutGuide type="bottom" id="B04-XV-cDa"/>
@@ -96,7 +100,33 @@
                     <view key="view" contentMode="scaleToFill" id="wlJ-4s-Wyp">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Aww-25-sad">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MenuCell" id="pJU-VS-sSa">
+                                        <rect key="frame" x="0.0" y="28" width="300" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pJU-VS-sSa" id="WAw-Ec-Yin">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="AMT-qa-RyX" id="YUR-1l-Fdy"/>
+                                    <outlet property="delegate" destination="AMT-qa-RyX" id="Ovc-T1-12d"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Aww-25-sad" firstAttribute="leading" secondItem="wlJ-4s-Wyp" secondAttribute="leadingMargin" constant="-20" id="Gvb-4a-DH9"/>
+                            <constraint firstItem="Aww-25-sad" firstAttribute="top" secondItem="wlJ-4s-Wyp" secondAttribute="topMargin" id="H9w-qk-Mbs"/>
+                            <constraint firstItem="B04-XV-cDa" firstAttribute="top" secondItem="Aww-25-sad" secondAttribute="bottom" id="jVh-Y8-9Hq"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Aww-25-sad" secondAttribute="trailing" constant="-20" id="wGC-Uk-dKc"/>
+                        </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="667"/>
