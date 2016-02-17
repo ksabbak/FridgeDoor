@@ -37,28 +37,28 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     
     
-    @IBAction func onAddButtonTapped(sender: UIBarButtonItem)
-    {
-        let addAlert = UIAlertController(title: "Add Item", message: "Add item below or select from your history", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        addAlert.addTextFieldWithConfigurationHandler { (textField) -> Void in
-            textField.placeholder = "Item name"
-        }
-        
-        let okayAction = UIAlertAction(title: "Okay", style: .Default ) { (UIAlertAction) -> Void in
-            self.tempArray.append((addAlert.textFields?.first?.text)!)
-            self.tableView.reloadData()
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (UIAlertAction) -> Void in
-        }
-        
-        addAlert.addAction(okayAction)
-        addAlert.addAction(cancelAction)
-        
-        
-        presentViewController(addAlert, animated: true, completion: nil);
-    }
+//    @IBAction func onAddButtonTapped(sender: UIBarButtonItem)
+//    {
+//        let addAlert = UIAlertController(title: "Add Item", message: "Add item below or select from your history", preferredStyle: UIAlertControllerStyle.Alert)
+//        
+//        addAlert.addTextFieldWithConfigurationHandler { (textField) -> Void in
+//            textField.placeholder = "Item name"
+//        }
+//        
+//        let okayAction = UIAlertAction(title: "Okay", style: .Default ) { (UIAlertAction) -> Void in
+//            self.tempArray.append((addAlert.textFields?.first?.text)!)
+//            self.tableView.reloadData()
+//        }
+//        
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (UIAlertAction) -> Void in
+//        }
+//        
+//        addAlert.addAction(okayAction)
+//        addAlert.addAction(cancelAction)
+//        
+//        
+//        presentViewController(addAlert, animated: true, completion: nil);
+//    }
     
     
     
