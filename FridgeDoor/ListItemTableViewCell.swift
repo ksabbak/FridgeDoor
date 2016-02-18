@@ -8,10 +8,13 @@
 
 import UIKit
 
+
+
 class ListItemTableViewCell: UITableViewCell {
 
     
-    @IBOutlet weak var checkboxImage: UIImageView!
+    
+    @IBOutlet weak var checkboxButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var topIcon: UIImageView!
     @IBOutlet weak var bottomIcon: UIImageView!
@@ -21,7 +24,7 @@ class ListItemTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         
-        checkboxImage.image = UIImage(imageLiteral: "check")
+        
         topIcon.image = UIImage(imageLiteral: "bubble")
         bottomIcon.image = UIImage(imageLiteral: "staple")
     }
@@ -32,4 +35,10 @@ class ListItemTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    
+    //Should this be here??? Should this be here as a delegate thing? Probably that. Think it through.
+    @IBAction func onCheckButtonTapped(sender: UIButton)
+    {
+    
+    }
 }

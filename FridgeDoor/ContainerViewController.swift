@@ -16,8 +16,9 @@ enum SlideOutState {
 
 
 
-class ContainerViewController: UIViewController {
+class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, CenterViewControllerDelegate {
 
+    var tapGestureRecognizer: UITapGestureRecognizer!
     var centerNavigationController: UINavigationController!
     var centerViewController: ListViewController!
     var currentState: SlideOutState = .Collapsed  {
@@ -47,16 +48,20 @@ class ContainerViewController: UIViewController {
         
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePanGesture:")
         centerNavigationController.view.addGestureRecognizer(panGestureRecognizer)
-        
+        //panGestureRecognizer.delegate = self
+
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTapGesture:")
+        centerNavigationController.view.addGestureRecognizer(tapGestureRecognizer)
+        tapGestureRecognizer.enabled = false
 
     }
     
-}
+
 
 
 // MARK: CenterViewController delegate
 
-extension ContainerViewController: CenterViewControllerDelegate {
+
     
     func toggleLeftPanel() {
         let notAlreadyExpanded = (currentState != .MenuPanelExpanded)
@@ -91,24 +96,29 @@ extension ContainerViewController: CenterViewControllerDelegate {
     }
     
     func animateLeftPanel(shouldExpand shouldExpand: Bool) {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTapGesture:")
+
         
         if (shouldExpand) {
             currentState = .MenuPanelExpanded
             
             animateCenterPanelXPosition(targetPosition: CGRectGetWidth(centerNavigationController.view.frame) - centerPanelExpandedOffset)
+
+            tapGestureRecognizer.enabled = true
+
             
-            
-            centerNavigationController.view.addGestureRecognizer(tapGestureRecognizer)
-            
-        } else {
+        }
+        else {
             animateCenterPanelXPosition(targetPosition: 0) { finished in
                 self.currentState = .Collapsed
-                
+
                 self.leftViewController!.view.removeFromSuperview()
                 self.leftViewController = nil
+                
+
             }
+            tapGestureRecognizer.enabled = false
         }
+
     }
     
     func animateCenterPanelXPosition(targetPosition targetPosition: CGFloat, completion: ((Bool) -> Void)! = nil) {
@@ -117,8 +127,8 @@ extension ContainerViewController: CenterViewControllerDelegate {
             }, completion: completion)
     }
     
-    func animateRightPanel(shouldExpand shouldExpand: Bool) {
-    }
+//    func animateRightPanel(shouldExpand shouldExpand: Bool) {
+//    }
     
     
     func showShadowForCenterViewController(shouldShowShadow: Bool) {
@@ -128,10 +138,10 @@ extension ContainerViewController: CenterViewControllerDelegate {
             centerNavigationController.view.layer.shadowOpacity = 0.0
         }
     }
-}
 
 
-extension ContainerViewController: UIGestureRecognizerDelegate {
+
+
     // MARK: Gesture recognizer
     
     func handlePanGesture(recognizer: UIPanGestureRecognizer) {
@@ -181,12 +191,14 @@ extension ContainerViewController: UIGestureRecognizerDelegate {
         if currentState == .MenuPanelExpanded
         {
         animateLeftPanel(shouldExpand: false)
-        recognizer.enabled = false
+       // recognizer.enabled = false
             
         }
         if currentState == .Collapsed
         {
+           // recognizer.enabled = false
             print(":(")
+            print(recognizer.enabled.boolValue)
         }
     }
 }

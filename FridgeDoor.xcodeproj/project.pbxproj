@@ -116,8 +116,6 @@
 				5ADEA8381C73ABF20089BB1D /* CreateGroupViewController.swift */,
 				5ADEA8391C73ABF20089BB1D /* DetailsViewController.swift */,
 				5ADEA83A1C73ABF20089BB1D /* EditProfileViewController.swift */,
-				5ADEA84B1C73ABFF0089BB1D /* Main.storyboard */,
-				5ADEA8581C7527170089BB1D /* ListItemTableViewCell.swift */,
 				5ADEA8561C74F47F0089BB1D /* AddItemViewController.swift */,
 				5ADEA8521C74BD6E0089BB1D /* ContainerViewController.swift */,
 				5ADEA83B1C73ABF20089BB1D /* Info.plist */,
@@ -145,6 +143,8 @@
 			isa = PBXGroup;
 			children = (
 				A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */,
+				5ADEA84B1C73ABFF0089BB1D /* Main.storyboard */,
+				5ADEA8581C7527170089BB1D /* ListItemTableViewCell.swift */,
 				A964EDAE1C7396F4000697DE /* Assets.xcassets */,
 			);
 			name = View;
