@@ -9,6 +9,18 @@
 import Foundation
 import UIKit
 
+
+struct UserList
+{
+    var listUID: String
+    var time: NSDate
+    init(time: String, listUID: String)
+    {
+        self.time = NSDate(timeIntervalSince1970: Double(time)!)
+        self.listUID = listUID
+    }
+}
+
 class User
 {
     var UID: String
@@ -16,6 +28,7 @@ class User
     var email: String
     var imageName: String
     var image: UIImage
+    var userLists: [UserList]
     
     init(username: String, email: String, imageName: String)
     {
@@ -23,6 +36,7 @@ class User
         self.username = username
         self.email    = email
         self.imageName = imageName
-        self.image    = UIImage(named: "\(imageName)")
+        self.image    = UIImage(named: "\(imageName)")!
+        userLists = []
     }
 }

@@ -80,6 +80,7 @@ class ConnectionManager {
     var getAllListsDelegate: ConnectionManagerGetAllListsDelegate?
     var listChangedDelegate: ConnectionManagerListChangesDelegate?
     var logoutDelegate:      ConnectionManagerLogOutDelegate?
+    var makeHistoryItemDelegate: ConnectionManagerMakeHistoryItemDelegate?
     
     private
     
@@ -94,7 +95,7 @@ class ConnectionManager {
     var userData: User?
     
     private var users: [User] = []
-    private var historyItems: [List] = []
+    private var lists: [List] = []
     private var historyItems: [History] = []
     
     private var selfUserUID: String
@@ -226,8 +227,8 @@ class ConnectionManager {
     }
     
     
-    func getUserFor(userUID userUID: String) -> User? {
-        
+    func getUserFor(userUID userUID: String) -> User?
+    {
         var matchingUser: User!
         
         for user in users {
@@ -254,26 +255,32 @@ class ConnectionManager {
         return users
     }
     
+    func addListToUser(listUID: String, toUser userUID: String)
+    {
+        let userListRef = usersRef.childByAppendingPath("\(userUID)/user_lists/\(listUID)")
+        let userListData = ["time":String(NSDate().timeIntervalSince1970)]
+        
+        userListRef.updateChildValues(userListData)
+    }
+    
+    func removeListFromUser(listUID: String, fromUser userUID: String)
+    {
+        let userListRef = usersRef.childByAppendingPath("\(userUID)/user_lists/\(listUID)")
+        userListRef.removeValue()
+    }
+    
     
     //MARK: - History Handling
     
     func createHistoryItem(history: History)
     {
-        guard let userUID = userUID()
-            else {
-                self.makeListDelegate?.connectionManagerDidFailToMakeList()
-                Debug.log("Failed to make post, no UID")
-                return
-        }
-        
         let historyRef = historyItemsRef.childByAutoId()
-        
         
         let historyData =
         ["item_name":history.itemName,
             "purchaser_UID":history.purchaserUID,
             "list_UID":history.listUID,
-            "time":String(NSDate().timeIntervalSince1970),
+            "time":NSDate().timeIntervalSince1970,
             "UID":historyRef.key]
         
         historyRef.setValue(historyData) { (error:NSError!, snapshot:Firebase!) -> Void in
@@ -283,10 +290,6 @@ class ConnectionManager {
             }
             self.makeHistoryItemDelegate?.connectionManagerDidMakeHistoryItem()
         }
-    }
-    
-    func allHistoryItems() -> [History] {
-        return historyItems
     }
     
     func deleteHistoryItem(historyUID: String)
@@ -306,22 +309,17 @@ class ConnectionManager {
         }
         
     }
-
-
+    
+    func allHistoryItems() -> [History] {
+        return historyItems
+    }
+    
     
     //MARK: - List Handling
     
     func createList(list: List)
     {
-        guard let userUID = userUID()
-            else {
-                self.makeListDelegate?.connectionManagerDidFailToMakeList()
-                Debug.log("Failed to make post, no UID")
-                return
-        }
-        
         let listRef = listsRef.childByAutoId()
-        
         
         let listData =
         ["name":list.name,
@@ -340,7 +338,7 @@ class ConnectionManager {
     {
         let listRef = listsRef.childByAppendingPath(listUID)
         
-        let foundIndex = historyItems.indexOf { (list:List) -> Bool in
+        let foundIndex = lists.indexOf { (list:List) -> Bool in
             if list.UID == listUID {
                 return true
             }
@@ -354,36 +352,33 @@ class ConnectionManager {
         
     }
     
-    func getAllLists() {
+    func getListFor(listUID listUID: String) -> List?
+    {
+        var matchingList: List!
         
-        listsRef.observeSingleEventOfType(.Value) { (snapshot:FDataSnapshot!) -> Void in
-            
-            let keys = snapshot.value.allKeys as! [String]
-            
-            var allLists = [List]()
-            
-            for key in keys {
-                
-                guard let listData = snapshot.value.objectForKey(key) as? [String:AnyObject]
-                    else { Debug.log("Invalid post in database"); break }
-                
-                let newList = self.unpackList(listData)
-                
-                allLists.append(newList)
+        for list in lists {
+            if list.UID == listUID {
+                matchingList = list
+                break
             }
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.getAllListsDelegate?.connectionManagerDidGetAllLists(allLists)
-            })
         }
+        
+        guard matchingList != nil
+            else {
+                Debug.log("No Such list")
+                logout()
+                return nil
+        }
+        
+        return matchingList
     }
+
     
-    func allLists() -> [List] {
+    func allLists() -> [History] {
         return historyItems
     }
     
     //MARK: - Member Handling
-    //add member, delete member, membersRef = rootRef.childByAppendingPath("members")
     
     func addMember(userUID: String, toList listUID: String)
     {
@@ -396,7 +391,7 @@ class ConnectionManager {
     func deleteMember(userUID: String, fromList listUID: String)
     {
         let memberRef = listsRef.childByAppendingPath("\(listUID)/members/\(userUID)")
-        likeRef.removeValue()
+        memberRef.removeValue()
     }
     
     //MARK: - Item Handling
@@ -413,7 +408,7 @@ class ConnectionManager {
     
     func deleteItem(itemUID: String, fromList listUID: String)
     {
-        let itemRef = postsRef.childByAppendingPath("\(listUID)/items/\(itemUID)")
+        let itemRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)")
         
         itemRef.removeValue()
         
@@ -434,17 +429,18 @@ class ConnectionManager {
         listCommentRef.setValue(metaData)
     }
     
-    func deleteComment(commentUID UID: String, fromItem itemUID: String, on List listUID: String)
+    func deleteComment(commentUID: String, fromItem itemUID: String, onList listUID: String)
     {
-        let listCommentRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/comments/\(UID)")
-        commentRef.removeValue()
+        let listCommentRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/comments/\(commentUID)")
+        
+        listCommentRef.removeValue()
     }
     
     //MARK: - Essential Handling
     
     func markAsEssential(itemUID: String, onList listUID: String)
     {
-        let listItemEssentialRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)"
+        let listItemEssentialRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)")
         let essentialData = ["Essential":"true"]
         
         listItemEssentialRef.setValue(essentialData)
@@ -452,7 +448,7 @@ class ConnectionManager {
     
     func unmarkEssential(itemUID: String, fromList listUID: String)
     {
-        let listItemEssentialRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)"
+        let listItemEssentialRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)")
         let essentialData = ["Essential":"false"]
         
         listItemEssentialRef.setValue(essentialData)
@@ -617,102 +613,131 @@ class ConnectionManager {
         let newList = List()
         
         newList.UID         = listData["UID"] as! String
-        newList.userUID     = listData["user_UID"] as! String
-        newList.description = listData["description"] as! String
+        newList.name        = listData["name"] as! String
         
-        if let likes = listData["likes"] as? [String:[String:String]]{
-            for like in likes {
-                newList.likes.append(Like(time: like.1["time"]!, userUID: like.0))
+        if let members = listData["members"] as? [String:[String:String]]
+        {
+            for member in members
+            {
+                newList.members.append(Member(time: member.1["time"]!, userUID: member.0))
             }
         }
         
-        if let comments = listData["comments"] as? [String:AnyObject] {
-            for comment in comments {
-                
+        if let items = listData["items"] as? [String:AnyObject]
+        {
+            for item in items
+            {
+                let newItem = self.unpackItem([item.0:item.1])
+                newList.items.append(newItem)
+            }
+        }
+               
+        return newList
+    }
+    
+    private func unpackItem(itemData: [String:AnyObject]) -> Item
+    {
+        var newItem = Item()
+        
+        newItem.UID         = itemData["UID"] as! String
+        newItem.name        = itemData["name"] as! String
+        if let essential = itemData["essential"] as? String
+        {
+            newItem.essential = essential
+        }
+        
+        if let comments = itemData["comments"] as? [String:AnyObject]
+        {
+            for comment in comments
+            {
                 let time = comment.1["time"] as! Double
                 let message = comment.1["comment"] as! String
                 let userUID = comment.1["user_UID"] as! String
                 
                 let UID = comment.0
                 
-                newList.comments.append( Comment(time: time, userUID: userUID, message: message, commentUID: UID) )
+                newItem.comments.append(Comment(time: time, userUID: userUID, message: message, UID: UID))
             }
         }
         
-        if let imageString = listData["image_data"] as? String {
-            if imageString != "" {
-                newList.decodeImage(imageString)
-            }
-        }
-        
-        return newList
+        return newItem
     }
+
     
     private func unpackUser(userData: [String:AnyObject]) -> User {
         
         let username = userData["username"] as! String
         let email = userData["email"] as! String
-        let newUser = User(username: username, email: email)
+        let imageName = userData["image_name"] as! String
+        let newUser = User(username: username, email: email, imageName: imageName)
         
         newUser.UID = userData["UID"] as! String
         
-        if let bio = userData["bio"] as? String {
-            newUser.bio = bio
-        }
-        
-        if let followers = userData["followers"] as? [String:AnyObject]{
-            for follower in followers {
-                newUser.followers.append(follower.0)
-            }
-        }
-        
-        if let following = userData["following"] as? [String:AnyObject]{
-            for follow in following {
-                newUser.following.append(follow.0)
-            }
-        }
-        
-        
-        if let imageString = userData["image_data"] as? String {
-            if imageString != "" {
-                newUser.decodeImage(imageString)
-            }
-        }
-        
-        if let blocks = userData["blocks"] as? [String:AnyObject] {
-            for block in blocks {
-                newUser.blocks.append(block.0)
+        if let userLists = userData["user_lists"] as? [String:[String:String]]
+        {
+            for userList in userLists
+            {
+                newUser.userLists.append(UserList(time: userList.1["time"]!, listUID: userList.0))
             }
         }
         
         return newUser
     }
     
-    private func getAllUsers() {
+    private func unpackHistoryItem(historyData: [String:AnyObject]) -> History {
         
+        let itemName = historyData["item_name"] as! String
+        let purchaserUID = historyData["purchaser_UID"] as! String
+        let listUID = historyData["list_UID"] as! String
+        let time = historyData["time"] as! Double
+        let newHistoryItem = History(itemName: itemName, purchaserUID: purchaserUID, listUID: listUID, time: time)
+        
+        newHistoryItem.UID = historyData["UID"] as! String
+        
+        return newHistoryItem
+    }
+
+    private func getAllUsers()
+    {
         users = []
         
         usersRef.observeSingleEventOfType(.Value) { (snapshot:FDataSnapshot!) -> Void in
             
-            let usersData = snapshot.value as! [String: AnyObject]
+            let keys = snapshot.value.allKeys as! [String]
             
+            var allUsers = [User]()
             
-            for user in usersData {
+            for key in keys
+            {
                 
-                guard let userData = user.1 as? [String:String]
-                    else { Debug.log("Invalid user")
-                        break
-                }
+                guard let userData = snapshot.value.objectForKey(key) as? [String:AnyObject]
+                    else { Debug.log("Invalid user in database"); break }
                 
-                let newUser = User(username: userData["username"]!, email: userData["email"]!)
-                newUser.UID = user.0
+                let newUser = self.unpackUser(userData)
                 
-                if let imageString = userData["image_data"] {
-                    if imageString != "" {
-                        newUser.decodeImage(imageString)
-                    }
-                }
-                self.users.append(newUser)
+                allUsers.append(newUser)
+            }
+        }
+    }
+    
+    
+    private func getAllLists()
+    {
+        listsRef.observeSingleEventOfType(.Value) { (snapshot:FDataSnapshot!) -> Void in
+            
+            let keys = snapshot.value.allKeys as! [String]
+            
+            var allLists = [List]()
+            
+            for key in keys
+            {
+                
+                guard let listData = snapshot.value.objectForKey(key) as? [String:AnyObject]
+                    else { Debug.log("Invalid list in database"); break }
+                
+                let newList = self.unpackList(listData)
+                
+                allLists.append(newList)
             }
         }
     }

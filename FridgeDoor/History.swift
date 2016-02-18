@@ -15,7 +15,7 @@ class History
     var itemName: String
     var purchaserUID: String
     var listUID: String
-    var time: Double
+    var time: NSDate
     
     init(itemName: String, purchaserUID: String, listUID: String, time: Double)
     {

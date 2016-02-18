@@ -25,27 +25,40 @@ struct Comment
 }
 
 struct UserTurn {
-    var userTurn: Bool
+    var userTurnUID: String
     
     init()
     {
-        userTurn = false
+        userTurnUID = ""
     }
 }
 
 struct Item
 {
     var name: String
+    var UID: String
     var comments: [Comment]
-    var essential: Bool
+    var essential: String
     var rotate: [UserTurn]
     
-    init(name: String)
+    init()
     {
-        self.name = name
-        essential = false
+        name = ""
+        UID = ""
+        essential = ""
         rotate = []
         comments = []
+    }
+}
+
+struct Member
+{
+    var userUID: String
+    var time: NSDate
+    init(time: String, userUID: String)
+    {
+        self.time = NSDate(timeIntervalSince1970: Double(time)!)
+        self.userUID = userUID
     }
 }
 
@@ -54,7 +67,7 @@ class List
     
     var UID: String
     var name: String
-    var members: [String]
+    var members: [Member]
     var items: [Item]
     
     init()
