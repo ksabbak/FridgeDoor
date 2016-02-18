@@ -47,6 +47,8 @@ class ContainerViewController: UIViewController {
         
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePanGesture:")
         centerNavigationController.view.addGestureRecognizer(panGestureRecognizer)
+        
+
     }
     
 }
@@ -89,16 +91,22 @@ extension ContainerViewController: CenterViewControllerDelegate {
     }
     
     func animateLeftPanel(shouldExpand shouldExpand: Bool) {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTapGesture:")
+        
         if (shouldExpand) {
             currentState = .MenuPanelExpanded
             
             animateCenterPanelXPosition(targetPosition: CGRectGetWidth(centerNavigationController.view.frame) - centerPanelExpandedOffset)
+            
+            
+            centerNavigationController.view.addGestureRecognizer(tapGestureRecognizer)
+            
         } else {
             animateCenterPanelXPosition(targetPosition: 0) { finished in
                 self.currentState = .Collapsed
                 
                 self.leftViewController!.view.removeFromSuperview()
-                self.leftViewController = nil;
+                self.leftViewController = nil
             }
         }
     }
@@ -148,12 +156,12 @@ extension ContainerViewController: UIGestureRecognizerDelegate {
             if (leftViewController != nil) {
                 if currentState == .Collapsed
                 {
-                    let hasMovedEnough = recognizer.view!.center.x > view.bounds.size.width * 0.5
+                    let hasMovedEnough = recognizer.view!.center.x > view.bounds.size.width * 0.6
                     animateLeftPanel(shouldExpand: hasMovedEnough)
                 }
                 else if currentState == .MenuPanelExpanded{
                 // animate the side panel open or closed based on whether the view has moved more or less than halfway
-                let hasMovedEnough = recognizer.view!.center.x > view.bounds.size.width * 5
+                let hasMovedEnough = recognizer.view!.center.x > view.bounds.size.width * 2
                 animateLeftPanel(shouldExpand: hasMovedEnough)
                 }
             }
@@ -166,6 +174,21 @@ extension ContainerViewController: UIGestureRecognizerDelegate {
         }
     }
     
+    
+    func handleTapGesture(recognizer: UITapGestureRecognizer)
+    {
+        
+        if currentState == .MenuPanelExpanded
+        {
+        animateLeftPanel(shouldExpand: false)
+        recognizer.enabled = false
+            
+        }
+        if currentState == .Collapsed
+        {
+            print(":(")
+        }
+    }
 }
 
 private extension UIStoryboard {

@@ -34,40 +34,5 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
 
 
-//class SidePanelViewController: UIViewController {
-//    
-//    @IBOutlet weak var tableView: UITableView!
-//    
-//    var animals: Array<Animal>!
-//    
-//    struct TableView {
-//        struct CellIdentifiers {
-//            static let AnimalCell = "AnimalCell"
-//        }
-//    }
-//    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//        tableView.reloadData()
-//    }
-//    
-//}
-
-// MARK: Table View Data Source
-
-//extension SidePanelViewController: UITableViewDataSource {
-//    
-//    
-//}
-
-// Mark: Table View Delegate
-
-//extension SidePanelViewController: UITableViewDelegate {
-//    
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//    }
-//    
-//}
 
 

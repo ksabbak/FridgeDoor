@@ -21,10 +21,12 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var delegate: CenterViewControllerDelegate?
 
     
-    var tempArray:[String] = []       //DELETE ME: This is a temporary array for testing reasons.
+    var tempArray:[String] = ["Banana", "Apple"]       //DELETE ME: This is a temporary array for testing reasons.
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
 
         // Do any additional setup after loading the view.
     }
@@ -67,9 +69,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier("CellID")!
+        let cell = tableView.dequeueReusableCellWithIdentifier("CellID")! as! ListItemTableViewCell
         
-        cell.textLabel?.text = tempArray[indexPath.row]
+        cell.nameLabel.text = tempArray[indexPath.row]
+        
+        
         
         return cell
     }
@@ -79,6 +83,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     {
         return tempArray.count
     }
+    
+//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+//        cell.preservesSuperviewLayoutMargins = false
+//        cell.layoutMargins = UIEdgeInsetsZero
+//    }
     
 
 }
