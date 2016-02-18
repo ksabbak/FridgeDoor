@@ -6,6 +6,7 @@
 //
 //
 
+
 import Foundation
 import Firebase
 
@@ -185,16 +186,6 @@ class ConnectionManager {
             let newUserRef = self.usersRef.childByAppendingPath(uid)
             
             user.UID = uid
-            
-//            autoreleasepool({ () -> () in
-//                
-//                let rect = CGRectMake(0, 0, 80, 80)
-//                UIGraphicsBeginImageContext(rect.size)
-//                user.image.drawInRect(rect)
-//                let image = UIGraphicsGetImageFromCurrentImageContext()
-//                UIGraphicsEndImageContext()
-//                user.image = image
-//            })
             
             let userData: [String:String] =
             ["image_name":user.imageName,
