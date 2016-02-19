@@ -31,6 +31,21 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
         
+        if connectionManager.isLoggedIn()
+        {
+            currentUser = connectionManager.getUserFor(userUID: connectionManager.userUID()!)
+            
+            if currentUser.userLists.count == 0
+            {
+               performSegueWithIdentifier("NewGroupSegue", sender: self)
+            }
+            
+        }
+        else
+        {
+            performSegueWithIdentifier("LoginSegue", sender: self)
+        }
+        
         
         //TODO: Uncomment after setting up login
         //currentUser = connectionManager.getUserFor(userUID: connectionManager.userUID()!)

@@ -28,12 +28,14 @@ class CreateGroupViewController: UIViewController {
     {
         
         //STEVE. Shouldn't this get passed the title or Something??
-        let newList = List()
+        let newList = List(name: listTitleTextField.text!)
         
         
-        connectionManager.createList(newList)
+        let newListUID = connectionManager.createListReturnListUID(newList)
         
-        
+
+        connectionManager.addListToUser(newListUID, toUser: connectionManager.userUID()!)
+        connectionManager.addMember(connectionManager.userUID()!, toList: newListUID)
     }
 
 
