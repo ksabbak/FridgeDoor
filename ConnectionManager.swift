@@ -321,7 +321,7 @@ class ConnectionManager {
     
     //MARK: - List Handling
     
-    func createList(list: List)
+    func createListReturnListUID(list: List) -> String
     {
         let listRef = listsRef.childByAutoId()
         
@@ -336,6 +336,7 @@ class ConnectionManager {
             }
             self.makeListDelegate?.connectionManagerDidMakeList()
         }
+        return listRef.key
     }
     
     func deleteList(listUID: String)
@@ -614,10 +615,10 @@ class ConnectionManager {
     }
     
     private func unpackList(listData: [String:AnyObject]) -> List {
-        let newList = List()
+        let name            = listData["name"] as! String
+        let newList = List(name: name)
         
         newList.UID         = listData["UID"] as! String
-        newList.name        = listData["name"] as! String
         
         if let members = listData["members"] as? [String:[String:String]]
         {
