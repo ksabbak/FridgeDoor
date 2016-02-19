@@ -11,6 +11,7 @@ import UIKit
 class AvatarViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     var avatarArray = [String]()
+    var avatarImageName = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +30,7 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("AvatarCell", forIndexPath: indexPath) as! AvatarCollectionViewCell
         
-        cell.avatarImageView.image = UIImage(imageLiteral: avatarArray[indexPath.row])
+        cell.avatarImageView.image = UIImage(imageLiteral: avatarArray[indexPath.item])
         
         return cell
     }
@@ -39,5 +40,8 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
         return avatarArray.count
     }
 
-    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        avatarImageName = "\(avatarArray[indexPath.item])"
+    }
 }

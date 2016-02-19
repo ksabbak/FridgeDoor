@@ -91,9 +91,35 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
     @IBAction func onCreateAccountTapped(sender: UIButton)
     {
         loadingView.hidden = false
-        let newUser = User(username: userNameTextField.text!, email: emailTextField.text!, imageName: avatarImageName!)
-       
-        connectionManager.createUser(userObject: newUser, password: passwordTextField.text!)
+        
+        if userNameTextField.text?.isEmpty == true || emailTextField.text?.isEmpty == true
+        {
+            let addAlert = UIAlertController(title: "Try Again", message: "All fields are mandatory", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let okayAction = UIAlertAction(title: "Okay", style: .Default ) { (UIAlertAction) -> Void in
+            }
+            
+            addAlert.addAction(okayAction)
+            
+            presentViewController(addAlert, animated: true, completion: nil);
+
+        }
+        else if avatarImageName.characters.count != 1
+        {
+            let addAlert = UIAlertController(title: "Empty Avatar", message: "Please pick an avatar.", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let okayAction = UIAlertAction(title: "Okay", style: .Default ) { (UIAlertAction) -> Void in
+            }
+            
+            addAlert.addAction(okayAction)
+            
+            presentViewController(addAlert, animated: true, completion: nil);
+        }
+        else
+        {
+            let newUser = User(username: userNameTextField.text!, email: emailTextField.text!, imageName: avatarImageName)
+            connectionManager.createUser(userObject: newUser, password: passwordTextField.text!)
+        }
     }
     
     @IBAction func onSelectAsMyAvatarTapped(segue: UIStoryboardSegue)
