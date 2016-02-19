@@ -70,10 +70,10 @@ class List
     var members: [Member]
     var items: [Item]
     
-    init()
+    init(name: String)
     {
         UID = ""
-        name = ""
+        self.name = name
         members = []
         items = []
     }

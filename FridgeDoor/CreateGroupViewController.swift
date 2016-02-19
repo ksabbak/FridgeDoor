@@ -30,6 +30,7 @@ class CreateGroupViewController: UIViewController {
         //STEVE. Shouldn't this get passed the title or Something??
         let newList = List()
         
+        
         connectionManager.createList(newList)
         
         
