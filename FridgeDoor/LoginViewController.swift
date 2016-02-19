@@ -8,28 +8,90 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, ConnectionManagerLogInUserDelegate, UITextFieldDelegate
+{
 
-    override func viewDidLoad() {
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var loadingView: UIView!
+    
+    let connectionManager = ConnectionManager.sharedManager
+    
+    
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        emailTextField.delegate    = self
+        passwordTextField.delegate = self
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(animated: Bool)
+    {
+        connectionManager.logInUserDelegate = self
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func connectionManagerDidLogInUser()
+    {
+        dismissViewControllerAnimated(true, completion: nil)
     }
-    */
-
+    
+    func connectionManagerDidFailToLogInUser(error: NSError)
+    {
+        loadingView.hidden = true
+        let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .Alert)
+        let cancel = UIAlertAction(title: "Dismiss", style: .Cancel, handler: nil)
+        alertController.addAction(cancel)
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    
+    //MARK: - TextfieldDelegate
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool
+    {
+        if textField.isEqual(emailTextField)
+        {
+            passwordTextField.becomeFirstResponder()
+        }
+        else if textField.isEqual(passwordTextField)
+        {
+            onLoginButtonTapped(UIButton())
+        }
+        
+        return true
+    }
+    
+    
+    //MARK: - Actions
+    
+    @IBAction func onViewTapped(sender: AnyObject)
+    {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+    }
+    
+    @IBAction func onSignInTapped(segue: UIStoryboardSegue)
+    {
+        //Unwinds to LoginViewController from either SignUpVC or SignUpDetailVC
+    }
+    
+    @IBAction func onLoginButtonTapped(sender: UIButton)
+    {
+        if emailTextField.text == "" || passwordTextField.text == ""
+        {
+            let alertController = UIAlertController(title: "Error", message: "Please enter your email address and password.", preferredStyle: .Alert)
+            let cancel = UIAlertAction(title: "Dismiss", style: .Cancel, handler: nil)
+            alertController.addAction(cancel)
+            presentViewController(alertController, animated: true, completion: nil)
+        }
+        else
+        {
+            loadingView.hidden = false
+            connectionManager.logInUser(emailTextField.text!, password: passwordTextField.text!)
+            
+            passwordTextField.resignFirstResponder()
+            emailTextField.resignFirstResponder()
+        }
+    }
 }
