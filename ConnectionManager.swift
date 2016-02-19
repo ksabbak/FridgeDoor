@@ -109,6 +109,19 @@ class ConnectionManager {
     
     //MARK: - User handling
     
+    func test()
+    {
+        getAllUsers()
+        //self.users.append(user)
+        print(users)
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC))), dispatch_get_main_queue())
+            {
+        print(self.users[0].username)
+        print(self.usersRef)
+        }
+        print(":(")
+    }
+    
     func isLoggedIn() -> Bool
     {
         if authData != nil
@@ -450,8 +463,8 @@ class ConnectionManager {
     
     init() {
         print("Connection Manager Started")
-        usersRef = rootRef.childByAppendingPath("users")
-        listsRef = rootRef.childByAppendingPath("lists")
+        usersRef = rootRef.childByAppendingPath("Users")
+        listsRef = rootRef.childByAppendingPath("Lists")
         historyItemsRef = rootRef.childByAppendingPath("history_items")
         authData = rootRef.authData
         setupListeners()

@@ -90,7 +90,7 @@
                                             <outlet property="nameLabel" destination="szy-kV-BdZ" id="WlZ-3p-em4"/>
                                             <outlet property="topIcon" destination="qUZ-As-l7l" id="Nl4-lW-02O"/>
                                             <outlet property="volunteerAvatar" destination="sUw-I9-1jw" id="8Z3-99-HsV"/>
-                                            <segue destination="pfR-NO-xqy" kind="show" id="3Ae-ls-tdE"/>
+                                            <segue destination="pfR-NO-xqy" kind="show" id="1Qm-Bq-GF8"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -365,6 +365,84 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hDW-sE-LMe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="827.5" y="-456.5"/>
+        </scene>
+        <!--Avatar View Controller-->
+        <scene sceneID="aJB-uo-A8D">
+            <objects>
+                <viewController id="yRe-Ye-pJl" customClass="AvatarViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="niK-f5-IXT"/>
+                        <viewControllerLayoutGuide type="bottom" id="e8W-Pt-JPh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zQs-f1-VCG">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HgP-Az-Uqv">
+                                <rect key="frame" x="0.0" y="148" width="600" height="519"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="s44-wV-feh">
+                                    <size key="itemSize" width="130" height="124"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AvatarCell" id="vJx-LG-rkc" customClass="AvatarCollectionViewCell" customModule="FridgeDoor" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="130" height="124"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="130" height="124"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j0H-bS-iDb">
+                                                    <rect key="frame" x="15" y="12" width="100" height="100"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="t2W-cW-bNf"/>
+                                                        <constraint firstAttribute="height" constant="100" id="ztw-ZX-VfO"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="j0H-bS-iDb" firstAttribute="centerX" secondItem="vJx-LG-rkc" secondAttribute="centerX" id="1dz-gb-Fc1"/>
+                                            <constraint firstItem="j0H-bS-iDb" firstAttribute="centerY" secondItem="vJx-LG-rkc" secondAttribute="centerY" id="Qpb-OH-fq5"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="avatarImageView" destination="j0H-bS-iDb" id="57W-xC-UKV"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="yRe-Ye-pJl" id="9hj-Jr-WLa"/>
+                                    <outlet property="delegate" destination="yRe-Ye-pJl" id="s3C-zK-Qhz"/>
+                                </connections>
+                            </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Choose Your Avatar:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXJ-SG-5Kc">
+                                <rect key="frame" x="190" y="72" width="218" height="53"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="218" id="G0j-TB-SNv"/>
+                                    <constraint firstAttribute="height" constant="53" id="cZw-01-Zd7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="HgP-Az-Uqv" secondAttribute="trailing" id="0Jg-0B-hQx"/>
+                            <constraint firstItem="HXJ-SG-5Kc" firstAttribute="top" secondItem="niK-f5-IXT" secondAttribute="bottom" constant="8" id="7oQ-HP-Kqn"/>
+                            <constraint firstItem="e8W-Pt-JPh" firstAttribute="top" secondItem="HgP-Az-Uqv" secondAttribute="bottom" id="Ep3-Pz-bkK"/>
+                            <constraint firstItem="HXJ-SG-5Kc" firstAttribute="centerX" secondItem="zQs-f1-VCG" secondAttribute="centerX" id="Kyv-ve-1Sm"/>
+                            <constraint firstItem="HgP-Az-Uqv" firstAttribute="top" secondItem="HXJ-SG-5Kc" secondAttribute="bottom" constant="23" id="Pv8-DF-PEY"/>
+                            <constraint firstItem="HgP-Az-Uqv" firstAttribute="leading" secondItem="zQs-f1-VCG" secondAttribute="leading" id="Uot-04-XbC"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v2B-50-4gj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1337" y="-490"/>
         </scene>
         <!--Start Or Join Group View Controller-->
         <scene sceneID="CE3-xa-Ik5">

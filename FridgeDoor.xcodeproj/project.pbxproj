@@ -22,6 +22,8 @@
 		5ADEA8571C74F47F0089BB1D /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8561C74F47F0089BB1D /* AddItemViewController.swift */; };
 		5ADEA8591C7527170089BB1D /* ListItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8581C7527170089BB1D /* ListItemTableViewCell.swift */; };
 		5ADEA85B1C763A210089BB1D /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA85A1C763A210089BB1D /* ListViewController.swift */; };
+		5ADEA85D1C77878B0089BB1D /* AvatarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA85C1C77878B0089BB1D /* AvatarCollectionViewCell.swift */; };
+		5ADEA85F1C7788480089BB1D /* AvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA85E1C7788480089BB1D /* AvatarViewController.swift */; };
 		A964EDA81C7396F4000697DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A964EDA71C7396F4000697DE /* AppDelegate.swift */; };
 		A964EDAF1C7396F4000697DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A964EDAE1C7396F4000697DE /* Assets.xcassets */; };
 		A964EDB21C7396F4000697DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */; };
@@ -50,6 +52,8 @@
 		5ADEA8561C74F47F0089BB1D /* AddItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
 		5ADEA8581C7527170089BB1D /* ListItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemTableViewCell.swift; sourceTree = "<group>"; };
 		5ADEA85A1C763A210089BB1D /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		5ADEA85C1C77878B0089BB1D /* AvatarCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarCollectionViewCell.swift; sourceTree = "<group>"; };
+		5ADEA85E1C7788480089BB1D /* AvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarViewController.swift; sourceTree = "<group>"; };
 		8F24CBA4B6B60AF0B1B016C6 /* Pods_FridgeDoor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FridgeDoor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A964EDA41C7396F4000697DE /* FridgeDoor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FridgeDoor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A964EDA71C7396F4000697DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +116,7 @@
 				A964EDA71C7396F4000697DE /* AppDelegate.swift */,
 				A964EDD41C74213E000697DE /* ConnectionManager.swift */,
 				5ADEA85A1C763A210089BB1D /* ListViewController.swift */,
+				5ADEA85E1C7788480089BB1D /* AvatarViewController.swift */,
 				5ADEA8371C73ABF20089BB1D /* CreateAccountViewController.swift */,
 				5ADEA8381C73ABF20089BB1D /* CreateGroupViewController.swift */,
 				5ADEA8391C73ABF20089BB1D /* DetailsViewController.swift */,
@@ -144,6 +149,7 @@
 			children = (
 				A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */,
 				5ADEA84B1C73ABFF0089BB1D /* Main.storyboard */,
+				5ADEA85C1C77878B0089BB1D /* AvatarCollectionViewCell.swift */,
 				5ADEA8581C7527170089BB1D /* ListItemTableViewCell.swift */,
 				A964EDAE1C7396F4000697DE /* Assets.xcassets */,
 			);
@@ -301,6 +307,7 @@
 				A964EDD91C7421CF000697DE /* User.swift in Sources */,
 				A964EDDE1C74DEE6000697DE /* Debug.swift in Sources */,
 				5ADEA8461C73ABF20089BB1D /* LoginViewController.swift in Sources */,
+				5ADEA85D1C77878B0089BB1D /* AvatarCollectionViewCell.swift in Sources */,
 				5ADEA8411C73ABF20089BB1D /* CreateAccountViewController.swift in Sources */,
 				5ADEA8591C7527170089BB1D /* ListItemTableViewCell.swift in Sources */,
 				5ADEA8481C73ABF20089BB1D /* ReAddViewController.swift in Sources */,
@@ -308,6 +315,7 @@
 				5ADEA84A1C73ABF20089BB1D /* StartOrJoinGroupViewController.swift in Sources */,
 				5ADEA85B1C763A210089BB1D /* ListViewController.swift in Sources */,
 				5ADEA8571C74F47F0089BB1D /* AddItemViewController.swift in Sources */,
+				5ADEA85F1C7788480089BB1D /* AvatarViewController.swift in Sources */,
 				A964EDD71C7421C3000697DE /* List.swift in Sources */,
 				5ADEA8441C73ABF20089BB1D /* EditProfileViewController.swift in Sources */,
 				A964EDE01C74E4AD000697DE /* History.swift in Sources */,

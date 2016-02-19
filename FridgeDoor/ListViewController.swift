@@ -18,8 +18,11 @@ protocol CenterViewControllerDelegate {
 class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    var delegate: CenterViewControllerDelegate?
-
+    var menuDelegate: CenterViewControllerDelegate?
+    let connectionManager = ConnectionManager.sharedManager
+    var currentUser: User!
+    var theList: List!
+    
     
     var tempArray:[String] = ["Banana", "Apple"]       //DELETE ME: This is a temporary array for testing reasons.
     
@@ -27,14 +30,30 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidLoad()
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
+        
+        
+        //TODO: Uncomment after setting up login
+        //currentUser = connectionManager.getUserFor(userUID: connectionManager.userUID()!)
+        
+        
 
-        // Do any additional setup after loading the view.
+        // connectionManager.user
+        
+//        connectionManager.test()
+//        currentUser = connectionManager.
+//        
+//        
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue())
+//        {
+//        self.theList = self.connectionManager.getListFor(listUID: self.currentUser.userLists[0].listUID) //FIX THIS ONCE WE HAVE A BETTER IDEA OF LISTS
+//        }
+
     }
 
 
     @IBAction func onSettingsButtonTapped(sender: UIBarButtonItem)
     {
-    delegate?.toggleLeftPanel?()
+    menuDelegate?.toggleLeftPanel?()
     }
 
     
@@ -71,8 +90,35 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID")! as! ListItemTableViewCell
         
-        cell.nameLabel.text = tempArray[indexPath.row]
+        if theList != nil
+        {
+        if theList.items.count > 1
+        {
+            let item = theList.items[indexPath.row]
+            
+            cell.nameLabel.text = item.name
+            
+            if item.essential.characters.count > 0
+            {
+                cell.bottomIcon.hidden = false
+            }
+            else
+            {
+                cell.bottomIcon.hidden = true
+            }
+            
+            if item.comments.count > 0
+            {
+                cell.topIcon.hidden = false
+            }
+            else
+            {
+                cell.topIcon.hidden = true
+            }
+        }
+        }
         
+        cell.nameLabel.text = tempArray[indexPath.row]
         
         
         return cell
@@ -81,6 +127,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
+        
+        if theList != nil
+        {
+        return theList.items.count
+        }
         return tempArray.count
     }
     

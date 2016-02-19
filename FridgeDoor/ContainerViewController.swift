@@ -35,7 +35,7 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
         super.viewDidLoad()
         
         centerViewController = UIStoryboard.centerViewController()
-        centerViewController.delegate = self
+        centerViewController.menuDelegate = self
         
         // wrap the centerViewController in a navigation controller, so we can push views to it
         // and display bar button items in the navigation bar
