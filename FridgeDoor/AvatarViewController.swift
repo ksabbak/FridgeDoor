@@ -11,7 +11,8 @@ import UIKit
 class AvatarViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     var avatarArray = [String]()
-    var avatarImageName = String()
+    var avatarImageName: String!
+    var indexPathRow = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +43,20 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
-        avatarImageName = "\(avatarArray[indexPath.item])"
+        indexPathRow = avatarArray[indexPath.item]
+        print("----> \(self) :: \(indexPathRow)")
+//        performSegueWithIdentifier("avatarsegue", sender: self)
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if indexPathRow.isEmpty == false
+        {
+            avatarImageName = indexPathRow
+        }
+        
+        //= "THIS IS A TEST"
+        print("- - - - > \(avatarImageName)")
+    }
+    
 }

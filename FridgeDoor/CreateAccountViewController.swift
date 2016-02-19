@@ -16,6 +16,7 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var selectAvatar: UIButton!
     
     let connectionManager = ConnectionManager.sharedManager
     var avatarImageName = String()
@@ -27,17 +28,31 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
         passwordTextField.delegate = self
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool)
+    {
         connectionManager.createUserDelegate = self
         connectionManager.logInUserDelegate  = self
+        if avatarImageName == ""
+        {
+            //enable selectAvatar button and unhide it?
+        }
+        else
+        {
+            selectAvatar.enabled = false
+            selectAvatar.hidden = true
+            imageView.image = UIImage(named: avatarImageName)
+        }
+        print(":) \(avatarImageName)")
     }
     
     //MARK: - CMCreateUserDelegate Functions
-    func connectionManagerDidCreateUser(user: User) {
+    func connectionManagerDidCreateUser(user: User)
+    {
         print("CM Create user successful")
     }
     
-    func connectionManagerDidFailToCreateUser(error: NSError) {
+    func connectionManagerDidFailToCreateUser(error: NSError)
+    {
         print("CM Failed to Create User: \(error.localizedDescription)")
     }
     
@@ -68,7 +83,7 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
     //MARK: - CMLogInUserDeleage Functions
     func connectionManagerDidLogInUser()
     {
-        performSegueWithIdentifier("ToTimelineSegue", sender: nil)
+        performSegueWithIdentifier("BackToList", sender: nil)
     }
     
     func connectionManagerDidFailToLogInUser(error: NSError)
@@ -126,7 +141,7 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
     {
         //Unwinds to CreateAccountViewController from AvatarVC
         let sourceViewController = segue.sourceViewController as! AvatarViewController
-        avatarImageName = sourceViewController.avatarImageName
+        avatarImageName = "1"
     }
     
     
