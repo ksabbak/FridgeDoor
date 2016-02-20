@@ -46,10 +46,37 @@ protocol ConnectionManagerGetAllListsDelegate {
     func connectionmanagerDidFailToGetAllLists()
 }
 
+protocol ConnectionManagerGetAllUsersDelegate {
+    func connectionManagerDidGetAllUsers(users:[User])
+    func connectionmanagerDidFailToGetAllUsers()
+}
+
+protocol ConnectionManagerPopulateUsersArrayDelegate {
+    func connectionManagerDidPopulateUsersArray(currentUser:User)
+    func connectionmanagerDidFailToPopulateUsersArray()
+}
+
+protocol ConnectionManagerGetAllHistoryItemsDelegate {
+    func connectionManagerDidGetAllHistoryItems(historyItems:[History])
+    func connectionmanagerDidFailToGetAllHistoryItems()
+}
+
 protocol ConnectionManagerListChangesDelegate {
-    func connectionManagerListWasAdded(post: List)
-    func connectionManagerListWasDeleted(post: List)
-    func connectionManagerListWasChanged(post: List)
+    func connectionManagerListWasAdded(list: List)
+    func connectionManagerListWasDeleted(list: List)
+    func connectionManagerListWasChanged(list: List)
+}
+
+protocol ConnectionManagerUserChangesDelegate {
+    func connectionManagerUserWasAdded(user: User)
+    func connectionManagerUserWasDeleted(user: User)
+    func connectionManagerUserWasChanged(user: User)
+}
+
+protocol ConnectionManagerHistoryItemChangesDelegate {
+    func connectionManagerHistoryItemWasAdded(historyItem: History)
+    func connectionManagerHistoryItemWasDeleted(historyItem: History)
+    func connectionManagerHistoryItemWasChanged(historyItem: History)
 }
 
 protocol ConnectionManagerLogOutDelegate {
@@ -79,9 +106,14 @@ class ConnectionManager {
     var makeListDelegate:    ConnectionManagerMakeListDelegate?
     var deleteListDelegate:  ConnectionManagerDeleteListDelegate?
     var getAllListsDelegate: ConnectionManagerGetAllListsDelegate?
+    var getAllUsersDelegate: ConnectionManagerGetAllUsersDelegate?
+    var getAllHistoryItemsDelegate: ConnectionManagerGetAllHistoryItemsDelegate?
     var listChangedDelegate: ConnectionManagerListChangesDelegate?
+    var userChangedDelegate: ConnectionManagerUserChangesDelegate?
+    var historyItemsChangedDelegate:  ConnectionManagerHistoryItemChangesDelegate?
     var logoutDelegate:      ConnectionManagerLogOutDelegate?
     var makeHistoryItemDelegate: ConnectionManagerMakeHistoryItemDelegate?
+    var populateUsersArrayDelegate: ConnectionManagerPopulateUsersArrayDelegate?
     
     private
     
@@ -109,19 +141,6 @@ class ConnectionManager {
     
     //MARK: - User handling
     
-    func test()
-    {
-        getAllUsers()
-        //self.users.append(user)
-        print(users)
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC))), dispatch_get_main_queue())
-            {
-        print(self.users[0].username)
-        print(self.usersRef)
-        }
-        print(":(")
-    }
-    
     func isLoggedIn() -> Bool
     {
         if authData != nil
@@ -134,6 +153,7 @@ class ConnectionManager {
     
     func userUID() -> String?
     {
+        print("We are legion: \(users.count)")
         guard
             let aData = authData,
             let auth = aData.auth,
@@ -209,8 +229,10 @@ class ConnectionManager {
             newUserRef.setValue(userData)
             
             self.logInUser(user.email, password: password)
+            print("A")
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.createUserDelegate?.connectionManagerDidCreateUser(user)
+                print("B")
                 
             })
         })
@@ -235,12 +257,16 @@ class ConnectionManager {
     {
         var matchingUser: User!
         
-        for user in users {
-            if user.UID == userUID {
+        print("Check users array: \(self.users)")
+        for user in self.users
+        {
+            if user.UID == userUID
+            {
                 matchingUser = user
                 break
             }
         }
+        
         
         guard matchingUser != nil
             else {
@@ -462,14 +488,15 @@ class ConnectionManager {
     
     //MARK: - Internal Functions
     
-    init() {
+    init()
+    {
         print("Connection Manager Started")
-        usersRef = rootRef.childByAppendingPath("Users")
-        listsRef = rootRef.childByAppendingPath("Lists")
-        historyItemsRef = rootRef.childByAppendingPath("history_items")
+        usersRef = rootRef.childByAppendingPath("/Users")
+        listsRef = rootRef.childByAppendingPath("/Lists")
+        historyItemsRef = rootRef.childByAppendingPath("/History_items")
         authData = rootRef.authData
         setupListeners()
-        getAllUsers()
+//        getAllUsers()
         testCode()
     }
     
@@ -488,6 +515,11 @@ class ConnectionManager {
                 self.users.removeAtIndex(foundIndex)
                 self.users.insert(updatedUser, atIndex: foundIndex)
             }
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                self.userChangedDelegate?.connectionManagerUserWasChanged(updatedUser)
+            })
         }
         
         usersRef.observeEventType(.ChildAdded) { (snapshot:FDataSnapshot!) -> Void in
@@ -497,6 +529,11 @@ class ConnectionManager {
             let newUser = self.unpackUser(userData)
             
             self.users.append(newUser)
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                self.userChangedDelegate?.connectionManagerUserWasAdded(newUser)
+            })
             
         }
         
@@ -509,6 +546,10 @@ class ConnectionManager {
             if let foundIndex = self.users.indexOf({ $0.UID == updatedUser.UID }) {
                 self.users.removeAtIndex(foundIndex)
             }
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.userChangedDelegate?.connectionManagerUserWasDeleted(updatedUser)
+            })
         }
         
         
@@ -576,7 +617,7 @@ class ConnectionManager {
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-//                self.historyItemChangedDelegate?.connectionManagerHistoryItemWasChanged(updatedHistoryItem)
+                self.historyItemsChangedDelegate?.connectionManagerHistoryItemWasChanged(updatedHistoryItem)
             })
         }
         
@@ -590,7 +631,7 @@ class ConnectionManager {
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-//                self.historyItemChangedDelegate?.connectionManagerHistoryItemWasAdded(newHistoryItem)
+                self.historyItemsChangedDelegate?.connectionManagerHistoryItemWasAdded(newHistoryItem)
             })
         }
         
@@ -603,7 +644,7 @@ class ConnectionManager {
             self.deleteHistoryItem(removedHistoryItem.UID)
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                self.historyItemChangedDelegate?.connectionManagerHistoryItemWasDeleted(removedHistoryItem)
+                self.historyItemsChangedDelegate?.connectionManagerHistoryItemWasDeleted(removedHistoryItem)
             })
             
         }
@@ -701,11 +742,46 @@ class ConnectionManager {
         
         return newHistoryItem
     }
+    
+    func populateUsersArray()
+    {
+        print("populateUsersArray called")
+        
+        usersRef.observeSingleEventOfType(.Value) { (snapshot:FDataSnapshot!) -> Void in
+            print("\(snapshot.value.allKeys)")
+            let keys = snapshot.value.allKeys as! [String]
+            
+            var allUsers = [User]()
+            
+            for key in keys
+            {
+                
+                guard let userData = snapshot.value.objectForKey(key) as? [String:AnyObject]
+                    else { Debug.log("Invalid user in database"); break }
+                
+                let newUser = self.unpackUser(userData)
+                
+                allUsers.append(newUser)
+            }
+            print("Users array count before fire: \(self.users.count)")
+            if self.users.count > 0
+            {
+                let currentUser = self.getUserFor(userUID: self.userUID()!)
+                print("\(currentUser)")
+                print("should fire populate users delegate")
+                self.populateUsersArrayDelegate?.connectionManagerDidPopulateUsersArray(currentUser!)
+            }
+            else
+            {
+                self.populateUsersArrayDelegate?.connectionmanagerDidFailToPopulateUsersArray()            }
+        }
+    }
 
+    
     private func getAllUsers()
     {
+        print("getAllUsers called")
         users = []
-        
         usersRef.observeSingleEventOfType(.Value) { (snapshot:FDataSnapshot!) -> Void in
             
             let keys = snapshot.value.allKeys as! [String]
@@ -721,6 +797,14 @@ class ConnectionManager {
                 let newUser = self.unpackUser(userData)
                 
                 allUsers.append(newUser)
+            }
+            if self.users.count > 0
+            {
+                self.getAllUsersDelegate?.connectionManagerDidGetAllUsers(self.users)
+            }
+            else
+            {
+                self.getAllUsersDelegate?.connectionmanagerDidFailToGetAllUsers()
             }
         }
     }
@@ -744,13 +828,22 @@ class ConnectionManager {
                 
                 allLists.append(newList)
             }
+            if allLists.count > 0
+            {
+                self.getAllListsDelegate?.connectionManagerDidGetAllLists(allLists)
+            }
+            else
+            {
+                self.getAllListsDelegate?.connectionmanagerDidFailToGetAllLists()
+            }
         }
     }
     
     
     
     // TODO: deleteme
-    func testCode() {
+    func testCode()
+    {
         
     }
     

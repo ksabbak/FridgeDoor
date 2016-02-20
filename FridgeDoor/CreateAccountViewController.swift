@@ -107,7 +107,7 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
     {
         loadingView.hidden = false
         
-        if userNameTextField.text?.isEmpty == true || emailTextField.text?.isEmpty == true
+        if userNameTextField.text?.isEmpty == true || emailTextField.text?.isEmpty == true || passwordTextField.text?.isEmpty == true
         {
             let addAlert = UIAlertController(title: "Try Again", message: "All fields are mandatory", preferredStyle: UIAlertControllerStyle.Alert)
             

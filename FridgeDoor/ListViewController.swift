@@ -9,13 +9,15 @@
 import UIKit
 
 @objc
-protocol CenterViewControllerDelegate {
+protocol CenterViewControllerDelegate
+{
     optional func toggleLeftPanel()
     optional func toggleRightPanel()
     optional func collapseSidePanels()
 }
 
-class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerPopulateUsersArrayDelegate
+{
 
     @IBOutlet weak var tableView: UITableView!
     var menuDelegate: CenterViewControllerDelegate?
@@ -26,43 +28,46 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     var tempArray:[String] = ["Banana", "Apple"]       //DELETE ME: This is a temporary array for testing reasons.
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
+        connectionManager.populateUsersArrayDelegate = self
         
+        
+        print("1")
+
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        print("2")
         if connectionManager.isLoggedIn()
         {
-            currentUser = connectionManager.getUserFor(userUID: connectionManager.userUID()!)
-            
-            if currentUser.userLists.count == 0
-            {
-               performSegueWithIdentifier("NewGroupSegue", sender: self)
-            }
-            
+            connectionManager.populateUsersArray()
         }
         else
         {
             performSegueWithIdentifier("LoginSegue", sender: self)
         }
-        
-        
-        //TODO: Uncomment after setting up login
-        //currentUser = connectionManager.getUserFor(userUID: connectionManager.userUID()!)
-        
-        
 
-        // connectionManager.user
-        
-//        connectionManager.test()
-//        currentUser = connectionManager.
-//        
-//        
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue())
-//        {
-//        self.theList = self.connectionManager.getListFor(listUID: self.currentUser.userLists[0].listUID) //FIX THIS ONCE WE HAVE A BETTER IDEA OF LISTS
-//        }
-
+    }
+    
+    func connectionManagerDidPopulateUsersArray(currentUser: User)
+    {
+        print("Populated users array")
+        self.currentUser = currentUser
+        if currentUser.userLists.count == 0
+        {
+            performSegueWithIdentifier("NewGroupSegue", sender: self)
+        }
+    }
+    
+    
+    func connectionmanagerDidFailToPopulateUsersArray()
+    {
+        print("Failed to populate users array")
     }
 
 
