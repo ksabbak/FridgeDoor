@@ -743,6 +743,12 @@ class ConnectionManager {
         return newHistoryItem
     }
     
+    func getCurrentUser() -> User
+    {
+        let currentUser = self.getUserFor(userUID: self.userUID()!)
+        return currentUser!
+    }
+    
     func populateUsersArray()
     {
         print("populateUsersArray called")
@@ -766,10 +772,10 @@ class ConnectionManager {
             print("Users array count before fire: \(self.users.count)")
             if self.users.count > 0
             {
-                let currentUser = self.getUserFor(userUID: self.userUID()!)
-                print("\(currentUser)")
+                let currentUser = self.getCurrentUser()
+                print("Current user: \(currentUser)")
                 print("should fire populate users delegate")
-                self.populateUsersArrayDelegate?.connectionManagerDidPopulateUsersArray(currentUser!)
+                self.populateUsersArrayDelegate?.connectionManagerDidPopulateUsersArray(currentUser)
             }
             else
             {
