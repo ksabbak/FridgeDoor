@@ -8,20 +8,35 @@
 
 import UIKit
 
-class StartOrJoinGroupViewController: UIViewController {
+class StartOrJoinGroupViewController: UIViewController, ConnectionManagerLogOutDelegate
+{
 
+    
+    let connectionManager = ConnectionManager.sharedManager
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(animated: Bool)
+    {
+        connectionManager.logoutDelegate = self
+    }
 
+    
+
+    @IBAction func onLogOutTapped(sender: UIButton)
+    {
+        connectionManager.logout()
+    }
+    
+    func connectionManagerDidLogOut()
+    {
+       dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
     /*
     // MARK: - Navigation
 

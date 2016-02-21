@@ -16,7 +16,7 @@ protocol CenterViewControllerDelegate
     optional func collapseSidePanels()
 }
 
-class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerPopulateUsersArrayDelegate
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerPopulateUsersArrayDelegate, ConnectionManagerLogOutDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
@@ -24,7 +24,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     let connectionManager = ConnectionManager.sharedManager
     var currentUser: User!
     var theList: List!
-    
+    @IBOutlet var mainView: UIView!
+    @IBOutlet weak var mintView: UIImageView!
     
     var tempArray:[String] = ["Banana", "Apple"]       //DELETE ME: This is a temporary array for testing reasons.
     
@@ -34,24 +35,14 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
         connectionManager.populateUsersArrayDelegate = self
-        
-        
-        print("1")
 
     }
     
     override func viewWillAppear(animated: Bool)
     {
-        print("2")
-        if connectionManager.isLoggedIn()
-        {
-            connectionManager.populateUsersArray()
-        }
-        else
-        {
-            performSegueWithIdentifier("LoginSegue", sender: self)
-        }
-
+        connectionManager.logoutDelegate = self
+        print("checkUserAuth")
+        checkUserAuth()
     }
     
     func connectionManagerDidPopulateUsersArray(currentUser: User)
@@ -61,6 +52,10 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if currentUser.userLists.count == 0
         {
             performSegueWithIdentifier("NewGroupSegue", sender: self)
+        }
+        else
+        {
+            mintView.hidden = true
         }
     }
     
@@ -76,7 +71,24 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     menuDelegate?.toggleLeftPanel?()
     }
 
+    func checkUserAuth() {
+        if connectionManager.isLoggedIn()
+        {
+            connectionManager.populateUsersArray()
+        }
+        else
+        {
+            performSegueWithIdentifier("LoginSegue", sender: self)
+        }
+    }
     
+    //MARK: - Connection Manager Logout Delegate
+    
+    func connectionManagerDidLogOut()
+    {
+        checkUserAuth()
+    }
+
     
 //    @IBAction func onAddButtonTapped(sender: UIBarButtonItem)
 //    {
@@ -160,5 +172,9 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
 //        cell.layoutMargins = UIEdgeInsetsZero
 //    }
     
+    @IBAction func onLogOutTapped(sender: UIButton)
+    {
+        connectionManager.logout()
+    }
 
 }

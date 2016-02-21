@@ -8,21 +8,20 @@
 
 import UIKit
 
-class CreateGroupViewController: UIViewController {
+class CreateGroupViewController: UIViewController
+{
 
     @IBOutlet weak var listTitleTextField: UITextField!
    
     let connectionManager = ConnectionManager.sharedManager
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
         
 
     }
-
-
-    
 
     @IBAction func onCreateButtonTapped(sender: UIButton)
     {

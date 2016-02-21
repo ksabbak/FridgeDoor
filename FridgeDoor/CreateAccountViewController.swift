@@ -8,8 +8,12 @@
 
 import UIKit
 
-class CreateAccountViewController: UIViewController, ConnectionManagerCreateUserDelegate, ConnectionManagerLogInUserDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+class CreateAccountViewController: UIViewController, ConnectionManagerCreateUserDelegate, ConnectionManagerLogInUserDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AvatarVCSetAvatarImageNameDelegate
+{
     
+    
+
     //MARK: - Outlets
     @IBOutlet weak var emailTextField:    UITextField!
     @IBOutlet weak var userNameTextField: UITextField!
@@ -26,12 +30,14 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
         emailTextField.delegate    = self
         userNameTextField.delegate = self
         passwordTextField.delegate = self
+        
     }
     
     override func viewWillAppear(animated: Bool)
     {
         connectionManager.createUserDelegate = self
         connectionManager.logInUserDelegate  = self
+        
         if avatarImageName == ""
         {
             //enable selectAvatar button and unhide it?
@@ -43,6 +49,14 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
             imageView.image = UIImage(named: avatarImageName)
         }
         print(":) \(avatarImageName)")
+    }
+    
+    
+    //MARK: - AvatarVCDelegate Function
+    
+    func avatarNameSelected(avatarImageName: String)
+    {
+        self.avatarImageName = avatarImageName
     }
     
     //MARK: - CMCreateUserDelegate Functions
@@ -119,7 +133,7 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
             presentViewController(addAlert, animated: true, completion: nil);
 
         }
-        else if avatarImageName.characters.count != 1
+        else if avatarImageName.characters.count == 0
         {
             let addAlert = UIAlertController(title: "Empty Avatar", message: "Please pick an avatar.", preferredStyle: UIAlertControllerStyle.Alert)
             
@@ -140,12 +154,8 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
     @IBAction func onSelectAsMyAvatarTapped(segue: UIStoryboardSegue)
     {
         //Unwinds to CreateAccountViewController from AvatarVC
-        let sourceViewController = segue.sourceViewController as! AvatarViewController
-        avatarImageName = "1"
+        let sourceVC = segue.sourceViewController as! AvatarViewController
+        sourceVC.setAvatarImageNameDelegate = self
+        print("Avatar delegate was fired")
     }
-    
-    
-    
-    
-    
 }
