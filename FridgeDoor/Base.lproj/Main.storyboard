@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="z8R-eT-1B5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="z8R-eT-1B5">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -116,7 +116,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="gCf-H3-VLi">
                             <connections>
-                                <segue destination="OcN-0z-bbJ" kind="show" id="nJb-zD-es2"/>
+                                <segue destination="OcN-0z-bbJ" kind="show" identifier="AddItemSegue" id="nJb-zD-es2"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -130,7 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-108.5" y="321.5"/>
+            <point key="canvasLocation" x="-482.5" y="347.5"/>
         </scene>
         <!--Details View Controller-->
         <scene sceneID="2X8-kV-VhJ">
@@ -203,6 +203,9 @@
                                 <state key="normal" title="Add New">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="onAddItemButtonTapped:" destination="OcN-0z-bbJ" eventType="touchUpInside" id="BTY-Bo-GvP"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -271,7 +274,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SUk-vW-rbQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-543" y="321.5"/>
+            <point key="canvasLocation" x="-913" y="321.5"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="TVa-MY-ugx">
@@ -648,7 +651,7 @@
                         <outlet property="passwordTextField" destination="4D1-T7-h5Z" id="E2C-hl-7LD"/>
                         <outlet property="selectAvatar" destination="i6s-SO-qsF" id="Yn1-nK-QxD"/>
                         <outlet property="userNameTextField" destination="Rle-Xg-3ue" id="Eb9-n5-YYm"/>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="BackToList" id="SFK-Zj-bIT"/>
+                        <segue destination="z8R-eT-1B5" kind="show" identifier="BackToList" id="MPU-Al-k82"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hDW-sE-LMe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -831,6 +834,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="listTitleTextField" destination="npT-u0-Pav" id="76o-nq-Pwt"/>
+                        <segue destination="z8R-eT-1B5" kind="show" identifier="CreatedGroupSegue" id="qFL-fx-LUD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mEV-Q5-W1E" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -855,13 +859,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rhu-A5-lOp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-108.5" y="-310.5"/>
+            <point key="canvasLocation" x="-134.5" y="-588.5"/>
         </scene>
     </scenes>
     <resources>
         <image name="box" width="426" height="583"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="SFK-Zj-bIT"/>
+        <segue reference="MPU-Al-k82"/>
     </inferredMetricsTieBreakers>
 </document>
