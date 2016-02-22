@@ -116,7 +116,6 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
         passwordTextField.resignFirstResponder()
     }
     
-    //TODO: Show alert
     @IBAction func onCreateAccountTapped(sender: UIButton)
     {
         loadingView.hidden = false

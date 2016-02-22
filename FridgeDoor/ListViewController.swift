@@ -43,6 +43,15 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         connectionManager.logoutDelegate = self
         print("checkUserAuth")
         checkUserAuth()
+        if connectionManager.isLoggedIn()
+        {
+            connectionManager.populateUsersArray()
+        }
+        else
+        {
+            performSegueWithIdentifier("LoginSegue", sender: self)
+        }
+
     }
     
     func connectionManagerDidPopulateUsersArray(currentUser: User)
@@ -56,6 +65,10 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         else
         {
             mintView.hidden = true
+            print(currentUser.username)
+            print(currentUser.userLists)
+            theList = connectionManager.getListFor(listUID: currentUser.userLists[0].listUID)
+            print("Buy the things. \(theList.name)")
         }
     }
     
@@ -124,7 +137,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         if theList != nil
         {
-        if theList.items.count > 1
+        if theList.items.count > 0
         {
             let item = theList.items[indexPath.row]
             
@@ -150,7 +163,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         }
         
-        cell.nameLabel.text = tempArray[indexPath.row]
+        //cell.nameLabel.text = tempArray[indexPath.row]
         
         
         return cell
@@ -162,9 +175,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         if theList != nil
         {
-        return theList.items.count
+            print("this happened")
+            return theList.items.count
         }
-        return tempArray.count
+        //return tempArray.count
+        return 0
     }
     
 //    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -175,6 +190,16 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBAction func onLogOutTapped(sender: UIButton)
     {
         connectionManager.logout()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "AddItemSegue"
+        {
+            let dvc = segue.destinationViewController as! AddItemViewController
+            
+            dvc.list = theList
+            
+        }
     }
 
 }
