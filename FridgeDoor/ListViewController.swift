@@ -16,7 +16,7 @@ protocol CenterViewControllerDelegate
     optional func collapseSidePanels()
 }
 
-class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerLogOutDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerLogOutDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate, ListItemTableViewCellDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
@@ -26,8 +26,10 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var currentListUID = ""
     var theList: List!
     var members: [User] = []
+    
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var mintView: UIImageView!
+    
     
     var tempArray:[String] = ["Banana", "Apple"]       //DELETE ME: This is a temporary array for testing reasons.
     
@@ -35,7 +37,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     {
         super.viewDidLoad()
         
+        //This is to fix that stupid uglyass gap between the rows and the edge of the screen. 
+        //TODO: figure out the right numbers.
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
+        
+        
         connectionManager.setupCurrentUserDelegate = self
         connectionManager.userChangedDelegate = self
         connectionManager.listChangedDelegate = self
@@ -64,8 +70,10 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             mintView.hidden = true
             print(currentUser.username)
             print(currentUser.userLists)
+            tableView.reloadData()
 //            configureWithList()
         }
+        
     }
     
     func connectionmanagerDidFailToSetUpCurrentUser()
@@ -84,6 +92,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             theList = list
             connectionManager.setupMemberObservers(theList)
         }
+        
+        tableView.reloadData()
     }
     
     func connectionManagerUserWasChanged(user: User)
@@ -122,32 +132,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     {
         checkUserAuth()
     }
-
-    
-//    @IBAction func onAddButtonTapped(sender: UIBarButtonItem)
-//    {
-//        let addAlert = UIAlertController(title: "Add Item", message: "Add item below or select from your history", preferredStyle: UIAlertControllerStyle.Alert)
-//        
-//        addAlert.addTextFieldWithConfigurationHandler { (textField) -> Void in
-//            textField.placeholder = "Item name"
-//        }
-//        
-//        let okayAction = UIAlertAction(title: "Okay", style: .Default ) { (UIAlertAction) -> Void in
-//            self.tempArray.append((addAlert.textFields?.first?.text)!)
-//            self.tableView.reloadData()
-//        }
-//        
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (UIAlertAction) -> Void in
-//        }
-//        
-//        addAlert.addAction(okayAction)
-//        addAlert.addAction(cancelAction)
-//        
-//        
-//        presentViewController(addAlert, animated: true, completion: nil);
-//    }
-    
-    
     
     
     //MARK: - Tableview delegate stuff
@@ -155,6 +139,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID")! as! ListItemTableViewCell
+        cell.delegate = self
         
         if theList != nil
         {
@@ -184,10 +169,23 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         }
         
-        //cell.nameLabel.text = tempArray[indexPath.row]
-        
-        
         return cell
+    }
+    
+    func didTapButton(cell: ListItemTableViewCell)
+    {
+        print("I'm not sure I needed this now that I'm half way through writing it.")
+        
+        //let selectedCell = tableView.cellForRowAtIndexPath() as ListItemTableViewCell
+        
+        if cell.checkboxButton.imageView?.image == UIImage(named: "box")
+        {
+            cell.checkboxButton.setImage(UIImage(named: "check"), forState: .Normal)
+        }
+        else
+        {
+            cell.checkboxButton.setImage(UIImage(named: "box"), forState: .Normal)
+        }
     }
     
     
@@ -199,19 +197,16 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             print("this happened")
             return theList.items.count
         }
-        //return tempArray.count
+
         return 0
     }
-    
-//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-//        cell.preservesSuperviewLayoutMargins = false
-//        cell.layoutMargins = UIEdgeInsetsZero
-//    }
+
     
     @IBAction func onLogOutTapped(sender: UIButton)
     {
         connectionManager.logout()
     }
+    
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "AddItemSegue"
@@ -229,4 +224,5 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
+    
 }

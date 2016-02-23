@@ -28,7 +28,8 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         
         displayItems = list.items
     }
-
+    
+    //Starts searching the array.
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         
         if (searchText.isEmpty == false)
@@ -45,7 +46,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.reloadData()
     }
     
-    
+    //The actually search check
     func searchTextArray(searchText: String)
     {
         
@@ -62,7 +63,9 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         
     }
 
-    
+    //Will check add item against all items in list, 
+    //If no item exists, it's added
+    //If item exists, an Alert gets triggered and user has the option to overwrite existing item
     @IBAction func onAddItemButtonTapped(sender: UIButton)
     {
         if list.items.count > 0
@@ -88,6 +91,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         print("added item")
         list = connectionManager.getListFor(listUID: list.UID)
         
+        //Resets search bar text field after item is added.
         searchBar.text = ""
         
         tableView.reloadData()
@@ -99,7 +103,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         print("failed to add item")
     }
     
-    
+
     func replaceItemAlert(item: Item)
     {
         let replaceAlert = UIAlertController(title: "Item Already Exists", message: "An item with this name already exists, do you want to replace the item and all its data with this new item?", preferredStyle: UIAlertControllerStyle.Alert)
@@ -119,6 +123,8 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     
+    
+    //Right now just displays item name
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID")!
