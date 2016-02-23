@@ -16,14 +16,16 @@ protocol CenterViewControllerDelegate
     optional func collapseSidePanels()
 }
 
-class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerPopulateUsersArrayDelegate, ConnectionManagerLogOutDelegate
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerLogOutDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
     var menuDelegate: CenterViewControllerDelegate?
     let connectionManager = ConnectionManager.sharedManager
     var currentUser: User!
+    var currentListUID = ""
     var theList: List!
+    var members: [User] = []
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var mintView: UIImageView!
     
@@ -34,7 +36,9 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidLoad()
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
-        connectionManager.populateUsersArrayDelegate = self
+        connectionManager.setupCurrentUserDelegate = self
+        connectionManager.userChangedDelegate = self
+        connectionManager.listChangedDelegate = self
 
     }
     
@@ -43,20 +47,12 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         connectionManager.logoutDelegate = self
         print("checkUserAuth")
         checkUserAuth()
-        if connectionManager.isLoggedIn()
-        {
-            connectionManager.populateUsersArray()
-        }
-        else
-        {
-            performSegueWithIdentifier("LoginSegue", sender: self)
-        }
-
+        tableView.reloadData()
     }
     
-    func connectionManagerDidPopulateUsersArray(currentUser: User)
+    func connectionManagerDidSetUpCurrentUser(currentUser: User)
     {
-        print("Populated users array")
+        print("Setup current user")
         self.currentUser = currentUser
         if currentUser.userLists.count == 0
         {
@@ -64,20 +60,45 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         else
         {
+            connectionManager.setupListObservers(currentUser)
             mintView.hidden = true
             print(currentUser.username)
             print(currentUser.userLists)
-            theList = connectionManager.getListFor(listUID: currentUser.userLists[0].listUID)
-            print("Buy the things. \(theList.name)")
+//            configureWithList()
         }
     }
     
-    
-    func connectionmanagerDidFailToPopulateUsersArray()
+    func connectionmanagerDidFailToSetUpCurrentUser()
     {
-        print("Failed to populate users array")
+        print("Failed to setup current user")
     }
+    
+    func connectionManagerListWasChanged(list: List)
+    {
+        if currentListUID.characters.count == 0
+        {
+            currentListUID = currentUser.userLists[0].listUID
+        }
+        if currentListUID == list.UID
+        {
+            theList = list
+            connectionManager.setupMemberObservers(theList)
+        }
+    }
+    
+    func connectionManagerUserWasChanged(user: User)
+    {
+        if let foundIndex = self.members.indexOf({ $0.UID == user.UID }) {
+            self.members.removeAtIndex(foundIndex)
+            self.members.insert(user, atIndex: foundIndex)
+        }
+        else
+        {
+            self.members.append(user)
+        }
 
+    }
+    
 
     @IBAction func onSettingsButtonTapped(sender: UIBarButtonItem)
     {
@@ -87,7 +108,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func checkUserAuth() {
         if connectionManager.isLoggedIn()
         {
-            connectionManager.populateUsersArray()
+            connectionManager.setupCurrentUser()
         }
         else
         {
@@ -198,6 +219,12 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let dvc = segue.destinationViewController as! AddItemViewController
             
             dvc.list = theList
+            
+        }
+        if segue.identifier == "NewGroupSegue"
+        {
+            let dvc = segue.destinationViewController as! StartOrJoinGroupViewController
+            dvc.currentUser = currentUser
             
         }
     }

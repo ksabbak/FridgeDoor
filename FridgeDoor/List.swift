@@ -39,15 +39,37 @@ struct Item
     var UID: String
     var comments: [Comment]
     var essential: String
+    var highAlert: String
+    var volunteerUID: String
     var rotate: [UserTurn]
     
-    init()
+    init(name: String)
     {
-        name = ""
+        self.name = name
         UID = ""
         essential = ""
+        highAlert = ""
+        volunteerUID = ""
         rotate = []
         comments = []
+    }
+}
+
+struct History
+{
+    var UID: String
+    var itemName: String
+    var purchaserUID: String
+    var listUID: String
+    var time: NSDate
+    
+    init(itemName: String, purchaserUID: String, listUID: String, time: Double)
+    {
+        UID           = ""
+        self.itemName = itemName
+        self.purchaserUID = purchaserUID
+        self.listUID  = listUID
+        self.time = NSDate(timeIntervalSince1970: time)
     }
 }
 
@@ -69,6 +91,7 @@ class List
     var name: String
     var members: [Member]
     var items: [Item]
+    var historyItems: [History]
     
     init(name: String)
     {
@@ -76,5 +99,6 @@ class List
         self.name = name
         members = []
         items = []
+        historyItems = []
     }
 }

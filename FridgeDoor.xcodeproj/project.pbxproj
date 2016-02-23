@@ -14,7 +14,6 @@
 		5ADEA8451C73ABF20089BB1D /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5ADEA83B1C73ABF20089BB1D /* Info.plist */; };
 		5ADEA8461C73ABF20089BB1D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA83C1C73ABF20089BB1D /* LoginViewController.swift */; };
 		5ADEA8471C73ABF20089BB1D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA83D1C73ABF20089BB1D /* ProfileViewController.swift */; };
-		5ADEA8481C73ABF20089BB1D /* ReAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA83E1C73ABF20089BB1D /* ReAddViewController.swift */; };
 		5ADEA8491C73ABF20089BB1D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA83F1C73ABF20089BB1D /* SettingsViewController.swift */; };
 		5ADEA84A1C73ABF20089BB1D /* StartOrJoinGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8401C73ABF20089BB1D /* StartOrJoinGroupViewController.swift */; };
 		5ADEA84D1C73ABFF0089BB1D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ADEA84B1C73ABFF0089BB1D /* Main.storyboard */; };
@@ -31,7 +30,6 @@
 		A964EDD71C7421C3000697DE /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A964EDD61C7421C3000697DE /* List.swift */; };
 		A964EDD91C7421CF000697DE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A964EDD81C7421CF000697DE /* User.swift */; };
 		A964EDDE1C74DEE6000697DE /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = A964EDDD1C74DEE6000697DE /* Debug.swift */; };
-		A964EDE01C74E4AD000697DE /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = A964EDDF1C74E4AD000697DE /* History.swift */; };
 		D5FFE461BE70EB07132A840C /* Pods_FridgeDoor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F24CBA4B6B60AF0B1B016C6 /* Pods_FridgeDoor.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +42,6 @@
 		5ADEA83B1C73ABF20089BB1D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5ADEA83C1C73ABF20089BB1D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		5ADEA83D1C73ABF20089BB1D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		5ADEA83E1C73ABF20089BB1D /* ReAddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReAddViewController.swift; sourceTree = "<group>"; };
 		5ADEA83F1C73ABF20089BB1D /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		5ADEA8401C73ABF20089BB1D /* StartOrJoinGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartOrJoinGroupViewController.swift; sourceTree = "<group>"; };
 		5ADEA84C1C73ABFF0089BB1D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -64,7 +61,6 @@
 		A964EDD61C7421C3000697DE /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		A964EDD81C7421CF000697DE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A964EDDD1C74DEE6000697DE /* Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
-		A964EDDF1C74E4AD000697DE /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		F388A12778494815682F6B6C /* Pods-FridgeDoor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FridgeDoor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FridgeDoor/Pods-FridgeDoor.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,7 +122,6 @@
 				5ADEA83B1C73ABF20089BB1D /* Info.plist */,
 				5ADEA83C1C73ABF20089BB1D /* LoginViewController.swift */,
 				5ADEA83D1C73ABF20089BB1D /* ProfileViewController.swift */,
-				5ADEA83E1C73ABF20089BB1D /* ReAddViewController.swift */,
 				5ADEA83F1C73ABF20089BB1D /* SettingsViewController.swift */,
 				5ADEA8401C73ABF20089BB1D /* StartOrJoinGroupViewController.swift */,
 			);
@@ -138,7 +133,6 @@
 			children = (
 				A964EDD61C7421C3000697DE /* List.swift */,
 				A964EDD81C7421CF000697DE /* User.swift */,
-				A964EDDF1C74E4AD000697DE /* History.swift */,
 				A964EDB31C7396F4000697DE /* Info.plist */,
 			);
 			name = Model;
@@ -310,7 +304,6 @@
 				5ADEA85D1C77878B0089BB1D /* AvatarCollectionViewCell.swift in Sources */,
 				5ADEA8411C73ABF20089BB1D /* CreateAccountViewController.swift in Sources */,
 				5ADEA8591C7527170089BB1D /* ListItemTableViewCell.swift in Sources */,
-				5ADEA8481C73ABF20089BB1D /* ReAddViewController.swift in Sources */,
 				5ADEA8491C73ABF20089BB1D /* SettingsViewController.swift in Sources */,
 				5ADEA84A1C73ABF20089BB1D /* StartOrJoinGroupViewController.swift in Sources */,
 				5ADEA85B1C763A210089BB1D /* ListViewController.swift in Sources */,
@@ -318,7 +311,6 @@
 				5ADEA85F1C7788480089BB1D /* AvatarViewController.swift in Sources */,
 				A964EDD71C7421C3000697DE /* List.swift in Sources */,
 				5ADEA8441C73ABF20089BB1D /* EditProfileViewController.swift in Sources */,
-				A964EDE01C74E4AD000697DE /* History.swift in Sources */,
 				5ADEA8421C73ABF20089BB1D /* CreateGroupViewController.swift in Sources */,
 				A964EDA81C7396F4000697DE /* AppDelegate.swift in Sources */,
 				5ADEA8471C73ABF20089BB1D /* ProfileViewController.swift in Sources */,
