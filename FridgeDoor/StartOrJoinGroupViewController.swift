@@ -11,7 +11,7 @@ import UIKit
 class StartOrJoinGroupViewController: UIViewController, ConnectionManagerLogOutDelegate
 {
 
-    
+    var currentUser: User?
     let connectionManager = ConnectionManager.sharedManager
     
     override func viewDidLoad() {
@@ -37,14 +37,12 @@ class StartOrJoinGroupViewController: UIViewController, ConnectionManagerLogOutD
     }
     
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if segue.identifier == "CreateNewGroup"
+        {
+            let dvc = segue.destinationViewController as! CreateGroupViewController
+            dvc.currentUser = currentUser
+        }
     }
-    */
-
 }

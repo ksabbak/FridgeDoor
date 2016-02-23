@@ -8,83 +8,97 @@
 
 import UIKit
 
-class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDelegate {
+class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDelegate, ConnectionManagerAddMemberDelegate, ConnectionManagerAddListToUserDelegate
+{
 
     @IBOutlet weak var listTitleTextField: UITextField!
    
     let connectionManager = ConnectionManager.sharedManager
-    var nameExists = false
+    var currentUser: User?
+    var newListUID: String?
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         connectionManager.makeListDelegate = self
+        connectionManager.addMemberDelegate = self
+        connectionManager.addListToUserDelegate = self
 
     }
     
     @IBAction func onCreateButtonTapped(sender: UIButton)
     {
-        
-        let currentUser = (connectionManager.getUserFor(userUID: connectionManager.userUID()!))!
-        
-        
-        let newList = List(name: listTitleTextField.text!)
-        
-        
-        let newListUID = connectionManager.createListReturnListUID(newList)
-        
-
-        connectionManager.addListToUser(newListUID, toUser: connectionManager.userUID()!)
-        connectionManager.addMember(currentUser.UID, toList: newListUID)
-        
-        for list in currentUser.userLists
+        if currentUser?.userLists.count > 0
         {
-            let checkList = (connectionManager.getListFor(listUID: list.listUID))!
-            if checkList.name == listTitleTextField.text
+            for list in currentUser!.userLists
             {
-                badNameAlert()
-                nameExists = true
+                let checkList = (connectionManager.getListFor(listUID: list.listUID))!
+                if checkList.name == listTitleTextField.text
+                {
+                    let nameAlert = UIAlertController(title: "Try Again", message: "Looks like you already have a group list with this name!", preferredStyle: UIAlertControllerStyle.Alert)
+                    let okayAction = UIAlertAction(title: "Okay", style: .Default, handler: nil)
+                    nameAlert.addAction(okayAction)
+                    presentViewController(nameAlert, animated: true, completion: nil);
+                    return
+                }
             }
         }
-        
-        
-        if canPerformSegue()
+        if listTitleTextField.text?.isEmpty == true
         {
-            performSegueWithIdentifier("CreatedGroupSegue", sender: self)
-        }
-    }
-    
-    func badNameAlert()
-    {
-        let nameAlert = UIAlertController(title: "Try Again", message: "Looks like you already have a group list with this name!", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        let okayAction = UIAlertAction(title: "Okay", style: .Default ) { (UIAlertAction) -> Void in
-            self.nameExists = false
+            let alertController = UIAlertController(title: "Name Not Entered", message: "Please enter a name for your new list.", preferredStyle: .Alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .Cancel, handler: nil)
+            alertController.addAction(okayAction)
+            presentViewController(alertController, animated: true, completion: nil)
+            return
         }
         
-        nameAlert.addAction(okayAction)
-        
-        presentViewController(nameAlert, animated: true, completion: nil);
-    }
-    
-    func canPerformSegue() -> Bool
-    {
-        if nameExists == false && listTitleTextField.text?.isEmpty == false
-        {
-            return true
-        }
-        
-        return false
-    }
 
-    func connectionManagerDidFailToMakeList() {
+        let newList = List(name: listTitleTextField.text!)
+        self.newListUID = connectionManager.createListReturnListUID(newList)
+    }
+    
+    func connectionManagerDidMakeList()
+    {
+        print("list was made")
+        connectionManager.addListToUser(newListUID!, toUser: currentUser!.UID)
+    }
+    
+    func connectionManagerDidFailToMakeList()
+    {
         print("list failed")
     }
     
-    func connectionManagerDidMakeList() {
-        print("list was made")
+    func connectionManagerDidAddListToUser()
+    {
+        print("added list to user")
+        connectionManager.addMember(currentUser!.UID, toList: newListUID!)
     }
     
+    func connectionManagerDidFailToAddListToUser()
+    {
+        print("failed to add list to user")
+    }
+    
+    func connectionManagerDidAddMember()
+    {
+        print("added member to list")
+        performSegueWithIdentifier("CreatedGroupSegue", sender: self)
+    }
+    
+    func connectionManagerDidFailToAddMember()
+    {
+        print("failed to add member")
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if segue.identifier == "CreatedGroupSegue"
+        {
+            let dvc = segue.destinationViewController as! ListViewController
+            dvc.currentListUID = newListUID!
+        }
+    }
 
+    
 }

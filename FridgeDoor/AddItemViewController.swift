@@ -8,7 +8,8 @@
 
 import UIKit
 
-class AddItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+class AddItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ConnectionManagerAddItemDelegate
+{
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -17,10 +18,12 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     
     var list: List!
    
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
 
         searchBar.autocapitalizationType = UITextAutocapitalizationType.None
+        connectionManager.addItemDelegate = self
     }
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
@@ -59,6 +62,16 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     
         self.connectionManager.addItem(self.searchBar.text!, toList: self.list.UID)
     
+    }
+    
+    func connectionManagerDidAddItem()
+    {
+        print("added item")
+    }
+    
+    func connectionManagerDidFailToAddItem()
+    {
+        print("failed to add item")
     }
     
     
