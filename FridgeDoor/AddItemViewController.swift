@@ -62,15 +62,17 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     
         connectionManager.addItem(searchBar.text!, toList: list.UID)
         
-        list = connectionManager.getListFor(listUID: list.UID)
         
-        tableView.reloadData()
-    
     }
     
     func connectionManagerDidAddItem()
     {
         print("added item")
+        list = connectionManager.getListFor(listUID: list.UID)
+        print(list)
+        
+        tableView.reloadData()
+
     }
     
     func connectionManagerDidFailToAddItem()
