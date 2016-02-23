@@ -60,7 +60,11 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         }
     
-        self.connectionManager.addItem(self.searchBar.text!, toList: self.list.UID)
+        connectionManager.addItem(searchBar.text!, toList: list.UID)
+        
+        list = connectionManager.getListFor(listUID: list.UID)
+        
+        tableView.reloadData()
     
     }
     
