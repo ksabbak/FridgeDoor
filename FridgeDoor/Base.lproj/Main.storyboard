@@ -36,7 +36,7 @@
                                                         <constraint firstAttribute="height" constant="50" id="k89-uf-WpB"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="szy-kV-BdZ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="szy-kV-BdZ">
                                                     <rect key="frame" x="60" y="14" width="226" height="32"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="226" id="NTk-Ie-8Xd"/>
@@ -76,8 +76,11 @@
                                                 <constraint firstAttribute="bottomMargin" secondItem="ERo-0H-gN2" secondAttribute="bottom" constant="-3.5" id="2vs-zW-Scq"/>
                                                 <constraint firstItem="wvQ-Gv-yGs" firstAttribute="leading" secondItem="HNV-Sm-K2c" secondAttribute="leadingMargin" constant="6" id="7wo-6t-Sre"/>
                                                 <constraint firstItem="szy-kV-BdZ" firstAttribute="centerY" secondItem="HNV-Sm-K2c" secondAttribute="centerY" id="Kub-Lt-ihQ"/>
+                                                <constraint firstItem="qUZ-As-l7l" firstAttribute="leading" secondItem="szy-kV-BdZ" secondAttribute="trailing" constant="8" id="PFI-jk-GXm"/>
                                                 <constraint firstItem="sUw-I9-1jw" firstAttribute="centerY" secondItem="HNV-Sm-K2c" secondAttribute="centerY" id="VJC-Fl-fMc"/>
                                                 <constraint firstItem="sUw-I9-1jw" firstAttribute="leading" secondItem="ERo-0H-gN2" secondAttribute="trailing" constant="1" id="Xww-g8-VLd"/>
+                                                <constraint firstItem="szy-kV-BdZ" firstAttribute="leading" secondItem="wvQ-Gv-yGs" secondAttribute="trailing" constant="8" id="b7a-Jm-5RI"/>
+                                                <constraint firstItem="szy-kV-BdZ" firstAttribute="centerY" secondItem="HNV-Sm-K2c" secondAttribute="centerY" id="hPs-40-c6A"/>
                                                 <constraint firstAttribute="trailing" secondItem="sUw-I9-1jw" secondAttribute="trailing" constant="13" id="mt5-Je-BWT"/>
                                                 <constraint firstItem="sUw-I9-1jw" firstAttribute="leading" secondItem="qUZ-As-l7l" secondAttribute="trailing" constant="1" id="oXv-Hy-wkv"/>
                                                 <constraint firstItem="qUZ-As-l7l" firstAttribute="top" secondItem="HNV-Sm-K2c" secondAttribute="topMargin" constant="-3" id="pxB-uQ-ZG3"/>
@@ -99,13 +102,6 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="NrF-cs-UCo"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="njR-6S-hfy">
-                                <rect key="frame" x="-4" y="312" width="383" height="44"/>
-                                <state key="normal" title="Log Out"/>
-                                <connections>
-                                    <action selector="onLogOutTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l1g-2w-Ksl"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aGP-OD-mJC">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="1" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>

@@ -94,6 +94,9 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         //Resets search bar text field after item is added.
         searchBar.text = ""
         
+        //Adds things back to the table
+        displayItems = list.items
+        
         tableView.reloadData()
 
     }

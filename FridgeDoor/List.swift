@@ -37,6 +37,7 @@ struct Item
 {
     var name: String
     var UID: String
+    var active: String
     var comments: [Comment]
     var essential: String
     var highAlert: String
@@ -47,6 +48,7 @@ struct Item
     {
         self.name = name
         UID = ""
+        active = ""
         essential = ""
         highAlert = ""
         volunteerUID = ""

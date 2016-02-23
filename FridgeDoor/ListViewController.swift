@@ -16,7 +16,7 @@ protocol CenterViewControllerDelegate
     optional func collapseSidePanels()
 }
 
-class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerLogOutDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate, ListItemTableViewCellDelegate
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate, ListItemTableViewCellDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
@@ -50,7 +50,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewWillAppear(animated: Bool)
     {
-        connectionManager.logoutDelegate = self
         print("checkUserAuth")
         checkUserAuth()
         tableView.reloadData()
@@ -174,17 +173,17 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func didTapButton(cell: ListItemTableViewCell)
     {
-        print("I'm not sure I needed this now that I'm half way through writing it.")
-        
-        //let selectedCell = tableView.cellForRowAtIndexPath() as ListItemTableViewCell
+        let rowItem = theList.items[(tableView.indexPathForCell(cell)?.row)!]
         
         if cell.checkboxButton.imageView?.image == UIImage(named: "box")
         {
             cell.checkboxButton.setImage(UIImage(named: "check"), forState: .Normal)
+            connectionManager.makeInactive(rowItem.UID, fromList: theList.UID)
         }
         else
         {
             cell.checkboxButton.setImage(UIImage(named: "box"), forState: .Normal)
+            connectionManager.makeActive(rowItem.UID, onList: theList.UID)
         }
     }
     
@@ -201,11 +200,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return 0
     }
 
-    
-    @IBAction func onLogOutTapped(sender: UIButton)
-    {
-        connectionManager.logout()
-    }
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
