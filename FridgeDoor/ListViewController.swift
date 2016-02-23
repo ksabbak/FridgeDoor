@@ -47,6 +47,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         connectionManager.logoutDelegate = self
         print("checkUserAuth")
         checkUserAuth()
+        tableView.reloadData()
     }
     
     func connectionManagerDidSetUpCurrentUser(currentUser: User)
@@ -59,7 +60,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         else
         {
-            connectionManager.setupListObservers()
+            connectionManager.setupListObservers(currentUser)
             mintView.hidden = true
             print(currentUser.username)
             print(currentUser.userLists)
@@ -81,7 +82,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if currentListUID == list.UID
         {
             theList = list
-            connectionManager.setupMemberObservers()
+            connectionManager.setupMemberObservers(theList)
         }
     }
     
@@ -98,39 +99,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     }
     
-    func connectionManagerDidGetUserAndUpdateLists(user: User)
-    {
-        print("updated current user")
-       
-    }
-    
-    func connectionManagerDidFailToGetUserAndUpdateLists()
-    {
-        print("failed to update current user")
-    }
-    
-    func connectionManagerDidGetListAndUpdateUsers(list: List)
-    {
-        print("updated current list")
-        
-    }
-    
-    func connectionManagerDidFailToGetListAndUpdateUsers()
-    {
-        print("failed to update current list")
-    }
-    
-    
-    
-    func configureWithList()
-    {
-        if currentListUID.characters.count == 0
-        {
-            currentListUID = currentUser.userLists[0].listUID
-        }
-        theList = connectionManager.getListFor(listUID: currentListUID)
-    }
-
 
     @IBAction func onSettingsButtonTapped(sender: UIBarButtonItem)
     {

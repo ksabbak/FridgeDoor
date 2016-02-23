@@ -312,15 +312,9 @@ class ConnectionManager {
             let user = self.unpackUser(userData)
             self.currentUser = user
             
-            self.currentUserListUIDs.removeAll()
-            for list in user.userLists
-            {
-                self.currentUserListUIDs.append(list.listUID)
-            }
-            
             if self.currentUser != nil
             {
-                self.setupCurrentUserDelegate?.connectionManagerDidSetUpCurrentUser(self.currentUser!)
+                self.setupCurrentUserDelegate?.connectionManagerDidSetUpCurrentUser(user)
             }
             else
             {
@@ -643,13 +637,25 @@ class ConnectionManager {
 //        currentUser = getCurrentUser()
     }
     
-    func setupListObservers()
+    func setupListObservers(currentUser: User)
     {
+        currentUserListUIDs.removeAll()
+        for list in currentUser.userLists
+        {
+            let listUID = list.listUID
+            currentUserListUIDs.append(listUID)
+        }
         setupListListeners()
     }
     
-    func setupMemberObservers()
+    func setupMemberObservers(list: List)
     {
+        currentListMemberUIDs.removeAll()
+        for member in list.members
+        {
+            let memberUID = member.userUID
+            currentListMemberUIDs.append(memberUID)
+        }
         setupMemberListeners()
     }
     
@@ -720,6 +726,7 @@ class ConnectionManager {
         
         for listUID in currentUserListUIDs
         {
+            print("listUID in listeners: \(listUID)")
             let thisListRef = listsRef.childByAppendingPath("\(listUID)")
             thisListRef.observeEventType(.Value) { (snapshot:FDataSnapshot!) -> Void in
                 
@@ -837,11 +844,11 @@ class ConnectionManager {
             }
         }
         
-        if let items = listData["items"] as? [String:AnyObject]
+        if let items = listData["items"] as? [String:[String:AnyObject]]
         {
             for item in items
             {
-                let newItem = self.unpackItem([item.0:item.1])
+                let newItem = self.unpackItem(item.1)
                 newList.items.append(newItem)
             }
         }
