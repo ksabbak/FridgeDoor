@@ -17,6 +17,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     let connectionManager = ConnectionManager.sharedManager
     
     var list: List!
+    var displayItems = [Item]()
    
     override func viewDidLoad()
     {
@@ -24,6 +25,8 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
 
         searchBar.autocapitalizationType = UITextAutocapitalizationType.None
         connectionManager.addItemDelegate = self
+        
+        displayItems = list.items
     }
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
@@ -31,8 +34,13 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         if (searchText.isEmpty == false)
         {
             let searchString = searchBar.text! as String
-            searchTextArray(searchString)
+            searchTextArray(searchString.lowercaseString)
         }
+        else
+        {
+            displayItems = list.items
+        }
+
         
         tableView.reloadData()
     }
@@ -41,6 +49,16 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     func searchTextArray(searchText: String)
     {
         
+        displayItems = []
+        
+        for item in list.items
+        {
+            let lowerChar = item.name.lowercaseString
+            if lowerChar.containsString(searchText)
+            {
+                displayItems.append(item)
+            }
+        }
         
     }
 
@@ -69,7 +87,8 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         print("added item")
         list = connectionManager.getListFor(listUID: list.UID)
-        print(list)
+        
+        searchBar.text = ""
         
         tableView.reloadData()
 
@@ -104,7 +123,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID")!
         
-        cell.textLabel?.text = list.items[indexPath.row].name
+        cell.textLabel?.text = displayItems[indexPath.row].name
         
         return cell
     }
@@ -112,7 +131,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return list.items.count
+        return displayItems.count
     }
     
     
