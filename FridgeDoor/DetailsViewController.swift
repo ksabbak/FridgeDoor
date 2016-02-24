@@ -13,15 +13,21 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var itemNameLabel: UILabel!
     
+    var item: Item!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
+        itemNameLabel.text = item.name
+        
     }
 
 
-    @IBAction func onBoughtButtonTapped(sender: UIButton) {
+    @IBAction func onBoughtButtonTapped(sender: UIButton)
+    {
+    
+    
     }
     
     @IBAction func onCancelButtonTapped(sender: AnyObject)

@@ -27,6 +27,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var theList: List!
     var members: [User] = []
     
+    //var passedItem: Item!
+    
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var mintView: UIImageView!
     
@@ -40,8 +42,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         //This is to fix that stupid uglyass gap between the rows and the edge of the screen. 
         //TODO: figure out the right numbers.
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
-        
-        
+                
         connectionManager.setupCurrentUserDelegate = self
         connectionManager.userChangedDelegate = self
         connectionManager.listChangedDelegate = self
@@ -125,12 +126,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
-    //MARK: - Connection Manager Logout Delegate
-    
-    func connectionManagerDidLogOut()
-    {
-        checkUserAuth()
-    }
     
     
     //MARK: - Tableview delegate stuff
@@ -165,6 +160,15 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             {
                 cell.topIcon.hidden = true
             }
+            
+            if item.active == ""
+            {
+                cell.checkboxButton.setImage(UIImage(named: "check"), forState: .Normal)
+            }
+            else
+            {
+                cell.checkboxButton.setImage(UIImage(named: "box"), forState: .Normal)
+            }
         }
         }
         
@@ -175,16 +179,19 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     {
         let rowItem = theList.items[(tableView.indexPathForCell(cell)?.row)!]
         
-        if cell.checkboxButton.imageView?.image == UIImage(named: "box")
+        if rowItem.active != ""
         {
             cell.checkboxButton.setImage(UIImage(named: "check"), forState: .Normal)
             connectionManager.makeInactive(rowItem.UID, fromList: theList.UID)
+
         }
         else
         {
             cell.checkboxButton.setImage(UIImage(named: "box"), forState: .Normal)
             connectionManager.makeActive(rowItem.UID, onList: theList.UID)
+
         }
+        tableView.reloadData()
     }
     
     
@@ -193,13 +200,18 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         if theList != nil
         {
-            print("this happened")
             return theList.items.count
         }
 
         return 0
     }
 
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        //passedItem = theList.items[indexPath.row]
+        performSegueWithIdentifier("DetailSegue", sender: indexPath)
+    }
+    
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -210,11 +222,18 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             dvc.list = theList
             
         }
-        if segue.identifier == "NewGroupSegue"
+        else if segue.identifier == "NewGroupSegue"
         {
             let dvc = segue.destinationViewController as! StartOrJoinGroupViewController
             dvc.currentUser = currentUser
+        
+        }
+        else if segue.identifier == "DetailSegue"
+        {
+            let dvc = segue.destinationViewController as! DetailsViewController
+            dvc.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
             
+            dvc.item = theList.items[(sender?.row)!]
         }
     }
 

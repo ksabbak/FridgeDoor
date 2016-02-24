@@ -33,7 +33,7 @@ struct UserTurn {
     }
 }
 
-struct Item
+struct Item: Equatable
 {
     var name: String
     var UID: String
@@ -56,6 +56,11 @@ struct Item
         comments = []
     }
 }
+    func ==(firstElement: Item, secondElement: Item) -> Bool
+    {
+        return firstElement.UID == secondElement.UID
+    }
+
 
 struct History
 {

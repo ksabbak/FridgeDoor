@@ -529,7 +529,7 @@ class ConnectionManager {
         
         let itemData = ["name":name,
                         "UID":itemRef.key,
-                        "Active":"true"]
+                        ]
         
         itemRef.setValue(itemData) { (error:NSError!, snapshot:Firebase!) -> Void in
             guard error == nil else {
@@ -576,9 +576,28 @@ class ConnectionManager {
     func makeActive(itemUID: String, onList listUID: String)
     {
         let listItemStatusRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Active")
-        let status = ["Active":"true"]
+        let status = ["active":"true"]
         
         listItemStatusRef.setValue(status)
+    }
+//      Katrina's adventure in completion Handlers: IGNORE
+    func makeActive(itemUID: String, onList listUID: String, completion: () -> Void)
+    {
+        let listItemStatusRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Active")
+        let status = ["active":"true"]
+        
+        listItemStatusRef.setValue(status) { (error: NSError!, snapshot: Firebase!) -> Void in
+            guard error == nil else {
+                print("Active status not toggled. :(")
+                return
+            }
+            
+            completion()
+        }
+        
+
+        
+        
     }
     
     func makeInactive(itemUID: String, fromList listUID: String)

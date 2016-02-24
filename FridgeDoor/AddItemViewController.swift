@@ -17,7 +17,8 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     let connectionManager = ConnectionManager.sharedManager
     
     var list: List!
-    var displayItems = [Item]()
+    var chosenItems = [Item]()
+    //var displayItems = [Item]()
    
     override func viewDidLoad()
     {
@@ -26,7 +27,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         searchBar.autocapitalizationType = UITextAutocapitalizationType.None
         connectionManager.addItemDelegate = self
         
-        displayItems = list.items
+        chosenItems = list.items
     }
     
     //Starts searching the array.
@@ -39,7 +40,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         else
         {
-            displayItems = list.items
+            chosenItems = list.items
         }
 
         
@@ -50,14 +51,14 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     func searchTextArray(searchText: String)
     {
         
-        displayItems = []
+        chosenItems = []
         
         for item in list.items
         {
             let lowerChar = item.name.lowercaseString
             if lowerChar.containsString(searchText)
             {
-                displayItems.append(item)
+                chosenItems.append(item)
             }
         }
         
@@ -95,7 +96,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         searchBar.text = ""
         
         //Adds things back to the table
-        displayItems = list.items
+        chosenItems = list.items
         
         tableView.reloadData()
 
@@ -114,6 +115,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         let okayAction = UIAlertAction(title: "Replace Item", style: .Default ) { (UIAlertAction) -> Void in
             self.connectionManager.deleteItem(item.UID, fromList: self.list.UID)
             self.connectionManager.addItem(self.searchBar.text!, toList: self.list.UID)
+            print("It's a mystery!")
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel ) { (UIAlertAction) -> Void in
@@ -132,19 +134,77 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID")!
         
-        cell.textLabel?.text = displayItems[indexPath.row].name
+        let displayItems = getDisplayItems()
+        
+        let item = displayItems[indexPath.row]
+        
+        cell.textLabel?.text = item.name
+        
+        
+        if item.active != ""
+        {
+            cell.textLabel?.textColor = UIColor.grayColor()
+            cell.detailTextLabel?.textColor = UIColor.grayColor()
+            cell.detailTextLabel?.text = "This item is already on your list"
+            cell.userInteractionEnabled = false
+            print("\(item.name) is \(item.active) active")
+        }
+        else
+        {
+            cell.detailTextLabel?.text = ""
+            cell.textLabel?.textColor = UIColor.blackColor()
+            cell.userInteractionEnabled = true
+            print("\(item.name) is \(item.active) inactive")
+        }
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let item = chosenItems[indexPath.row]
+    
+        connectionManager.makeActive(item.UID, onList: list.UID) { () -> Void in
+            tableView.reloadData()
+        }
+    
+        
+//        tableView.reloadData()
+//        print("FIRE!" + "\(item.active)!")
+        
+
     }
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return displayItems.count
+        return chosenItems.count
     }
     
     
-    
+    func getDisplayItems() -> [Item]
+    {
+        var displayItems = [Item]()
+        
+        for item in (connectionManager.getListFor(listUID: list.UID)?.items)!
+        {
+            if chosenItems.contains(item)
+            {
+                if item.active == ""
+                {
+                displayItems.insert(item, atIndex: 0)
+                }
+                else
+                {
+                    displayItems.append(item)
+                }
+            }
+        }
+        
+        chosenItems = displayItems
+        
+        return displayItems
+    }
 
     
 }
