@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
+class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerLogOutDelegate
 {
 
     @IBOutlet weak var imageView: UIImageView!
@@ -59,6 +59,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell!
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let list = lists[indexPath.row]
+        performSegueWithIdentifier("ProfileToList", sender: list)
+    }
+    
     @IBAction func onLogOutTapped(sender: UIBarButtonItem)
     {
         connectionManager.logout()
@@ -67,6 +73,23 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBAction func onEditProfileTapped(sender: UIButton)
     {
         
+    }
+    
+    func connectionManagerDidLogOut()
+    {
+        performSegueWithIdentifier("ProfileLogout", sender: nil)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if segue.identifier == "ProfileToList"
+        {
+            let dvc = segue.destinationViewController as! ListViewController
+            let list = sender as! List
+            dvc.theList = list
+            dvc.currentListUID = list.UID
+            
+        }
     }
     
 }

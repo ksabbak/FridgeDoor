@@ -17,7 +17,7 @@ protocol CenterViewControllerDelegate
 }
 
 
-class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerLogOutDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate, PerformSeguesForSettingsVCDelegate, ListItemTableViewCellDelegate
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate, PerformSeguesForSettingsVCDelegate, ListItemTableViewCellDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
@@ -116,7 +116,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     menuDelegate?.toggleLeftPanel?()
     }
 
-    func checkUserAuth() {
+    func checkUserAuth()
+    {
         if connectionManager.isLoggedIn()
         {
             connectionManager.setupCurrentUser()
@@ -248,11 +249,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             dvc.passedUser = currentUser
         }
         
-    }
-
-    func connectionManagerDidLogOut()
-    {
-        checkUserAuth()
     }
 
     func settingTapped(setting: String)
