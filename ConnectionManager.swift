@@ -528,7 +528,8 @@ class ConnectionManager {
         let itemRef = listsRef.childByAppendingPath("\(listUID)/items/").childByAutoId()
         
         let itemData = ["name":name,
-                        "UID":itemRef.key]
+                        "UID":itemRef.key,
+                        ]
         
         itemRef.setValue(itemData) { (error:NSError!, snapshot:Firebase!) -> Void in
             guard error == nil else {
@@ -568,6 +569,42 @@ class ConnectionManager {
         let listCommentRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/comments/\(commentUID)")
         
         listCommentRef.removeValue()
+    }
+    
+    //MARK: - Active toggling
+    
+    func makeActive(itemUID: String, onList listUID: String)
+    {
+        let listItemStatusRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Active")
+        let status = ["active":"true"]
+        
+        listItemStatusRef.setValue(status)
+    }
+//      Katrina's adventure in completion Handlers: IGNORE
+    func makeActive(itemUID: String, onList listUID: String, completion: () -> Void)
+    {
+        let listItemStatusRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Active")
+        let status = ["active":"true"]
+        
+        listItemStatusRef.setValue(status) { (error: NSError!, snapshot: Firebase!) -> Void in
+            guard error == nil else {
+                print("Active status not toggled. :(")
+                return
+            }
+            
+            completion()
+        }
+        
+
+        
+        
+    }
+    
+    func makeInactive(itemUID: String, fromList listUID: String)
+    {
+        let listItemStatusRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Active")
+        
+        listItemStatusRef.removeValue()
     }
     
     //MARK: - Essential Handling
@@ -871,6 +908,12 @@ class ConnectionManager {
         var newItem = Item(name: name)
         
         newItem.UID         = itemData["UID"] as! String
+        
+        if let active = itemData["Active"] as? [String:String]
+        {
+            newItem.active  = active["active"]!
+        }
+        
         if let essential = itemData["Essential"] as? [String:String]
         {
             newItem.essential = essential["essential"]!

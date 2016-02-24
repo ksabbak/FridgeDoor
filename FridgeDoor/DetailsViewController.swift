@@ -10,26 +10,29 @@ import UIKit
 
 class DetailsViewController: UIViewController {
 
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var itemNameLabel: UILabel!
+    
+    var item: Item!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
+        itemNameLabel.text = item.name
+        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
+    @IBAction func onBoughtButtonTapped(sender: UIButton)
+    {
+    
+    
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func onCancelButtonTapped(sender: AnyObject)
+    {
+        dismissViewControllerAnimated(true, completion: nil)
     }
-    */
 
 }

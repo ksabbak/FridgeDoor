@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ListItemTableViewCellDelegate
+{
+    func didTapButton(cell: ListItemTableViewCell)
+}
 
 
 class ListItemTableViewCell: UITableViewCell {
@@ -20,13 +24,15 @@ class ListItemTableViewCell: UITableViewCell {
     @IBOutlet weak var bottomIcon: UIImageView!
     @IBOutlet weak var volunteerAvatar: UIImageView!
     
+    var delegate: ListItemTableViewCellDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         
         
-        topIcon.image = UIImage(imageLiteral: "bubble")
-        bottomIcon.image = UIImage(imageLiteral: "staple")
+        topIcon.image = UIImage(named: "bubble")
+        bottomIcon.image = UIImage(named: "staple")
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -39,6 +45,8 @@ class ListItemTableViewCell: UITableViewCell {
     //Should this be here??? Should this be here as a delegate thing? Probably that. Think it through.
     @IBAction func onCheckButtonTapped(sender: UIButton)
     {
-    
+        delegate?.didTapButton(self)
+        
+
     }
 }
