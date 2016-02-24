@@ -8,25 +8,41 @@
 
 import UIKit
 
+protocol PerformSeguesForSettingsVCDelegate
+{
+    func settingTapped(setting: String)
+}
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    override func viewDidLoad() {
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
+{
+    var performSeguesForSettingsVCDelegate: PerformSeguesForSettingsVCDelegate?
+    var settingsList = [String]()
+    
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
+        settingsList = ["Profile", "Add Member", "View History"]
 
-        // Do any additional setup after loading the view.
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return settingsList.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath)
+        let settingName = settingsList[indexPath.row]
+        cell.textLabel?.text = settingName
         
         return cell
     }
-
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let setting = settingsList[indexPath.row]
+        performSeguesForSettingsVCDelegate?.settingTapped(setting)
+    }
 
 }
 
