@@ -8,28 +8,65 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
+{
 
-    override func viewDidLoad() {
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var emailAddressLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
+    let connectionManager = ConnectionManager.sharedManager
+    var passedUser: User?
+    var lists = [List]()
+    
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(animated: Bool)
+    {
+        configureWithUser(passedUser!)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func configureWithUser(user: User)
+    {
+        usernameLabel.text = user.username
+        emailAddressLabel.text = user.email
+        imageView.image = UIImage(named: "\(user.imageName)")
+        let userLists = user.userLists
+        for userList in userLists
+        {
+            let listUID = userList.listUID
+            let list = connectionManager.getListFor(listUID: listUID)
+            self.lists.append(list!)
+        }
+        tableView.reloadData()
     }
-    */
-
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return lists.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCellWithIdentifier("CellID")
+        let list = lists[indexPath.row]
+        cell?.textLabel?.text = list.name
+        
+        return cell!
+    }
+    
+    @IBAction func onLogOutTapped(sender: UIBarButtonItem)
+    {
+        connectionManager.logout()
+    }
+    
+    @IBAction func onEditProfileTapped(sender: UIButton)
+    {
+        
+    }
+    
 }

@@ -16,7 +16,8 @@ protocol CenterViewControllerDelegate
     optional func collapseSidePanels()
 }
 
-class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerLogOutDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate
+
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerLogOutDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate, PerformSeguesForSettingsVCDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
@@ -208,10 +209,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
 //        cell.layoutMargins = UIEdgeInsetsZero
 //    }
     
-    @IBAction func onLogOutTapped(sender: UIButton)
-    {
-        connectionManager.logout()
-    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "AddItemSegue"
@@ -227,6 +224,18 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             dvc.currentUser = currentUser
             
         }
+        
+        if segue.identifier == "Profile"
+        {
+            let dvc = segue.destinationViewController as! ProfileViewController
+            dvc.passedUser = currentUser
+        }
+        
     }
 
+    
+    func settingTapped(setting: String)
+    {
+        performSegueWithIdentifier(setting, sender: nil)
+    }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StartOrJoinGroupViewController: UIViewController, ConnectionManagerLogOutDelegate
+class StartOrJoinGroupViewController: UIViewController
 {
 
     var currentUser: User?
@@ -17,23 +17,6 @@ class StartOrJoinGroupViewController: UIViewController, ConnectionManagerLogOutD
     override func viewDidLoad() {
         super.viewDidLoad()
 
-    }
-    
-    override func viewWillAppear(animated: Bool)
-    {
-        connectionManager.logoutDelegate = self
-    }
-
-    
-
-    @IBAction func onLogOutTapped(sender: UIButton)
-    {
-        connectionManager.logout()
-    }
-    
-    func connectionManagerDidLogOut()
-    {
-       dismissViewControllerAnimated(true, completion: nil)
     }
     
     
