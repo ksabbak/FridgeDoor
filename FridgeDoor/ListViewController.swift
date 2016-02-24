@@ -258,6 +258,9 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func settingTapped(setting: String)
     {
         performSegueWithIdentifier(setting, sender: nil)
+        print("something worked")
+        
+        menuDelegate!.toggleLeftPanel!()
     }
 
 }

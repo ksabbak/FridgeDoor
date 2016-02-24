@@ -38,10 +38,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let setting = settingsList[indexPath.row]
-        performSeguesForSettingsVCDelegate?.settingTapped(setting)
+        performSeguesForSettingsVCDelegate!.settingTapped(setting)
     }
 
 }

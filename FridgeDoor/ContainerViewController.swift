@@ -87,6 +87,9 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
     
     
     func addChildSidePanelController(sidePanelController: SettingsViewController) {
+        
+        sidePanelController.performSeguesForSettingsVCDelegate = centerViewController
+        
         view.insertSubview(sidePanelController.view, atIndex: 0)
         
         addChildViewController(sidePanelController)
@@ -127,6 +130,8 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
             self.centerNavigationController.view.frame.origin.x = targetPosition
             }, completion: completion)
     }
+    
+    
     
 //    func animateRightPanel(shouldExpand shouldExpand: Bool) {
 //    }
