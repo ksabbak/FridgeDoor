@@ -22,7 +22,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        settingsList = ["Profile", "Add Member", "View History"]
+        settingsList = ["Profile", "Add Member", "View History", "Create New List"]
 
     }
     

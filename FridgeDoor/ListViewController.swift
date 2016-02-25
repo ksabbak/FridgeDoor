@@ -17,7 +17,7 @@ protocol CenterViewControllerDelegate
 }
 
 
-class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate, PerformSeguesForSettingsVCDelegate, ListItemTableViewCellDelegate
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate, PerformSeguesForSettingsVCDelegate, ListItemTableViewCellDelegate, ProfileListSelectedDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
@@ -113,7 +113,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @IBAction func onSettingsButtonTapped(sender: UIBarButtonItem)
     {
-    menuDelegate?.toggleLeftPanel?()
+        menuDelegate?.toggleLeftPanel?()
     }
 
     func checkUserAuth()
@@ -229,13 +229,13 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             dvc.list = theList
             
         }
-        else if segue.identifier == "NewGroupSegue"
+        if segue.identifier == "NewGroupSegue"
         {
             let dvc = segue.destinationViewController as! StartOrJoinGroupViewController
             dvc.currentUser = currentUser
         
         }
-        else if segue.identifier == "DetailSegue"
+        if segue.identifier == "DetailSegue"
         {
             let dvc = segue.destinationViewController as! DetailsViewController
             dvc.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
@@ -248,6 +248,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let dvc = segue.destinationViewController as! ProfileViewController
             dvc.passedUser = currentUser
         }
+        if segue.identifier == "Create New List"
+        {
+            let dvc = segue.destinationViewController as! CreateGroupViewController
+            dvc.currentUser = currentUser
+        }
         
     }
 
@@ -258,5 +263,32 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         menuDelegate!.toggleLeftPanel!()
     }
+    
+    //Mark: Unwind from ProfileVC and ProfileVC Delegate
+    
+    @IBAction func listSelectedFromProfile(segue: UIStoryboardSegue)
+    {
+        //Unwinds to ListVC from ProfileVC
+        let sourceVC = segue.sourceViewController as! ProfileViewController
+        sourceVC.delegate = self
+        print("Profile delegate was fired")
+    }
+    
+    func listSelected(listUID: String)
+    {
+        currentListUID = listUID
+    }
+    
+    //Mark: Unwind from CreateGroupVC and CreateGroupVC Delegate
+    
+    @IBAction func newListCreated(segue: UIStoryboardSegue)
+    {
+        //Unwinds to ListVC from CreateGroupVC
+//        let sourceVC = segue.sourceViewController as! CreateGroupViewController
+//        sourceVC.delegate = self
+//        print("Create Group delegate was fired")
+    }
+    
+    
 
 }

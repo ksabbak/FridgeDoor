@@ -9,7 +9,7 @@
 import UIKit
 
 
-class CreateAccountViewController: UIViewController, ConnectionManagerCreateUserDelegate, ConnectionManagerLogInUserDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AvatarVCSetAvatarImageNameDelegate
+class CreateAccountViewController: UIViewController, ConnectionManagerCreateUserDelegate, ConnectionManagerLogInUserDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate
 {
     
     
@@ -49,14 +49,6 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
             imageView.image = UIImage(named: avatarImageName)
         }
         print(":) \(avatarImageName)")
-    }
-    
-    
-    //MARK: - AvatarVCDelegate Function
-    
-    func avatarNameSelected(avatarImageName: String)
-    {
-        self.avatarImageName = avatarImageName
     }
     
     //MARK: - CMCreateUserDelegate Functions
@@ -153,8 +145,5 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
     @IBAction func onSelectAsMyAvatarTapped(segue: UIStoryboardSegue)
     {
         //Unwinds to CreateAccountViewController from AvatarVC
-        let sourceVC = segue.sourceViewController as! AvatarViewController
-        sourceVC.setAvatarImageNameDelegate = self
-        print("Avatar delegate was fired")
     }
 }

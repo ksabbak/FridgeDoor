@@ -34,6 +34,11 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
         centerViewController = UIStoryboard.centerViewController()
         centerViewController.menuDelegate = self
         
@@ -50,11 +55,10 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePanGesture:")
         centerNavigationController.view.addGestureRecognizer(panGestureRecognizer)
         //panGestureRecognizer.delegate = self
-
+        
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTapGesture:")
         centerNavigationController.view.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.enabled = false
-
     }
     
 

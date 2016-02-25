@@ -6,11 +6,6 @@
 //  Copyright © 2016 MobileMakers. All rights reserved.
 //
 
-protocol AvatarVCSetAvatarImageNameDelegate
-{
-    func avatarNameSelected(avatarImageName: String)
-}
-
 import UIKit
 
 class AvatarViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -18,7 +13,7 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
     var avatarArray = [String]()
     var avatarImageName: String!
     var indexPathRow = String()
-    var setAvatarImageNameDelegate: AvatarVCSetAvatarImageNameDelegate?
+    var editAvatar = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +48,31 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
     {
         indexPathRow = avatarArray[indexPath.item]
         print("----> \(self) :: \(indexPathRow)")
-        self.setAvatarImageNameDelegate?.avatarNameSelected(indexPathRow)
+        if editAvatar == true
+        {
+            editAvatar = false
+            performSegueWithIdentifier("UnwindToEditProfile", sender: indexPathRow)
+        }
+        else
+        {
+            performSegueWithIdentifier("AvatarUnwindSegue", sender: indexPathRow)
+        }
         
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if segue.identifier == "AvatarUnwindSegue"
+        {
+            let dvc = segue.destinationViewController as! CreateAccountViewController
+            let avatarImageName = sender as! String
+            dvc.avatarImageName = avatarImageName
+        }
+        if segue.identifier == "UnwindToEditProfile"
+        {
+            let dvc = segue.destinationViewController as! EditProfileViewController
+            let avatarImageName = sender as! String
+            dvc.avatarImageName = avatarImageName
+        }
     }
 }

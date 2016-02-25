@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol ProfileListSelectedDelegate
+{
+    func listSelected(listUID: String)
+}
+
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerLogOutDelegate
 {
 
@@ -18,6 +23,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     let connectionManager = ConnectionManager.sharedManager
     var passedUser: User?
     var lists = [List]()
+    var delegate: ProfileListSelectedDelegate?
     
     override func viewDidLoad()
     {
@@ -62,7 +68,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let list = lists[indexPath.row]
-        performSegueWithIdentifier("ProfileToList", sender: list)
+        delegate?.listSelected(list.UID)
     }
     
     @IBAction func onLogOutTapped(sender: UIBarButtonItem)
@@ -82,14 +88,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
-        if segue.identifier == "ProfileToList"
-        {
-            let dvc = segue.destinationViewController as! ListViewController
-            let list = sender as! List
-            dvc.theList = list
-            dvc.currentListUID = list.UID
-            
-        }
+        
     }
     
 }

@@ -8,6 +8,11 @@
 
 import UIKit
 
+//protocol NewListCreatedDelegate
+//{
+//    func listCreated(listUID: String)
+//}
+
 class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDelegate, ConnectionManagerAddMemberDelegate, ConnectionManagerAddListToUserDelegate
 {
 
@@ -16,6 +21,7 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
     let connectionManager = ConnectionManager.sharedManager
     var currentUser: User?
     var newListUID: String?
+//    var delegate: NewListCreatedDelegate?
     
     override func viewDidLoad()
     {
@@ -83,7 +89,8 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
     func connectionManagerDidAddMember()
     {
         print("added member to list")
-        performSegueWithIdentifier("CreatedGroupSegue", sender: self)
+//        delegate?.listCreated(newListUID!)
+        performSegueWithIdentifier("NewListCreated", sender: nil)
     }
     
     func connectionManagerDidFailToAddMember()
@@ -93,7 +100,7 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
-        if segue.identifier == "CreatedGroupSegue"
+        if segue.identifier == "NewListCreated"
         {
             let dvc = segue.destinationViewController as! ListViewController
             dvc.currentListUID = newListUID!
