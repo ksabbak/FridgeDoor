@@ -26,12 +26,15 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var currentUser: User!
     var currentListUID = ""
     var theList: List!
+    var visibleList = [Item]()
+    var itemsPendingRemoval = [Item]()
     var members: [User] = []
     
     //var passedItem: Item!
     
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var mintView: UIImageView!
+    @IBOutlet weak var boughtButton: UIButton!
     
     
     var tempArray:[String] = ["Banana", "Apple"]       //DELETE ME: This is a temporary array for testing reasons.
@@ -47,7 +50,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         connectionManager.setupCurrentUserDelegate = self
         connectionManager.userChangedDelegate = self
         connectionManager.listChangedDelegate = self
-
+        
+        disableBoughtButton()
     }
     
     override func viewWillAppear(animated: Bool)
@@ -57,10 +61,14 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.reloadData()
     }
     
+
+    //MARK: - User Setup
+    
     func connectionManagerDidSetUpCurrentUser(currentUser: User)
     {
         print("Setup current user")
         self.currentUser = currentUser
+        
         if currentUser.userLists.count == 0
         {
             performSegueWithIdentifier("NewGroupSegue", sender: self)
@@ -72,9 +80,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             print(currentUser.username)
             print(currentUser.userLists)
             tableView.reloadData()
-//            configureWithList()
         }
-        
     }
     
     func connectionmanagerDidFailToSetUpCurrentUser()
@@ -92,6 +98,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         {
             theList = list
             connectionManager.setupMemberObservers(theList)
+            
+            setVisibleList()
         }
         
         tableView.reloadData()
@@ -107,16 +115,10 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         {
             self.members.append(user)
         }
-
     }
     
-
-    @IBAction func onSettingsButtonTapped(sender: UIBarButtonItem)
+    func checkUserAuth()
     {
-    menuDelegate?.toggleLeftPanel?()
-    }
-
-    func checkUserAuth() {
         if connectionManager.isLoggedIn()
         {
             connectionManager.setupCurrentUser()
@@ -127,7 +129,61 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+    //MARK: - Buttons
     
+    @IBAction func onBoughtButtonTapped(sender: UIButton)
+    {
+        var count = 1                       //To keep track of where we are in the for loop.
+        for item in itemsPendingRemoval
+        {
+         connectionManager.makeInctive(item.UID, onList: theList.UID, completion: { () -> Void in
+            if count == self.itemsPendingRemoval.count      //Tableview shouldn't reload until all items are inactive
+            {
+                self.tableView.reloadData()
+            }
+         })
+            count++
+        }
+        
+        itemsPendingRemoval = []
+    }
+    
+    
+    @IBAction func onSettingsButtonTapped(sender: UIBarButtonItem)
+    {
+        menuDelegate?.toggleLeftPanel?()
+    }
+
+    func enableBoughtButton()
+    {
+        boughtButton.backgroundColor = UIColor.appWineColor()
+        boughtButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        boughtButton.enabled = true
+    }
+    
+    func disableBoughtButton()
+    {
+        boughtButton.backgroundColor = UIColor.appLightBlueColor()
+        boughtButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        boughtButton.enabled = false
+    }
+
+    //MARK: - Housekeeping
+    
+    ///Pulls active items from backend list
+    func setVisibleList()
+    {
+        visibleList = []
+        for item in theList.items
+        {
+            if item.active != ""
+            {
+                visibleList.append(item)
+            }
+        }
+    }
+    
+
     
     //MARK: - Tableview delegate stuff
     
@@ -136,11 +192,9 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID")! as! ListItemTableViewCell
         cell.delegate = self
         
-        if theList != nil
+        if visibleList.count > 0
         {
-        if theList.items.count > 0
-        {
-            let item = theList.items[indexPath.row]
+            let item = visibleList[indexPath.row]
             
             cell.nameLabel.text = item.name
             
@@ -162,7 +216,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 cell.topIcon.hidden = true
             }
             
-            if item.active == ""
+            if itemsPendingRemoval.contains(item)
             {
                 cell.checkboxButton.setImage(UIImage(named: "check"), forState: .Normal)
             }
@@ -171,54 +225,65 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 cell.checkboxButton.setImage(UIImage(named: "box"), forState: .Normal)
             }
         }
-        }
         
         return cell
     }
     
+    
+    //When tapping the check box on the list, the items will be checked but not "bought" until boughtButton is tapped
+    //This method adds or removes these items from a pendingRemoval array.
+    //NOTE: This may need tweeks in the long run if we want to change app structure. The data does not persist.
     func didTapButton(cell: ListItemTableViewCell)
     {
-        let rowItem = theList.items[(tableView.indexPathForCell(cell)?.row)!]
+        let rowItem = visibleList[(tableView.indexPathForCell(cell)?.row)!]
+        print("taptaptap")
+        print(itemsPendingRemoval)
         
-        if rowItem.active != ""
+        if !itemsPendingRemoval.contains(rowItem)
         {
             cell.checkboxButton.setImage(UIImage(named: "check"), forState: .Normal)
-            connectionManager.makeInactive(rowItem.UID, fromList: theList.UID)
-
+            itemsPendingRemoval.append(rowItem)
         }
         else
         {
             cell.checkboxButton.setImage(UIImage(named: "box"), forState: .Normal)
-            connectionManager.makeActive(rowItem.UID, onList: theList.UID)
-
+            tableView.reloadData()
+            
+            //remove row item from itemsPendingRemoval when its box is unchecked
+            for i in 0 ..< itemsPendingRemoval.count
+            {
+                if itemsPendingRemoval[i] == rowItem
+                {
+                    itemsPendingRemoval.removeAtIndex(i)
+                    break
+                }
+            }
         }
-        tableView.reloadData()
+        
+        if itemsPendingRemoval.count > 0
+        {
+            enableBoughtButton()
+        }
+        else
+        {
+            disableBoughtButton()
+        }
     }
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        
-        if theList != nil
-        {
-            return theList.items.count
-        }
-
-        return 0
+        return visibleList.count
     }
-    
-//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-//        cell.preservesSuperviewLayoutMargins = false
-//        cell.layoutMargins = UIEdgeInsetsZero
-//    }
     
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        //passedItem = theList.items[indexPath.row]
         performSegueWithIdentifier("DetailSegue", sender: indexPath)
     }
     
+    
+    //MARK: - Prepare for segue
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "AddItemSegue"
@@ -239,7 +304,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let dvc = segue.destinationViewController as! DetailsViewController
             dvc.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
             
-            dvc.item = theList.items[(sender?.row)!]
+            dvc.item = visibleList[(sender?.row)!]
         }
         
         if segue.identifier == "Profile"
@@ -250,6 +315,10 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
     }
 
+    
+    
+    //MARK: - Additional delegate stuff
+    
     func connectionManagerDidLogOut()
     {
         checkUserAuth()

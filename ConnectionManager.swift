@@ -529,6 +529,7 @@ class ConnectionManager {
         
         let itemData = ["name":name,
                         "UID":itemRef.key,
+                        "Active":["active":"true"]
                         ]
         
         itemRef.setValue(itemData) { (error:NSError!, snapshot:Firebase!) -> Void in
@@ -580,7 +581,7 @@ class ConnectionManager {
         
         listItemStatusRef.setValue(status)
     }
-//      Katrina's adventure in completion Handlers: IGNORE
+
     func makeActive(itemUID: String, onList listUID: String, completion: () -> Void)
     {
         let listItemStatusRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Active")
@@ -595,12 +596,22 @@ class ConnectionManager {
             completion()
         }
         
-
-        
-        
     }
     
-    func makeInactive(itemUID: String, fromList listUID: String)
+    func makeInctive(itemUID: String, onList listUID: String, completion: () -> Void)
+    {
+        let listItemStatusRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Active")
+        
+        listItemStatusRef.removeValueWithCompletionBlock { (error: NSError!, snapshot:Firebase!) -> Void in
+            guard error == nil else {
+                print("Active status not toggled to inactive. :(")
+                return
+            }
+            
+        }
+    }
+    
+    func makeInactive(itemUID: String, onList listUID: String)
     {
         let listItemStatusRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Active")
         
