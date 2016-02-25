@@ -48,8 +48,10 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
     {
         indexPathRow = avatarArray[indexPath.item]
         print("----> \(self) :: \(indexPathRow)")
-        if editAvatar == true
+        print("Edit Avatar status: \(editAvatar)")
+        if editAvatar
         {
+            print("should start unwind to edit profile segue")
             editAvatar = false
             performSegueWithIdentifier("UnwindToEditProfile", sender: indexPathRow)
         }
@@ -70,7 +72,7 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
         if segue.identifier == "UnwindToEditProfile"
         {
-            let dvc = segue.destinationViewController as! EditProfileViewController
+            let dvc = segue.destinationViewController as! ProfileViewController
             let avatarImageName = sender as! String
             dvc.avatarImageName = avatarImageName
         }

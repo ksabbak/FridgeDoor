@@ -29,9 +29,5 @@ class EditProfileViewController: UIViewController
     }
 
     
-    @IBAction func onSwitchAvatar(segue: UIStoryboardSegue)
-    {
-        //Unwinds to EditProfileVC from AvatarVC
-    }
-    
+       
 }
