@@ -13,9 +13,12 @@ protocol ProfileListSelectedDelegate
     func listSelected(listUID: String)
 }
 
-class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerLogOutDelegate
+class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerLogOutDelegate, UITextFieldDelegate
 {
 
+    @IBOutlet weak var editProfileButton: UIButton!
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var selectAvatarButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var emailAddressLabel: UILabel!
@@ -24,23 +27,37 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     var passedUser: User?
     var lists = [List]()
     var delegate: ProfileListSelectedDelegate?
+    var inEditMode = false
+    var avatarImageName = String()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        connectionManager.logoutDelegate = self
 
     }
 
     override func viewWillAppear(animated: Bool)
     {
+        usernameTextField.delegate = self
+        
         configureWithUser(passedUser!)
     }
     
     func configureWithUser(user: User)
     {
+        if !(inEditMode)
+        {
+            usernameTextField.hidden = true
+            selectAvatarButton.hidden = true
+            selectAvatarButton.enabled = false
+            editProfileButton.setTitle("Edit Profile", forState: .Normal)
+            avatarImageName = user.imageName
+        }
+        
         usernameLabel.text = user.username
         emailAddressLabel.text = user.email
-        imageView.image = UIImage(named: "\(user.imageName)")
+        imageView.image = UIImage(named: "\(avatarImageName)")
         let userLists = user.userLists
         for userList in userLists
         {
@@ -76,19 +93,62 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         connectionManager.logout()
     }
     
-    @IBAction func onEditProfileTapped(sender: UIButton)
-    {
-        
-    }
-    
     func connectionManagerDidLogOut()
     {
+        print("perform segue to Logout")
         performSegueWithIdentifier("ProfileLogout", sender: nil)
     }
     
+    
+    @IBAction func onEditProfileTapped(sender: UIButton)
+    {
+        if editProfileButton.titleLabel!.text == "Edit Profile"
+        {
+            inEditMode = true
+            editProfileButton.setTitle("Done", forState: .Normal)
+            imageView.image = UIImage(named: "lightGray")
+            usernameLabel.hidden = true
+            selectAvatarButton.enabled = true
+            selectAvatarButton.hidden = false
+            usernameTextField.hidden = false
+            usernameTextField.text = usernameLabel.text
+        }
+        else
+        {
+            passedUser?.username = usernameTextField.text!
+            passedUser?.imageName = avatarImageName
+            connectionManager.updateUser(passedUser!)
+            selectAvatarButton.enabled = false
+            selectAvatarButton.hidden = true
+            imageView.image = UIImage(named: "\(avatarImageName)")
+            editProfileButton.setTitle("Edit Profile", forState: .Normal)
+            usernameTextField.hidden = true
+            usernameLabel.hidden = false
+            usernameLabel.text = passedUser?.username
+            inEditMode = false
+        }
+    }
+    
+    
+    @IBAction func onSelectAvatarTapped(sender: UIButton)
+    {
+        performSegueWithIdentifier("ProfileToAvatar", sender: nil)
+    }
+    
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
-        
+        if segue.identifier == "ProfileToAvatar"
+        {
+            let dvc = segue.destinationViewController as! AvatarViewController
+            dvc.editAvatar = true
+        }
     }
+    
+    @IBAction func onSwitchAvatar(segue: UIStoryboardSegue)
+    {
+        //Unwinds to EditProfileVC from AvatarVC
+    }
+
     
 }

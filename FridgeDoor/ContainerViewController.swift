@@ -40,6 +40,7 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
     override func viewWillAppear(animated: Bool)
     {
         centerViewController = UIStoryboard.centerViewController()
+        //print("~*~*~*~*~centerViewController?~*~*~~*~*~*~*~\n\(centerViewController)\n ~**~***~**~END~**~***~**~")
         centerViewController.menuDelegate = self
         
         print("Center: \(centerViewController.title)")

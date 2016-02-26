@@ -43,6 +43,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     {
         super.viewDidLoad()
         
+        print("_____________________START OF SELF__________________ \n\(self)\n_____________________END OF SELF_______________")
+        
         //This is to fix that stupid uglyass gap between the rows and the edge of the screen. 
         //TODO: figure out the right numbers.
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
