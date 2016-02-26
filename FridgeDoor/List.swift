@@ -26,10 +26,12 @@ struct Comment
 
 struct UserTurn {
     var userTurnUID: String
+    var turn: String
     
-    init()
+    init(userTurnUID: String, turn: String)
     {
-        userTurnUID = ""
+        self.userTurnUID = userTurnUID
+        self.turn = turn
     }
 }
 
@@ -43,6 +45,7 @@ struct Item: Equatable
     var highAlert: String
     var volunteerUID: String
     var rotate: [UserTurn]
+    var rotating: String
     
     init(name: String)
     {
@@ -52,6 +55,7 @@ struct Item: Equatable
         essential = ""
         highAlert = ""
         volunteerUID = ""
+        rotating = ""
         rotate = []
         comments = []
     }

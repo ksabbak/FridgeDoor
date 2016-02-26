@@ -313,6 +313,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             dvc.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen
             
             dvc.item = visibleList[(sender?.row)!]
+            dvc.list = theList
         }
         
         if segue.identifier == "Profile"
