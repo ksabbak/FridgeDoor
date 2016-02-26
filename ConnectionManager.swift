@@ -669,6 +669,43 @@ class ConnectionManager {
         listItemHighAlertRef.removeValue()
     }
 
+    //MARK: - Rotate Handling
+    
+    func setUpRotatingItem(currentUserUID: String, itemUID: String, onList listUID: String, memberUIDsAndOrder: [String:String])
+    {
+        let rotateRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Rotate")
+        
+        let rotatingData = ["rotating":"true"]
+        let currentUserData = ["\(currentUserUID)":"1"]
+        
+        rotateRef.setValue(rotatingData)
+        rotateRef.updateChildValues(currentUserData)
+        rotateRef.updateChildValues(memberUIDsAndOrder)
+    }
+    
+    func rotatingOn(itemUID: String, onList listUID: String)
+    {
+        let rotateRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Rotate")
+        let rotatingData = ["rotating":"true"]
+        
+        rotateRef.updateChildValues(rotatingData)
+    }
+    
+    func rotatingOff(itemUID: String, onList listUID: String)
+    {
+        let rotateRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Rotate")
+        let rotatingData = ["rotating":"false"]
+        
+        rotateRef.updateChildValues(rotatingData)
+    }
+    
+    func rotate(itemUID: String, onList listUID: String, updatedMemberUIDsAndOrder: [String:String])
+    {
+        let rotateRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Rotate")
+        
+        rotateRef.updateChildValues(updatedMemberUIDsAndOrder)
+    }
+
     
     
     //MARK: - Internal Functions
@@ -938,6 +975,22 @@ class ConnectionManager {
         if let volunteer = itemData["Voluteer"] as? [String:String]
         {
             newItem.volunteerUID = volunteer["volunteerUID"]!
+        }
+        
+        if let rotating = itemData["Rotate"] as? [String:String]
+        {
+            newItem.rotating = rotating["rotating"]!
+            
+            
+            for key in rotating.keys
+            {
+                if key != "rotating"
+                {
+                    let userTurnUID = key
+                    let userTurn = rotating["\(key)"]
+                    newItem.rotate.append(UserTurn(userTurnUID: userTurnUID, turn: userTurn!))
+                }
+            }
         }
         
         if let comments = itemData["comments"] as? [String:AnyObject]
