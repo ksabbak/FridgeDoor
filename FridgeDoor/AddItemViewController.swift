@@ -69,6 +69,9 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     //If item exists, an Alert gets triggered and user has the option to overwrite existing item
     @IBAction func onAddItemButtonTapped(sender: UIButton)
     {
+        if searchBar.text?.characters.count > 0
+        {
+        
         if list.items.count > 0
         {
             
@@ -84,8 +87,12 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         
         connectionManager.addItem(searchBar.text!, toList: list.UID)
         
+        }
         
+
     }
+    
+    
     
     func connectionManagerDidAddItem()
     {
@@ -206,5 +213,10 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         return displayItems
     }
     
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        tableView.reloadData()
+        resignFirstResponder()
+    }
     
 }

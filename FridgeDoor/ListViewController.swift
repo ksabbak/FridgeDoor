@@ -378,6 +378,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
 //        print("Create Group delegate was fired")
     }
     
+    @IBAction func loggedOut(segue: UIStoryboardSegue)
+    {
+        //Unwinds on logout
+    }
+    
     
 
 }

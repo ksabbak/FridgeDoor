@@ -57,7 +57,8 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
         else
         {
-            performSegueWithIdentifier("AvatarUnwindSegue", sender: indexPathRow)
+            self.dismissViewControllerAnimated(true, completion: nil)
+//            performSegueWithIdentifier("AvatarUnwindSegue", sender: indexPathRow)
         }
         
     }
