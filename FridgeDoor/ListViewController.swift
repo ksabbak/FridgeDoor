@@ -323,6 +323,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let dvc = segue.destinationViewController as! CreateGroupViewController
             dvc.currentUser = currentUser
         }
+        if segue.identifier == "Add User to List"
+        {
+            let dvc = segue.destinationViewController as! InviteViewController
+            dvc.currentUser = currentUser
+        }
         
     }
     
@@ -341,9 +346,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         menuDelegate!.toggleLeftPanel!()
     }
-    
+
     //Mark: Unwind from ProfileVC and ProfileVC Delegate
-    
     @IBAction func listSelectedFromProfile(segue: UIStoryboardSegue)
     {
         //Unwinds to ListVC from ProfileVC

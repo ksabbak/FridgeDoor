@@ -22,7 +22,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        settingsList = ["Profile", "Add Member", "View History", "Create New List"]
+        
+        //NOTE: These are the titles of the cell.textLabel in the SettingsVC AND the name of the segue
+        settingsList = ["Profile", "Add Member", "View History", "Create New List", "Add User to List"]
 
     }
     

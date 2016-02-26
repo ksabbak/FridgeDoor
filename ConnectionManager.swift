@@ -161,6 +161,7 @@ class ConnectionManager {
     let rootRef = Firebase(url:"fridgedoor.firebaseIO.com")
     var usersRef: Firebase!
     var listsRef: Firebase!
+    var requestsRef: Firebase!
     var historyItemsRef: Firebase!
     var authData: FAuthData?
     
@@ -678,6 +679,7 @@ class ConnectionManager {
         print("Connection Manager Started")
         usersRef = rootRef.childByAppendingPath("/Users")
         listsRef = rootRef.childByAppendingPath("/Lists")
+        requestsRef = rootRef.childByAppendingPath("/Pending")
         authData = rootRef.authData
 //        setupListeners()
 //        getAllUsers()
@@ -1092,6 +1094,69 @@ class ConnectionManager {
         }
     }
     
+    
+    
+    //MARK: - Regarding Pending Requests
+    
+    
+    ///For floating requests - the requested user doesn't exist yet
+    func setPendingRequest(fromUID: String, toEmail: String, forList: String)
+    {
+        let requestData =
+        ["from":fromUID,
+            "to":toEmail,
+        "onList":forList]
+        
+        let requestRef = requestsRef.childByAutoId()
+        
+        requestRef.setValue(requestData) { (error:NSError!, snapshot:Firebase!) -> Void in
+            guard error == nil else {
+                print("A floating request error occurred: \(error)")
+                return
+            }
+        }
+    }
+    
+    ///For request to users that already have an account
+    func setPendingRequest(fromUID: String, toUID: String, forList: String)
+    {
+        let requestData =
+        ["from":fromUID,
+        "forList":forList]
+        
+        let requestRef = requestsRef.childByAutoId()
+        
+        requestRef.setValue(requestData) { (error:NSError!, snapshot:Firebase!) -> Void in
+            guard error == nil else {
+                print("A request error occurred: \(error)")
+                return
+            }
+        }
+    }
+    
+    
+    
+    
+    func checkEmailAgainstExistingUsers(email: String, completion: (success: String) -> Void)
+    {
+        usersRef.observeSingleEventOfType(.Value) { (snapshot: FDataSnapshot!) -> Void in
+            let keys = snapshot.value.allKeys
+            
+            for key in keys
+            {
+                let newRef = self.usersRef.childByAppendingPath("/\(key)/email/")
+                newRef.observeSingleEventOfType(.Value, withBlock: { (snap:FDataSnapshot!) -> Void in
+
+                    if snap.value as! String == email
+                    {
+                        completion(success: key as! String)
+                        return
+                    }
+                                    })
+            }
+        }
+        completion(success: "")
+    }
     
     
     // TODO: deleteme

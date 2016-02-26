@@ -13,7 +13,7 @@ import UIKit
 //    func listCreated(listUID: String)
 //}
 
-class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDelegate, ConnectionManagerAddMemberDelegate, ConnectionManagerAddListToUserDelegate
+class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDelegate, ConnectionManagerAddMemberDelegate, ConnectionManagerAddListToUserDelegate, UITextFieldDelegate
 {
 
     @IBOutlet weak var listTitleTextField: UITextField!
@@ -97,6 +97,17 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
     {
         print("failed to add member")
     }
+    
+    
+    //MARK: - Textfield delegate stuff
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool
+    {
+        return textField.resignFirstResponder()
+    }
+    
+    
+    //MARK: - Prepare for segue
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {

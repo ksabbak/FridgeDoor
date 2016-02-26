@@ -10,6 +10,7 @@
 		5A8C3E971C7E5E1000D3F899 /* UIColor+CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3E961C7E5E1000D3F899 /* UIColor+CustomColors.swift */; };
 		5A8C3E991C7F1E9500D3F899 /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3E981C7F1E9500D3F899 /* InviteViewController.swift */; };
 		5A8C3E9B1C7F1EAA00D3F899 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8C3E9A1C7F1EAA00D3F899 /* MessageUI.framework */; };
+		5A8C3E9D1C80886900D3F899 /* SContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3E9C1C80886900D3F899 /* SContainerViewController.swift */; };
 		5ADEA8411C73ABF20089BB1D /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8371C73ABF20089BB1D /* CreateAccountViewController.swift */; };
 		5ADEA8421C73ABF20089BB1D /* CreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8381C73ABF20089BB1D /* CreateGroupViewController.swift */; };
 		5ADEA8431C73ABF20089BB1D /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8391C73ABF20089BB1D /* DetailsViewController.swift */; };
@@ -41,6 +42,7 @@
 		5A8C3E961C7E5E1000D3F899 /* UIColor+CustomColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+CustomColors.swift"; sourceTree = "<group>"; };
 		5A8C3E981C7F1E9500D3F899 /* InviteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
 		5A8C3E9A1C7F1EAA00D3F899 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		5A8C3E9C1C80886900D3F899 /* SContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SContainerViewController.swift; sourceTree = "<group>"; };
 		5ADEA8371C73ABF20089BB1D /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		5ADEA8381C73ABF20089BB1D /* CreateGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateGroupViewController.swift; sourceTree = "<group>"; };
 		5ADEA8391C73ABF20089BB1D /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -122,7 +124,6 @@
 				A964EDD41C74213E000697DE /* ConnectionManager.swift */,
 				5ADEA85A1C763A210089BB1D /* ListViewController.swift */,
 				5A8C3E981C7F1E9500D3F899 /* InviteViewController.swift */,
-				5A8C3E961C7E5E1000D3F899 /* UIColor+CustomColors.swift */,
 				5ADEA85E1C7788480089BB1D /* AvatarViewController.swift */,
 				5ADEA8381C73ABF20089BB1D /* CreateGroupViewController.swift */,
 				5ADEA8391C73ABF20089BB1D /* DetailsViewController.swift */,
@@ -143,6 +144,7 @@
 			children = (
 				A964EDD61C7421C3000697DE /* List.swift */,
 				A964EDD81C7421CF000697DE /* User.swift */,
+				5A8C3E961C7E5E1000D3F899 /* UIColor+CustomColors.swift */,
 				A964EDB31C7396F4000697DE /* Info.plist */,
 			);
 			name = Model;
@@ -153,6 +155,7 @@
 			children = (
 				A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */,
 				5ADEA84B1C73ABFF0089BB1D /* Main.storyboard */,
+				5A8C3E9C1C80886900D3F899 /* SContainerViewController.swift */,
 				5ADEA85C1C77878B0089BB1D /* AvatarCollectionViewCell.swift */,
 				5ADEA8581C7527170089BB1D /* ListItemTableViewCell.swift */,
 				A964EDAE1C7396F4000697DE /* Assets.xcassets */,
@@ -219,7 +222,7 @@
 				TargetAttributes = {
 					A964EDA31C7396F4000697DE = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = RSW6FWFLGL;
+						DevelopmentTeam = M4GJ798P8H;
 					};
 				};
 			};
@@ -312,6 +315,7 @@
 				A964EDDE1C74DEE6000697DE /* Debug.swift in Sources */,
 				5ADEA8461C73ABF20089BB1D /* LoginViewController.swift in Sources */,
 				5ADEA85D1C77878B0089BB1D /* AvatarCollectionViewCell.swift in Sources */,
+				5A8C3E9D1C80886900D3F899 /* SContainerViewController.swift in Sources */,
 				5ADEA8411C73ABF20089BB1D /* CreateAccountViewController.swift in Sources */,
 				5ADEA8591C7527170089BB1D /* ListItemTableViewCell.swift in Sources */,
 				5A8C3E971C7E5E1000D3F899 /* UIColor+CustomColors.swift in Sources */,
@@ -440,10 +444,13 @@
 			baseConfigurationReference = F388A12778494815682F6B6C /* Pods-FridgeDoor.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FridgeDoor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mobilemakers.FridgeDoor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -452,10 +459,13 @@
 			baseConfigurationReference = 373F2E3CB8C799D34C932288 /* Pods-FridgeDoor.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FridgeDoor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = mobilemakers.FridgeDoor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

@@ -42,6 +42,8 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
         centerViewController = UIStoryboard.centerViewController()
         centerViewController.menuDelegate = self
         
+        print("Center: \(centerViewController.title)")
+        
         
         // wrap the centerViewController in a navigation controller, so we can push views to it
         // and display bar button items in the navigation bar
@@ -85,6 +87,9 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
         if (leftViewController == nil) {
             leftViewController = UIStoryboard.leftViewController()
             
+            
+           print("Left: \(leftViewController?.title)")
+            
             addChildSidePanelController(leftViewController!)
         }
     }
@@ -106,27 +111,23 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
     func animateLeftPanel(shouldExpand shouldExpand: Bool) {
 
         
-        if (shouldExpand) {
+        if (shouldExpand)
+        {
             currentState = .MenuPanelExpanded
             
             animateCenterPanelXPosition(targetPosition: CGRectGetWidth(centerNavigationController.view.frame) - centerPanelExpandedOffset)
 
             tapGestureRecognizer.enabled = true
-
-            
         }
         else {
             animateCenterPanelXPosition(targetPosition: 0) { finished in
                 self.currentState = .Collapsed
 
-                self.leftViewController!.view.removeFromSuperview()
-                self.leftViewController = nil
-                
-
+//                self.leftViewController!.view.removeFromSuperview()
+//                self.leftViewController = nil
             }
             tapGestureRecognizer.enabled = false
         }
-
     }
     
     func animateCenterPanelXPosition(targetPosition targetPosition: CGFloat, completion: ((Bool) -> Void)! = nil) {
