@@ -161,7 +161,8 @@
                         <segue destination="PBt-cQ-uoG" kind="show" identifier="Profile" id="QKA-6p-pIT"/>
                         <segue destination="pfR-NO-xqy" kind="presentation" identifier="DetailSegue" id="kYb-xu-YYR"/>
                         <segue destination="Wg3-rw-1n0" kind="show" identifier="Create New List" id="VmH-x7-IEo"/>
-                        <segue destination="fha-Tk-CPy" kind="show" id="giS-fD-FTi"/>
+                        <segue destination="fha-Tk-CPy" kind="show" identifier="Add Member" id="giS-fD-FTi"/>
+                        <segue destination="0wH-Fh-8F9" kind="show" identifier="Pending" id="hWR-QA-9CR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -626,6 +627,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SUk-vW-rbQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-913" y="321.5"/>
+        </scene>
+        <!--Join Table View Controller-->
+        <scene sceneID="dtn-a5-Wld">
+            <objects>
+                <tableViewController id="0wH-Fh-8F9" customClass="JoinTableViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="5Et-mb-eBw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellID" id="3hF-Su-ZrE">
+                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3hF-Su-ZrE" id="zwR-6n-f5b">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="0wH-Fh-8F9" id="CEg-AN-EYE"/>
+                            <outlet property="delegate" destination="0wH-Fh-8F9" id="g5L-9m-Bda"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yJ7-Op-4C1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1767" y="1360"/>
         </scene>
         <!--Profile-->
         <scene sceneID="TVa-MY-ugx">

@@ -30,6 +30,7 @@ class User
     var imageName: String
     var image: UIImage
     var userLists: [UserList]
+    var pending: [[String:String]]
     
     init(username: String, email: String, imageName: String)
     {
@@ -39,5 +40,6 @@ class User
         self.imageName = imageName
         self.image    = UIImage(named: "\(imageName)")!
         userLists = []
+        pending = []
     }
 }

@@ -35,17 +35,15 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
             let userInvite = (userTextField.text?.stringByReplacingOccurrencesOfString(" ", withString: ""))!
             connectionManager.checkEmailAgainstExistingUsers(userInvite, completion: { (success) -> Void in
                 
-                print("1")
                 if success.characters.count > 0
                 {
-                    print("2")
                     print("\(self.getPickerRowAsTuple().1)")
                     self.connectionManager.setPendingRequest(self.currentUser.UID, toUID: success, forList: self.getPickerRowAsTuple().1)
+                    self.userTextField.text = ""
                     return
                 }
                 else
                 {
-                    print("3")
                     self.noExistingUserAlert()
                 }
             })

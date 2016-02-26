@@ -18,13 +18,29 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 {
     var performSeguesForSettingsVCDelegate: PerformSeguesForSettingsVCDelegate?
     var settingsList = [String]()
+    let connectionManager = ConnectionManager.sharedManager
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
+        let currentUser = connectionManager.getUserFor(userUID: connectionManager.userUID()!)
+        
+        print("PENDING REQUESTS???????????????????????? \n\(currentUser!.pending)")
+        
+        
         //NOTE: These are the titles of the cell.textLabel in the SettingsVC AND the name of the segue
         settingsList = ["Profile", "Add Member", "View History", "Create New List"]
+        
+        
+        if currentUser?.pending.count > 1
+        {
+            settingsList.append("Pending Requests: \(currentUser!.pending.count)")
+        }
+        else if currentUser?.pending.count > 0
+        {
+            settingsList.append("Pending Request: \(currentUser!.pending.count)")
+        }
 
     }
     
@@ -42,8 +58,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let setting = settingsList[indexPath.row]
-        performSeguesForSettingsVCDelegate!.settingTapped(setting)
+        var setting = settingsList[indexPath.row]
+        
+        if setting.containsString(":")
+        {
+            setting = "Pending"
+        }
+     
+            performSeguesForSettingsVCDelegate!.settingTapped(setting)
+
     }
 
 }
