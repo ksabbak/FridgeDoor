@@ -21,6 +21,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var addCommentTextField: UITextField!
     @IBOutlet weak var sendCommentButton: UIButton!
     @IBOutlet weak var lastPurchasedByLabel: UILabel!
+    @IBOutlet weak var highAlertButton: UIButton!
     
     var list: List!
     var item: Item!
@@ -61,26 +62,46 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     userTurnUID = userTurn.userTurnUID
                 }
             }
-            self.currentUserInRotation = ConnectionManager.sharedManager.getUserFor(userUID: userTurnUID)!
+            self.currentUserInRotation = ConnectionManager.sharedManager.getUserFor(userUID: userTurnUID)
             print("User: \(self.currentUserInRotation)")
             volunteerImage.image = UIImage(named: "\(self.currentUserInRotation!.imageName)")
             voluteerToPurchaseButton.titleLabel!.text = "Currently assigned to \(self.currentUserInRotation!.username)"
         }
         
-    }
-    
-    @IBAction func onBoughtButtonTapped(sender: UIButton)
-    {
-    
-    
+        if item.rotating == "false"
+        {
+            print("rotating item is false")
+            var userTurnUID = String()
+            for userTurn in item.rotate
+            {
+                if userTurn.turn == "1"
+                {
+                    print("The rotate current user is found")
+                    print("userTurnUID: \(userTurn.userTurnUID)")
+                    userTurnUID = userTurn.userTurnUID
+                }
+            }
+            self.currentUserInRotation = ConnectionManager.sharedManager.getUserFor(userUID: userTurnUID)
+            print("User: \(self.currentUserInRotation)")
+        }
+        
+        if item.highAlert == "true"
+        {
+            print("Configure as High Alert item")
+            highAlertButton.setImage(UIImage(named: "check"), forState: .Normal)
+        }
+        
+        if item.essential == "true"
+        {
+            print("Configure as Essential item")
+            essentialButton.setImage(UIImage(named: "check"), forState: .Normal)
+        }
     }
     
     @IBAction func onCancelButtonTapped(sender: AnyObject)
     {
         dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -108,7 +129,10 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         if (editingStyle == UITableViewCellEditingStyle.Delete)
         {
             let comment = item.comments[indexPath.row]
-            ConnectionManager.sharedManager.deleteComment(comment.UID, fromItem: item.UID, onList: list.UID)
+            if comment.UID != ""
+            {
+                ConnectionManager.sharedManager.deleteComment(comment.UID, fromItem: item.UID, onList: list.UID)
+            }
             item.comments.removeAtIndex(indexPath.row)
             tableView.reloadData()
         }
@@ -121,7 +145,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let userUID = ConnectionManager.sharedManager.userUID()
         let comment = Comment(time: NSDate().timeIntervalSince1970, userUID: userUID!, message: commentString!, UID: "")
-        item.comments.append(comment)
+        item.comments.insert(comment, atIndex: 0)
         
         addCommentTextField.text = ""
         addCommentTextField.resignFirstResponder()
@@ -135,12 +159,42 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     @IBAction func highAlertTapped(sender: UIButton)
     {
-        
+        if item.highAlert == "true"
+        {
+            print("should uncheck high alert box")
+            ConnectionManager.sharedManager.unmarkHighAlert(item.UID, fromList: list.UID)
+            highAlertButton.setImage(UIImage(named: "box"), forState: .Normal)
+            item.highAlert = "false"
+            return
+        }
+        if item.highAlert == "false" || item.highAlert == ""
+        {
+            print("should check high alert box")
+            ConnectionManager.sharedManager.markAsHighAlert(item.UID, onList: list.UID)
+            highAlertButton.setImage(UIImage(named: "check"), forState: .Normal)
+            item.highAlert = "true"
+            return
+        }
     }
     
     @IBAction func essentialTapped(sender: UIButton)
     {
-        
+        if item.essential == "true"
+        {
+            print("should uncheck essential box")
+            ConnectionManager.sharedManager.unmarkEssential(item.UID, fromList: list.UID)
+            essentialButton.setImage(UIImage(named: "box"), forState: .Normal)
+            item.essential = "false"
+            return
+        }
+        if item.essential == "false" || item.essential == ""
+        {
+            print("should check essential box")
+            ConnectionManager.sharedManager.markAsEssential(item.UID, onList: list.UID)
+            essentialButton.setImage(UIImage(named: "check"), forState: .Normal)
+            item.essential = "true"
+            return
+        }
     }
     
     @IBAction func rotateTapped(sender: UIButton)
@@ -154,8 +208,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
             {
                 if member.userUID != currentUserUID
                 {
-                    let twople = ("\(member.userUID)" , "\(i)")
-                    memberDictionary[twople.0] = twople.1
+                    memberDictionary["\(member.userUID)"] = "\(i)"
                     i = i + 1
                 }
             }
@@ -174,7 +227,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
             item.rotating = "false"
             sender.setImage(UIImage(named: "box"), forState: .Normal)
             ConnectionManager.sharedManager.rotatingOff(item.UID, onList: list.UID)
-            volunteerImage.image = UIImage(named: "gray")
+            volunteerImage.image = UIImage(named: "lightGray")
         }
         else if item.rotating == "false"
         {
