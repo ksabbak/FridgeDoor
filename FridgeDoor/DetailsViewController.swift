@@ -21,6 +21,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var addCommentTextField: UITextField!
     @IBOutlet weak var sendCommentButton: UIButton!
     @IBOutlet weak var lastPurchasedByLabel: UILabel!
+    @IBOutlet weak var highAlertButton: UIButton!
     
     var list: List!
     var item: Item!
@@ -61,26 +62,30 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     userTurnUID = userTurn.userTurnUID
                 }
             }
-            self.currentUserInRotation = ConnectionManager.sharedManager.getUserFor(userUID: userTurnUID)!
+            self.currentUserInRotation = ConnectionManager.sharedManager.getUserFor(userUID: userTurnUID)
+            
             print("User: \(self.currentUserInRotation)")
             volunteerImage.image = UIImage(named: "\(self.currentUserInRotation!.imageName)")
             voluteerToPurchaseButton.titleLabel!.text = "Currently assigned to \(self.currentUserInRotation!.username)"
         }
+        if item.highAlert == "true"
+        {
+            print("Configure as High Alert item")
+            highAlertButton.setImage(UIImage(named: "check"), forState: .Normal)
+        }
+        if item.essential == "true"
+        {
+            print("Configure as Essential item")
+            essentialButton.setImage(UIImage(named: "check"), forState: .Normal)
+        }
         
     }
     
-    @IBAction func onBoughtButtonTapped(sender: UIButton)
-    {
-    
-    
-    }
     
     @IBAction func onCancelButtonTapped(sender: AnyObject)
     {
         dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -135,12 +140,35 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     @IBAction func highAlertTapped(sender: UIButton)
     {
-        
+        if item.highAlert == "true"
+        {
+            ConnectionManager.sharedManager.unmarkHighAlert(item.UID, fromList: list.UID)
+            highAlertButton.setImage(UIImage(named: "box"), forState: .Normal)
+            item.highAlert = "false"
+        }
+        if item.highAlert == "false" || item.highAlert == ""
+        {
+            ConnectionManager.sharedManager.markAsHighAlert(item.UID, onList: list.UID)
+            highAlertButton.setImage(UIImage(named: "check"), forState: .Normal)
+            item.highAlert = "true"
+        }
     }
     
     @IBAction func essentialTapped(sender: UIButton)
     {
-        
+        if item.essential == "true"
+        {
+            ConnectionManager.sharedManager.unmarkEssential(item.UID, fromList: list.UID)
+            essentialButton.setImage(UIImage(named: "box"), forState: .Normal)
+            item.essential = "false"
+        }
+        if item.essential == "false" || item.essential == ""
+        {
+            ConnectionManager.sharedManager.markAsEssential(item.UID, onList: list.UID)
+            essentialButton.setImage(UIImage(named: "check"), forState: .Normal)
+            item.essential = "true"
+        }
+
     }
     
     @IBAction func rotateTapped(sender: UIButton)
@@ -154,8 +182,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
             {
                 if member.userUID != currentUserUID
                 {
-                    let twople = ("\(member.userUID)" , "\(i)")
-                    memberDictionary[twople.0] = twople.1
+                    memberDictionary["\(member.userUID)"] = "\(i)"
                     i = i + 1
                 }
             }

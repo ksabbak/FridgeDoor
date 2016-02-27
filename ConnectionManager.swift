@@ -536,10 +536,22 @@ class ConnectionManager {
     
     //MARK: - Member Handling
     
-    func addMember(userUID: String, toList listUID: String)
+    func addMember(userUID: String, toList listUID: String, list:List)
     {
         let memberRef = listsRef.childByAppendingPath("\(listUID)/members/\(userUID)")
         let memberData = ["time":String(NSDate().timeIntervalSince1970)]
+        
+        for item in list.items
+        {
+            if item.rotating == "true" || item.rotating == "false"
+            {
+                let rotateRef = listsRef.childByAppendingPath("\(listUID)/items/\(item.UID)/Rotate")
+                
+                let placeInLine = item.rotate.count + 1
+                let currentUserData = ["\(userUID)":"\(placeInLine)"]
+                rotateRef.updateChildValues(currentUserData)
+            }
+        }
         
         memberRef.updateChildValues(memberData) { (error:NSError!, snapshot:Firebase!) -> Void in
             guard error == nil else {
@@ -551,10 +563,18 @@ class ConnectionManager {
 
     }
 
-    func deleteMember(userUID: String, fromList listUID: String)
+    func deleteMember(userUID: String, fromList listUID: String, list: List)
     {
         let memberRef = listsRef.childByAppendingPath("\(listUID)/members/\(userUID)")
         memberRef.removeValue()
+        for item in list.items
+        {
+            if item.rotating == "true" || item.rotating == "false"
+            {
+                let rotateRef = listsRef.childByAppendingPath("\(listUID)/items/\(item.UID)/Rotate/\(userUID)")
+                rotateRef.removeValue()
+            }
+        }
     }
     
     //MARK: - Item Handling
@@ -735,11 +755,22 @@ class ConnectionManager {
         rotateRef.updateChildValues(rotatingData)
     }
     
-    func rotate(itemUID: String, onList listUID: String, updatedMemberUIDsAndOrder: [String:String])
+    func rotate(item: Item, onList listUID: String)
     {
-        let rotateRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Rotate")
+        let rotateRef = listsRef.childByAppendingPath("\(listUID)/items/\(item.UID)/Rotate")
+        var userTurnArray = item.rotate
+        userTurnArray.sortInPlace({ $0.turn < $1.turn })
+        userTurnArray.append(userTurnArray.removeAtIndex(0))
         
-        rotateRef.updateChildValues(updatedMemberUIDsAndOrder)
+        var memberDictionary = [String:String]()
+        var i = 1
+        for userTurn in userTurnArray
+        {
+            memberDictionary["\(userTurn.userTurnUID)"] = "\(i)"
+            i = i + 1
+        }
+        
+        rotateRef.updateChildValues(memberDictionary)
     }
 
     
