@@ -10,8 +10,8 @@
 		5A8C3E971C7E5E1000D3F899 /* UIColor+CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3E961C7E5E1000D3F899 /* UIColor+CustomColors.swift */; };
 		5A8C3E991C7F1E9500D3F899 /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3E981C7F1E9500D3F899 /* InviteViewController.swift */; };
 		5A8C3E9B1C7F1EAA00D3F899 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8C3E9A1C7F1EAA00D3F899 /* MessageUI.framework */; };
-		5A8C3E9D1C80886900D3F899 /* SContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3E9C1C80886900D3F899 /* SContainerViewController.swift */; };
-		5A8C3EA21C80AB8100D3F899 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A8C3EA01C80AB8100D3F899 /* Main.storyboard */; };
+		5A8C3EA41C80E3EB00D3F899 /* JoinTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3EA31C80E3EB00D3F899 /* JoinTableViewController.swift */; };
+		5A8C3EB41C81F50400D3F899 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A8C3EB31C81F50400D3F899 /* Main.storyboard */; };
 		5ADEA8411C73ABF20089BB1D /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8371C73ABF20089BB1D /* CreateAccountViewController.swift */; };
 		5ADEA8421C73ABF20089BB1D /* CreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8381C73ABF20089BB1D /* CreateGroupViewController.swift */; };
 		5ADEA8431C73ABF20089BB1D /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8391C73ABF20089BB1D /* DetailsViewController.swift */; };
@@ -42,8 +42,8 @@
 		5A8C3E961C7E5E1000D3F899 /* UIColor+CustomColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+CustomColors.swift"; sourceTree = "<group>"; };
 		5A8C3E981C7F1E9500D3F899 /* InviteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
 		5A8C3E9A1C7F1EAA00D3F899 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		5A8C3E9C1C80886900D3F899 /* SContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SContainerViewController.swift; sourceTree = "<group>"; };
-		5A8C3EA11C80AB8100D3F899 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5A8C3EA31C80E3EB00D3F899 /* JoinTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinTableViewController.swift; sourceTree = "<group>"; };
+		5A8C3EB31C81F50400D3F899 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5ADEA8371C73ABF20089BB1D /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		5ADEA8381C73ABF20089BB1D /* CreateGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateGroupViewController.swift; sourceTree = "<group>"; };
 		5ADEA8391C73ABF20089BB1D /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -153,8 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */,
-				5A8C3EA01C80AB8100D3F899 /* Main.storyboard */,
-				5A8C3E9C1C80886900D3F899 /* SContainerViewController.swift */,
+				5A8C3EB31C81F50400D3F899 /* Main.storyboard */,
 				A90EF08D1C8099F20087773F /* CommentTableViewCell.swift */,
 				5ADEA85C1C77878B0089BB1D /* AvatarCollectionViewCell.swift */,
 				5ADEA8581C7527170089BB1D /* ListItemTableViewCell.swift */,
@@ -166,6 +165,7 @@
 		A964EDD31C742081000697DE /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				5A8C3EA31C80E3EB00D3F899 /* JoinTableViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -249,10 +249,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A8C3EB41C81F50400D3F899 /* Main.storyboard in Resources */,
 				A964EDB21C7396F4000697DE /* LaunchScreen.storyboard in Resources */,
 				A964EDAF1C7396F4000697DE /* Assets.xcassets in Resources */,
 				5ADEA8451C73ABF20089BB1D /* Info.plist in Resources */,
-				5A8C3EA21C80AB8100D3F899 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,13 +315,13 @@
 				A964EDDE1C74DEE6000697DE /* Debug.swift in Sources */,
 				5ADEA8461C73ABF20089BB1D /* LoginViewController.swift in Sources */,
 				5ADEA85D1C77878B0089BB1D /* AvatarCollectionViewCell.swift in Sources */,
-				5A8C3E9D1C80886900D3F899 /* SContainerViewController.swift in Sources */,
 				5ADEA8411C73ABF20089BB1D /* CreateAccountViewController.swift in Sources */,
 				5ADEA8591C7527170089BB1D /* ListItemTableViewCell.swift in Sources */,
 				5A8C3E971C7E5E1000D3F899 /* UIColor+CustomColors.swift in Sources */,
 				5ADEA8491C73ABF20089BB1D /* SettingsViewController.swift in Sources */,
 				5ADEA84A1C73ABF20089BB1D /* StartOrJoinGroupViewController.swift in Sources */,
 				5ADEA85B1C763A210089BB1D /* ListViewController.swift in Sources */,
+				5A8C3EA41C80E3EB00D3F899 /* JoinTableViewController.swift in Sources */,
 				5ADEA8571C74F47F0089BB1D /* AddItemViewController.swift in Sources */,
 				A90EF08E1C8099F20087773F /* CommentTableViewCell.swift in Sources */,
 				5ADEA85F1C7788480089BB1D /* AvatarViewController.swift in Sources */,
@@ -339,14 +339,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		5A8C3EA01C80AB8100D3F899 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5A8C3EA11C80AB8100D3F899 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

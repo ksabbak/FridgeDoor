@@ -326,9 +326,14 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let dvc = segue.destinationViewController as! CreateGroupViewController
             dvc.currentUser = currentUser
         }
-        if segue.identifier == "Add User to List"
+        if segue.identifier == "Add Member"
         {
             let dvc = segue.destinationViewController as! InviteViewController
+            dvc.currentUser = currentUser
+        }
+        if segue.identifier == "Pending"
+        {
+            let dvc = segue.destinationViewController as! JoinTableViewController
             dvc.currentUser = currentUser
         }
         
@@ -372,6 +377,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
 //        let sourceVC = segue.sourceViewController as! CreateGroupViewController
 //        sourceVC.delegate = self
 //        print("Create Group delegate was fired")
+    }
+    
+    @IBAction func loggedOut(segue: UIStoryboardSegue)
+    {
+        //Unwinds on logout
     }
     
     

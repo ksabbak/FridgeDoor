@@ -34,13 +34,7 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
-    }
-    
-    override func viewWillAppear(animated: Bool)
-    {
         centerViewController = UIStoryboard.centerViewController()
-        //print("~*~*~*~*~centerViewController?~*~*~~*~*~*~*~\n\(centerViewController)\n ~**~***~**~END~**~***~**~")
         centerViewController.menuDelegate = self
         
         print("Center: \(centerViewController.title)")
@@ -49,6 +43,7 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
         // wrap the centerViewController in a navigation controller, so we can push views to it
         // and display bar button items in the navigation bar
         centerNavigationController = UINavigationController(rootViewController: centerViewController)
+        centerNavigationController.view.backgroundColor = UIColor.whiteColor()  
         view.addSubview(centerNavigationController.view)
         addChildViewController(centerNavigationController)
         
@@ -62,6 +57,11 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTapGesture:")
         centerNavigationController.view.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.enabled = false
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+
     }
     
 
@@ -124,8 +124,8 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
             animateCenterPanelXPosition(targetPosition: 0) { finished in
                 self.currentState = .Collapsed
 
-//                self.leftViewController!.view.removeFromSuperview()
-//                self.leftViewController = nil
+                self.leftViewController!.view.removeFromSuperview()
+               self.leftViewController = nil
             }
             tapGestureRecognizer.enabled = false
         }

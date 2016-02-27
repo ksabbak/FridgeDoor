@@ -353,6 +353,23 @@ class ConnectionManager {
         return matchingUser
     }
     
+    func getUserFor(userUID: String, completion: (User) -> Void)
+    {
+        let matchingUser: User!
+        
+        print("Check users array: \(self.users.count)")
+        for user in self.users
+        {
+            if user.UID == userUID
+            {
+                matchingUser = user
+                completion(matchingUser)
+                break
+            }
+        }
+    }
+    
+    
     func allUsers() -> [User] {
         return users
     }
@@ -437,6 +454,24 @@ class ConnectionManager {
         self.getListDelegate?.connectionManagerDidGetList(matchingList)
         return matchingList
     }
+    
+    func getListFor(listUID: String, completion: (List) -> Void)
+    {
+        let matchingList: List!
+        
+        for list in lists
+        {
+            if list.UID == listUID
+            {
+                matchingList = list
+                completion(matchingList)
+                break
+            }
+        }
+        
+    }
+
+    
 
 //    func getListForAndUpdateListUsers(listUID listUID: String) -> List?
 //    {
@@ -1048,6 +1083,16 @@ class ConnectionManager {
             }
         }
         
+        if let pending = userData["Pending"] as? [String:[String:String]]
+        {
+            print("PENDING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\(pending)")
+            
+            for request in pending
+            {
+                newUser.pending.append(request.1)
+            }
+        }
+        
         return newUser
     }
     
@@ -1177,14 +1222,11 @@ class ConnectionManager {
         ["from":fromUID,
         "forList":forList]
         
-        let requestRef = requestsRef.childByAutoId()
+        let firstRef = usersRef.childByAppendingPath("/\(toUID)/Pending")
+        let requestRef = firstRef.childByAutoId()
+        print(requestRef)
         
-        requestRef.setValue(requestData) { (error:NSError!, snapshot:Firebase!) -> Void in
-            guard error == nil else {
-                print("A request error occurred: \(error)")
-                return
-            }
-        }
+        requestRef.setValue(requestData)
     }
     
     
@@ -1192,23 +1234,36 @@ class ConnectionManager {
     
     func checkEmailAgainstExistingUsers(email: String, completion: (success: String) -> Void)
     {
+        
+        print("USERS REF: \(usersRef)")
         usersRef.observeSingleEventOfType(.Value) { (snapshot: FDataSnapshot!) -> Void in
             let keys = snapshot.value.allKeys
             
+            var noEmailExistsCount = 0
             for key in keys
             {
                 let newRef = self.usersRef.childByAppendingPath("/\(key)/email/")
                 newRef.observeSingleEventOfType(.Value, withBlock: { (snap:FDataSnapshot!) -> Void in
+                    
 
                     if snap.value as! String == email
                     {
                         completion(success: key as! String)
                         return
                     }
-                                    })
+                    
+                    //BE VERY CAREFUL WITH THIS PLACEMENT
+                    noEmailExistsCount++                     //This can only be incremented AFTER a possible return statement.
+                    
+                    if noEmailExistsCount == keys.count
+                    {
+                        completion(success: "") //This will only be called once we go through the FULL list and no one is found.
+                    }
+                })
             }
+            
+            
         }
-        completion(success: "")
     }
     
     

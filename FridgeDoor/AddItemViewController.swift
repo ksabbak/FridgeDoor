@@ -10,7 +10,7 @@ import UIKit
 
 class AddItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ConnectionManagerAddItemDelegate
 {
-
+    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
@@ -19,11 +19,11 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     var list: List!
     var chosenItems = [Item]()
     //var displayItems = [Item]()
-   
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
+        
         searchBar.autocapitalizationType = UITextAutocapitalizationType.None
         connectionManager.addItemDelegate = self
         
@@ -42,7 +42,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         {
             chosenItems = list.items
         }
-
+        
         
         tableView.reloadData()
     }
@@ -63,12 +63,15 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
     }
-
-    //Will check add item against all items in list, 
+    
+    //Will check add item against all items in list,
     //If no item exists, it's added
     //If item exists, an Alert gets triggered and user has the option to overwrite existing item
     @IBAction func onAddItemButtonTapped(sender: UIButton)
     {
+        if searchBar.text?.characters.count > 0
+        {
+        
         if list.items.count > 0
         {
             
@@ -81,11 +84,15 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
             }
         }
-    
+        
         connectionManager.addItem(searchBar.text!, toList: list.UID)
         
+        }
         
+
     }
+    
+    
     
     func connectionManagerDidAddItem()
     {
@@ -99,7 +106,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         chosenItems = list.items
         
         tableView.reloadData()
-
+        
     }
     
     func connectionManagerDidFailToAddItem()
@@ -107,7 +114,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         print("failed to add item")
     }
     
-
+    
     func replaceItemAlert(item: Item)
     {
         let replaceAlert = UIAlertController(title: "Item Already Exists", message: "An item with this name already exists, do you want to replace the item and all its data with this new item?", preferredStyle: UIAlertControllerStyle.Alert)
@@ -126,7 +133,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         
         presentViewController(replaceAlert, animated: true, completion: nil);
     }
-
+    
     
     
     //Right now just displays item name
@@ -163,16 +170,16 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let item = chosenItems[indexPath.row]
-    
+        
         connectionManager.makeActive(item.UID, onList: list.UID) { () -> Void in
             tableView.reloadData()
         }
-    
         
-//        tableView.reloadData()
-//        print("FIRE!" + "\(item.active)!")
         
-
+        //        tableView.reloadData()
+        //        print("FIRE!" + "\(item.active)!")
+        
+        
     }
     
     
@@ -192,7 +199,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
             {
                 if item.active == ""
                 {
-                displayItems.insert(item, atIndex: 0)
+                    displayItems.insert(item, atIndex: 0)
                 }
                 else
                 {
@@ -205,6 +212,11 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         
         return displayItems
     }
-
+    
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        tableView.reloadData()
+        resignFirstResponder()
+    }
     
 }
