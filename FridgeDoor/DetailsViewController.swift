@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate
+class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, ConnectionManagerCommentCreatedDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
@@ -34,6 +34,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         addCommentTextField.delegate = self
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
+        ConnectionManager.sharedManager.commentCreatedDelegate = self
     }
 
 
@@ -129,10 +130,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         if (editingStyle == UITableViewCellEditingStyle.Delete)
         {
             let comment = item.comments[indexPath.row]
-            if comment.UID != ""
-            {
-                ConnectionManager.sharedManager.deleteComment(comment.UID, fromItem: item.UID, onList: list.UID)
-            }
+            ConnectionManager.sharedManager.deleteComment(comment.UID, fromItem: item.UID, onList: list.UID)
             item.comments.removeAtIndex(indexPath.row)
             tableView.reloadData()
         }
@@ -143,13 +141,25 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         let commentString = addCommentTextField.text
         ConnectionManager.sharedManager.addComment(commentString!, toItem: item.UID, onList: list.UID)
         
-        let userUID = ConnectionManager.sharedManager.userUID()
-        let comment = Comment(time: NSDate().timeIntervalSince1970, userUID: userUID!, message: commentString!, UID: "")
-        item.comments.insert(comment, atIndex: 0)
+//        let userUID = ConnectionManager.sharedManager.userUID()
+//        let comment = Comment(time: NSDate().timeIntervalSince1970, userUID: userUID!, message: commentString!, UID: "")
+//        item.comments.insert(comment, atIndex: 0)
         
         addCommentTextField.text = ""
         addCommentTextField.resignFirstResponder()
+//        tableView.reloadData()
+    }
+    
+    func connectionManagerDidSetUpComment(comments: [Comment])
+    {
+        print("got the comments")
+        item.comments = comments
         tableView.reloadData()
+    }
+    
+    func connectionmanagerDidFailToSetUpComment()
+    {
+        print("Didn't set up the comments")
     }
 
     @IBAction func onScreenTapped(sender: UITapGestureRecognizer)

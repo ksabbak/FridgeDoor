@@ -117,6 +117,11 @@ protocol ConnectionManagerLogOutDelegate {
     func connectionManagerDidLogOut()
 }
 
+protocol ConnectionManagerCommentCreatedDelegate {
+    func connectionManagerDidSetUpComment(comments: [Comment])
+    func connectionmanagerDidFailToSetUpComment()
+}
+
 //MARK:
 class ConnectionManager {
     
@@ -155,6 +160,7 @@ class ConnectionManager {
     var historyItemsChangedDelegate:  ConnectionManagerHistoryItemChangesDelegate?
     var getUserAndUpdateListsDelegate: ConnectionManagerGetUserAndUpdateListsDelegate?
     var getListAndUpdateUsersDelegate: ConnectionManagerGetListAndUpdateUsersDelegate?
+    var commentCreatedDelegate: ConnectionManagerCommentCreatedDelegate?
     
     private
     
@@ -618,7 +624,31 @@ class ConnectionManager {
                         "time":NSDate().timeIntervalSince1970,
                         "user_UID":selfUserUID]
         
-        listCommentRef.setValue(metaData)
+        listCommentRef.setValue(metaData) { (error: NSError!, snapshot: Firebase!) -> Void in
+            guard error == nil else {
+                print("Comment not added")
+                return
+            }
+            
+            let listCommentsRef = self.listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/comments/")
+            listCommentsRef.observeSingleEventOfType(.Value) { (snapshot:FDataSnapshot!) -> Void in
+                
+                guard let commentsData = snapshot.value as? [String:AnyObject]
+                    else { Debug.log("Comment not yet in database"); return}
+                
+                let comments = self.unpackComments(commentsData)
+                
+                if comments.count > 0
+                {
+                    self.commentCreatedDelegate?.connectionManagerDidSetUpComment(comments)
+                }
+                else
+                {
+                    self.commentCreatedDelegate?.connectionmanagerDidFailToSetUpComment()
+                }
+            }
+
+        }
     }
     
     func deleteComment(commentUID: String, fromItem itemUID: String, onList listUID: String)
@@ -1076,6 +1106,24 @@ class ConnectionManager {
         }
         
         return newItem
+    }
+    
+    private func unpackComments(commentsData: [String:AnyObject]) -> [Comment]
+    {
+        var comments = [Comment]()
+            for comment in commentsData
+            {
+                let time = comment.1["time"] as! Double
+                let message = comment.1["comment"] as! String
+                let userUID = comment.1["user_UID"] as! String
+                
+                let UID = comment.0
+                
+                let newComment = Comment(time: time, userUID: userUID, message: message, UID: UID)
+                comments.append(newComment)
+            }
+        
+        return comments
     }
 
     private func unpackHistoryItem(historyData: [String:AnyObject]) -> History
