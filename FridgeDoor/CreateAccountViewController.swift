@@ -101,15 +101,20 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
     //MARK: - Actions
     
     
-    @IBAction func onViewTapped(sender: AnyObject)
-    {
-        emailTextField.resignFirstResponder()
-        userNameTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
-    }
-    
     @IBAction func onCreateAccountTapped(sender: UIButton)
     {
+        if emailTextField.text?.rangeOfString("@") == nil || emailTextField.text?.rangeOfString(".") == nil
+        {
+            let addAlert = UIAlertController(title: "Try Again", message: "Email field must contain a valid email address", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let okayAction = UIAlertAction(title: "Okay", style: .Default ) { (UIAlertAction) -> Void in
+            }
+            
+            addAlert.addAction(okayAction)
+            
+            presentViewController(addAlert, animated: true, completion: nil);
+        }
+        
         if userNameTextField.text?.isEmpty == true || emailTextField.text?.isEmpty == true || passwordTextField.text?.isEmpty == true
         {
             let addAlert = UIAlertController(title: "Try Again", message: "All fields are mandatory", preferredStyle: UIAlertControllerStyle.Alert)
@@ -140,6 +145,14 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
             connectionManager.createUser(userObject: newUser, password: passwordTextField.text!)
         }
     }
+    
+    @IBAction func onScreenTapped(sender: UITapGestureRecognizer)
+    {
+        emailTextField.resignFirstResponder()
+        userNameTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+    }
+    
     
     @IBAction func onSelectAsMyAvatarTapped(segue: UIStoryboardSegue)
     {

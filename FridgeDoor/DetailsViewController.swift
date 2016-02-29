@@ -64,16 +64,21 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     userTurnUID = userTurn.userTurnUID
                 }
             }
-            self.currentUserInRotation = ConnectionManager.sharedManager.getUserFor(userUID: userTurnUID)
+//            self.currentUserInRotation = ConnectionManager.sharedManager.getUserFor(userUID: userTurnUID)
+            ConnectionManager.sharedManager.getUserFor(userTurnUID, completion: { (user: User) -> Void in
+                self.volunteerImage.image = UIImage(named: "\(user.imageName)")
+                self.voluteerToPurchaseButton.enabled = false
+                self.voluteerToPurchaseButton.backgroundColor = UIColor.appDarkBlueColor()
+                self.voluteerToPurchaseButton.setTitle("Assigned to \(user.username)", forState: .Normal)
+            })
+                
+                
             
-            volunteerImage.image = UIImage(named: "\(self.currentUserInRotation!.imageName)")
-            voluteerToPurchaseButton.enabled = false
-            voluteerToPurchaseButton.backgroundColor = UIColor.appDarkBlueColor()
-            voluteerToPurchaseButton.setTitle("Assigned to \(self.currentUserInRotation!.username)", forState: .Normal)
         }
         
         if item.rotating == "false" || item.rotating == ""
         {
+            rotateButton.setImage(UIImage(named: "box"), forState: .Normal)
             if item.rotating == "false"
             {
                 print("rotating item is false")

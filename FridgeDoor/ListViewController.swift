@@ -71,6 +71,20 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.reloadData()
     }
     
+    
+    func checkUserAuth()
+    {
+        
+        if connectionManager.isLoggedIn()
+        {
+            connectionManager.setupCurrentUser()
+        }
+        else
+        {
+            performSegueWithIdentifier("LoginSegue", sender: self)
+        }
+    }
+
 
     //MARK: - User Setup
     
@@ -112,7 +126,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             setVisibleList()
         }
         
-        tableView.reloadData()
+        
         
         print("OKAY BUT CAN WE JUST GET ALONG?")
     }
@@ -127,25 +141,9 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         {
             self.members.append(user)
         }
+        tableView.reloadData()
     }
-    
-//    func checkUserAuth()
-//    {
-//        menuDelegate?.toggleLeftPanel?()
-//    }
 
-    func checkUserAuth()
-    {
-
-        if connectionManager.isLoggedIn()
-        {
-            connectionManager.setupCurrentUser()
-        }
-        else
-        {
-            performSegueWithIdentifier("LoginSegue", sender: self)
-        }
-    }
     
     //MARK: - Buttons
     
@@ -160,6 +158,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 print("item removed: \(item)")
                 //self.setVisibleList()
                 self.tableView.reloadData()
+            }
+            
+            if item.rotating == "true"
+            {
+                self.connectionManager.rotate(item, onList: self.theList.UID)
             }
             
          })
@@ -230,7 +233,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             
             cell.nameLabel.text = item.name
             
-            if item.essential.characters.count > 0
+            if item.highAlert.characters.count > 0
             {
                 cell.bottomIcon.hidden = false
             }
@@ -256,6 +259,45 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             {
                 cell.checkboxButton.setImage(UIImage(named: "box"), forState: .Normal)
             }
+            
+            if item.rotating == "true"
+            {
+               print("rotating is true")
+                cell.volunteerAvatar.hidden = false
+                //cell.usernameLabel.hidden = false
+                var userTurnUID = String()
+                for userTurn in item.rotate
+                {
+                    if userTurn.turn == "1"
+                    {
+                        print("found userTurnUID: \(userTurn.userTurnUID)")
+                        userTurnUID = userTurn.userTurnUID
+                    }
+                }
+                connectionManager.getUserFor(userTurnUID, completion: { (user: User) -> Void in
+                    print("in rotating closure")
+                    cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
+                    //cell.usernameLabel.text = user.username
+                })
+            }
+            else if item.volunteerUID.characters.count > 0
+            {
+                print("there is a volunteer for this item")
+                cell.volunteerAvatar.hidden = false
+                //cell.usernameLabel.hidden = false
+                connectionManager.getUserFor(item.volunteerUID, completion: { (user: User) -> Void in
+                    print("volunteer closure")
+                    cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
+                    //cell.username = user.username
+                })
+            }
+            else
+            {
+                cell.volunteerAvatar.hidden = true
+                //cell.usernameLabel.hidden = true
+            }
+            
+            
         }
         
         return cell
