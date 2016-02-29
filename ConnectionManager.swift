@@ -523,14 +523,15 @@ class ConnectionManager {
     
     //MARK: - History Item Handling
     
-    func addHistoryItem(history: History, toList listUID: String)
+    func addHistoryItem(item: Item, toList listUID: String, purchasedBy userUID: String)
     {
         let historyRef = listsRef.childByAppendingPath("\(listUID)/history_items/").childByAutoId()
         
         let historyData =
-        ["item_name":history.itemName,
-            "purchaser_UID":history.purchaserUID,
-            "list_UID":history.listUID,
+        ["item_name":item.name,
+            "item_UID": item.UID,
+            "purchaser_UID":userUID,
+            "list_UID":listUID,
             "time":NSDate().timeIntervalSince1970,
             "UID":historyRef.key]
         
@@ -888,6 +889,7 @@ class ConnectionManager {
                 
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
+                    print("A TROLL IN THE DUNGEON!!!!!!!!!!!!!!!")
                     self.listChangedDelegate?.connectionManagerListWasChanged(updatedList)
                 })
             }
@@ -1000,8 +1002,12 @@ class ConnectionManager {
         {
             for historyItem in historyItems
             {
+                if historyItem.0.characters.count > 0
+                {
+                    print("Historyitem: \(historyItem)")
                 let newHistoryItem = self.unpackHistoryItem([historyItem.0:historyItem.1])
                 newList.historyItems.append(newHistoryItem)
+                }
             }
         }
                
@@ -1070,13 +1076,19 @@ class ConnectionManager {
 
     private func unpackHistoryItem(historyData: [String:AnyObject]) -> History
     {
-        let itemName = historyData["item_name"] as! String
-        let purchaserUID = historyData["purchaser_UID"] as! String
-        let listUID = historyData["list_UID"] as! String
-        let time = historyData["time"] as! Double
-        var newHistoryItem = History(itemName: itemName, purchaserUID: purchaserUID, listUID: listUID, time: time)
         
-        newHistoryItem.UID = historyData["UID"] as! String
+        let historyUID = historyData.keys.first!
+        
+        let historyDictionary = historyData[historyUID] as! [String:AnyObject]
+        
+        let itemName = historyDictionary["item_name"] as! String
+        let itemUID = historyDictionary["item_UID"] as! String
+        let purchaserUID = historyDictionary["purchaser_UID"] as! String
+        let listUID = historyDictionary["list_UID"] as! String
+        let time = historyDictionary["time"] as! Double
+        var newHistoryItem = History(itemName: itemName, itemUID: itemUID, purchaserUID: purchaserUID, listUID: listUID, time: time)
+        
+        newHistoryItem.UID = historyUID
         
         return newHistoryItem
     }

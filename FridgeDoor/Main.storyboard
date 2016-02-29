@@ -163,6 +163,7 @@
                         <segue destination="Wg3-rw-1n0" kind="show" identifier="Create New List" id="VmH-x7-IEo"/>
                         <segue destination="fha-Tk-CPy" kind="show" identifier="Add Member" id="3m1-ha-PCG"/>
                         <segue destination="jXe-QS-3LF" kind="show" identifier="Pending" id="1zs-aj-LoX"/>
+                        <segue destination="rmw-li-jTz" kind="show" identifier="View History" id="Hly-Zc-tje"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -906,6 +907,34 @@
                 <exit id="dsW-Rq-rpX" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-1724.5" y="1290.5"/>
+        </scene>
+        <!--History Table View Controller-->
+        <scene sceneID="XkN-4e-F3a">
+            <objects>
+                <tableViewController id="rmw-li-jTz" customClass="HistoryTableViewController" customModule="FridgeDoor" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="cdw-vl-lIY">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellID" id="8zN-RG-CKy" customClass="CellID">
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8zN-RG-CKy" id="wwd-bP-9Ec">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="rmw-li-jTz" id="s7a-Xk-2ZJ"/>
+                            <outlet property="delegate" destination="rmw-li-jTz" id="jac-ST-S1B"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="csb-yR-qFZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2146" y="2225"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="OQQ-Ar-WjM">

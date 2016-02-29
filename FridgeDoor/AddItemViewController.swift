@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol AddItemBackButtonDelegate {
+    func backButtonDataReload()
+}
+
+
 class AddItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ConnectionManagerAddItemDelegate, ConnectionManagerListChangesDelegate
 {
     
@@ -15,6 +20,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var tableView: UITableView!
     
     let connectionManager = ConnectionManager.sharedManager
+    var backbuttonDelegate: AddItemBackButtonDelegate?
     
     var list: List!
     var chosenItems = [Item]()
@@ -86,10 +92,11 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         connectionManager.addItem(searchBar.text!, toList: list.UID)
+            searchBar.text = ""
+            searchBar.resignFirstResponder()
+            tableView.reloadData()
         
         }
-        
-
     }
     
     
@@ -100,7 +107,9 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         list = connectionManager.getListFor(listUID: list.UID)
         
         //Resets search bar text field after item is added.
-        searchBar.text = ""
+        searchBarCancelButtonClicked(searchBar)
+        chosenItems = list.items
+        searchBar.resignFirstResponder()
         
         //Adds things back to the table
         chosenItems = list.items
@@ -216,6 +225,11 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         tableView.reloadData()
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
         resignFirstResponder()
     }
     
@@ -230,6 +244,14 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         tableView.reloadData()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        backbuttonDelegate?.backButtonDataReload()
+        print("I'm getting really sick of this nonsense. I really think someone should make this easier, thanks.")
+        
+        super.viewWillDisappear(animated)
     }
     
 }

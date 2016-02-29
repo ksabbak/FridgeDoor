@@ -60,7 +60,8 @@ struct Item: Equatable
         comments = []
     }
 }
-    func ==(firstElement: Item, secondElement: Item) -> Bool
+
+func ==(firstElement: Item, secondElement: Item) -> Bool
     {
         return firstElement.UID == secondElement.UID
     }
@@ -70,14 +71,16 @@ struct History
 {
     var UID: String
     var itemName: String
+    var itemUID: String
     var purchaserUID: String
     var listUID: String
     var time: NSDate
     
-    init(itemName: String, purchaserUID: String, listUID: String, time: Double)
+    init(itemName: String, itemUID: String, purchaserUID: String, listUID: String, time: Double)
     {
         UID           = ""
         self.itemName = itemName
+        self.itemUID = itemUID
         self.purchaserUID = purchaserUID
         self.listUID  = listUID
         self.time = NSDate(timeIntervalSince1970: time)

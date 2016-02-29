@@ -17,7 +17,7 @@ protocol CenterViewControllerDelegate
 }
 
 
-class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate, PerformSeguesForSettingsVCDelegate, ListItemTableViewCellDelegate, ProfileListSelectedDelegate
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate, PerformSeguesForSettingsVCDelegate, ListItemTableViewCellDelegate, ProfileListSelectedDelegate, AddItemBackButtonDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
@@ -58,8 +58,14 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewWillAppear(animated: Bool)
     {
+        super.viewWillAppear(animated)
+        
         print("checkUserAuth")
         checkUserAuth()
+//        if currentListUID != ""
+//        {
+//            setVisibleList()
+//        }
         tableView.reloadData()
     }
     
@@ -149,8 +155,10 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             {
                 self.tableView.reloadData()
             }
+            
          })
             count++
+            connectionManager.addHistoryItem(item, toList: theList.UID, purchasedBy: currentUser.UID)
         }
         
         itemsPendingRemoval = []
@@ -181,6 +189,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     ///Pulls active items from backend list
     func setVisibleList()
     {
+//        let reloadTestCount = visibleList.count
         visibleList = []
         for item in theList.items
         {
@@ -189,6 +198,13 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 visibleList.append(item)
             }
         }
+        
+//        if visibleList.count != reloadTestCount
+//        {
+//            tableView.reloadData()
+//            print("Test this call")
+//        }
+        
     }
     
     
@@ -198,6 +214,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID")! as! ListItemTableViewCell
         cell.delegate = self
+        
+//        setVisibleList()
         
         if visibleList.count > 0
         {
@@ -234,6 +252,14 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         
         return cell
+    }
+    
+    func backButtonDataReload()
+    {
+        theList = connectionManager.getListFor(listUID: theList.UID)
+        setVisibleList()
+        print("The delegate was called. Horray.")
+        tableView.reloadData()
     }
     
     
@@ -297,6 +323,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         {
             let dvc = segue.destinationViewController as! AddItemViewController
             
+            dvc.backbuttonDelegate = self
+            
             dvc.list = theList
             
         }
@@ -335,6 +363,13 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let dvc = segue.destinationViewController as! JoinTableViewController
             dvc.currentUser = currentUser
         }
+        
+        if segue.identifier == "View History"
+        {
+            let dvc = segue.destinationViewController as! HistoryTableViewController
+            dvc.listHistory = theList.historyItems
+        }
+        
     }
     
     
