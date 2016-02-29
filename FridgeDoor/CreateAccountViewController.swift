@@ -110,8 +110,6 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
     
     @IBAction func onCreateAccountTapped(sender: UIButton)
     {
-        loadingView.hidden = false
-        
         if userNameTextField.text?.isEmpty == true || emailTextField.text?.isEmpty == true || passwordTextField.text?.isEmpty == true
         {
             let addAlert = UIAlertController(title: "Try Again", message: "All fields are mandatory", preferredStyle: UIAlertControllerStyle.Alert)
@@ -137,6 +135,7 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
         }
         else
         {
+            loadingView.hidden = false
             let newUser = User(username: userNameTextField.text!, email: emailTextField.text!, imageName: avatarImageName)
             connectionManager.createUser(userObject: newUser, password: passwordTextField.text!)
         }
