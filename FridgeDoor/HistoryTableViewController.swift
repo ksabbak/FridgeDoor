@@ -11,6 +11,8 @@ import UIKit
 class HistoryTableViewController: UITableViewController {
 
     var listHistory = [History]()
+    let connectionManager = ConnectionManager.sharedManager
+
     
     
     override func viewDidLoad()
@@ -33,7 +35,18 @@ class HistoryTableViewController: UITableViewController {
 
         if listHistory.count > 0
         {
-            cell.textLabel?.text = listHistory[indexPath.row].itemName
+            let historyItem = listHistory[indexPath.row]
+            connectionManager.getUserFor(historyItem.purchaserUID, completion: { (purchaser: User) -> Void in
+            
+            
+            cell.textLabel?.text = historyItem.itemName
+            
+            let formatter = NSDateFormatter()
+            formatter.dateStyle = .MediumStyle
+            formatter.stringFromDate(historyItem.time)
+            
+            cell.detailTextLabel?.text = "Purchased by: \(purchaser.username) on: \(formatter.stringFromDate(historyItem.time))"
+            })
         }
         
         return cell
