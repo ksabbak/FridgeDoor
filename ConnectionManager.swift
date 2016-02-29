@@ -122,6 +122,10 @@ protocol ConnectionManagerCommentCreatedDelegate {
     func connectionmanagerDidFailToSetUpComment()
 }
 
+protocol ConnectionManagerItemChangedDelegate {
+    func connectionManagerItemWasChanged(item: Item)
+}
+
 //MARK:
 class ConnectionManager {
     
@@ -161,6 +165,7 @@ class ConnectionManager {
     var getUserAndUpdateListsDelegate: ConnectionManagerGetUserAndUpdateListsDelegate?
     var getListAndUpdateUsersDelegate: ConnectionManagerGetListAndUpdateUsersDelegate?
     var commentCreatedDelegate: ConnectionManagerCommentCreatedDelegate?
+    var itemChangedDelegate: ConnectionManagerItemChangedDelegate?
     
     private
     
@@ -742,6 +747,8 @@ class ConnectionManager {
     
     func volunteer(volunteerUID: String, forItem itemUID: String, onList listUID: String)
     {
+        print("Volunteer Function fired")
+        print("VolunteerUID: \(volunteerUID), itemUID: \(itemUID), listUID: \(listUID)")
         let listItemVolunteerRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Volunteer")
         let volunteerData = ["volunteerUID":"\(volunteerUID)"]
         
@@ -750,9 +757,9 @@ class ConnectionManager {
     
     func unvolunteer(volunteerUID: String, forItem itemUID: String, fromList listUID: String)
     {
-        let listItemHighAlertRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Volunteer")
+        let listItemVolunteerRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Volunteer")
         
-        listItemHighAlertRef.removeValue()
+        listItemVolunteerRef.removeValue()
     }
 
     //MARK: - Rotate Handling
@@ -840,6 +847,23 @@ class ConnectionManager {
             currentListMemberUIDs.append(memberUID)
         }
         setupMemberListeners()
+    }
+    
+    func setupItemObserver(itemUID: String, listUID: String)
+    {
+        print("Item Observer Fired")
+        let thisItemRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)")
+        thisItemRef.observeEventType(.Value) { (snapshot:FDataSnapshot!) -> Void in
+            
+            let itemData = snapshot.value as! [String:AnyObject]
+            
+            let updatedItem = self.unpackItem(itemData)
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                self.itemChangedDelegate?.connectionManagerItemWasChanged(updatedItem)
+            })
+        }
     }
     
     private func setupMemberListeners()
@@ -1070,7 +1094,7 @@ class ConnectionManager {
             newItem.highAlert = highAlert["high_alert"]!
         }
         
-        if let volunteer = itemData["Voluteer"] as? [String:String]
+        if let volunteer = itemData["Volunteer"] as? [String:String]
         {
             newItem.volunteerUID = volunteer["volunteerUID"]!
         }

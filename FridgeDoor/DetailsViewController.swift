@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, ConnectionManagerCommentCreatedDelegate
+class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, ConnectionManagerItemChangedDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
@@ -27,6 +27,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
     var item: Item!
     var comments: [Comment] = []
     var currentUserInRotation: User?
+    var currentUser: User?
     
     override func viewDidLoad()
     {
@@ -34,14 +35,14 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         addCommentTextField.delegate = self
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
-        ConnectionManager.sharedManager.commentCreatedDelegate = self
+        ConnectionManager.sharedManager.itemChangedDelegate = self
+        ConnectionManager.sharedManager.setupItemObserver(item.UID, listUID: list.UID)
     }
 
 
     override func viewWillAppear(animated: Bool)
     {
         configureWithItem(item)
-        tableView.reloadData()
     }
 
     func configureWithItem (item: Item)
@@ -64,26 +65,62 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
             }
             self.currentUserInRotation = ConnectionManager.sharedManager.getUserFor(userUID: userTurnUID)
-            print("User: \(self.currentUserInRotation)")
+            
             volunteerImage.image = UIImage(named: "\(self.currentUserInRotation!.imageName)")
-            voluteerToPurchaseButton.titleLabel!.text = "Currently assigned to \(self.currentUserInRotation!.username)"
+            voluteerToPurchaseButton.enabled = false
+            voluteerToPurchaseButton.backgroundColor = UIColor.appDarkBlueColor()
+            voluteerToPurchaseButton.setTitle("Assigned to \(self.currentUserInRotation!.username)", forState: .Normal)
         }
         
-        if item.rotating == "false"
+        if item.rotating == "false" || item.rotating == ""
         {
-            print("rotating item is false")
-            var userTurnUID = String()
-            for userTurn in item.rotate
+            if item.rotating == "false"
             {
-                if userTurn.turn == "1"
+                print("rotating item is false")
+                var userTurnUID = String()
+                for userTurn in item.rotate
                 {
-                    print("The rotate current user is found")
-                    print("userTurnUID: \(userTurn.userTurnUID)")
-                    userTurnUID = userTurn.userTurnUID
+                    if userTurn.turn == "1"
+                    {
+                        print("The rotate current user is found")
+                        print("userTurnUID: \(userTurn.userTurnUID)")
+                        userTurnUID = userTurn.userTurnUID
+                    }
+                }
+                self.currentUserInRotation = ConnectionManager.sharedManager.getUserFor(userUID: userTurnUID)
+                print("User: \(self.currentUserInRotation)")
+            }
+           
+            if item.volunteerUID == ""
+            {
+                rotateButton.enabled = true
+                print("no volunteer found")
+                voluteerToPurchaseButton.backgroundColor = UIColor.appWineColor()
+                voluteerToPurchaseButton.setTitle("Volunteer to Purchase", forState: .Normal)
+                voluteerToPurchaseButton.enabled = true
+                volunteerImage.image = UIImage(named: "lightGray")
+            }
+            
+            if item.volunteerUID.characters.count > 0
+            {
+                rotateButton.enabled = false
+                print("volunteer is found, assigning")
+                if item.volunteerUID == currentUser!.UID
+                {
+                    voluteerToPurchaseButton.backgroundColor = UIColor.appLightBlueColor()
+                    voluteerToPurchaseButton.setTitle("Undo Volunteer to Purchase", forState: .Normal)
+                    voluteerToPurchaseButton.enabled = true
+                    volunteerImage.image = UIImage(named: "\(currentUser!.imageName)")
+                }
+                else
+                {
+                    let volunteer = ConnectionManager.sharedManager.getUserFor(userUID: item.volunteerUID)
+                    voluteerToPurchaseButton.backgroundColor = UIColor.appLightBlueColor()
+                    voluteerToPurchaseButton.setTitle("\(volunteer!.username) has volunteered", forState: .Normal)
+                    voluteerToPurchaseButton.enabled = false
+                    volunteerImage.image = UIImage(named: "\(volunteer!.imageName)")
                 }
             }
-            self.currentUserInRotation = ConnectionManager.sharedManager.getUserFor(userUID: userTurnUID)
-            print("User: \(self.currentUserInRotation)")
         }
         
         if item.highAlert == "true"
@@ -97,6 +134,8 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
             print("Configure as Essential item")
             essentialButton.setImage(UIImage(named: "check"), forState: .Normal)
         }
+        
+        tableView.reloadData()
     }
     
     @IBAction func onCancelButtonTapped(sender: AnyObject)
@@ -141,20 +180,8 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         let commentString = addCommentTextField.text
         ConnectionManager.sharedManager.addComment(commentString!, toItem: item.UID, onList: list.UID)
         
-//        let userUID = ConnectionManager.sharedManager.userUID()
-//        let comment = Comment(time: NSDate().timeIntervalSince1970, userUID: userUID!, message: commentString!, UID: "")
-//        item.comments.insert(comment, atIndex: 0)
-        
         addCommentTextField.text = ""
         addCommentTextField.resignFirstResponder()
-//        tableView.reloadData()
-    }
-    
-    func connectionManagerDidSetUpComment(comments: [Comment])
-    {
-        print("got the comments")
-        item.comments = comments
-        tableView.reloadData()
     }
     
     func connectionmanagerDidFailToSetUpComment()
@@ -252,9 +279,27 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBAction func volunteerTapped(sender: UIButton)
     {
-        
+        print("voluteerTapped")
+        if item.volunteerUID == ""
+        {
+            print("should set volunteer")
+            ConnectionManager.sharedManager.volunteer(currentUser!.UID, forItem: item.UID, onList: list.UID)
+        }
+        if item.volunteerUID == currentUser!.UID
+        {
+            print("should remove volunteer")
+            ConnectionManager.sharedManager.unvolunteer(currentUser!.UID, forItem: item.UID, fromList: list.UID)
+        }
     }
     
+    func connectionManagerItemWasChanged(item: Item)
+    {
+        if self.item.UID == item.UID
+        {
+            self.item = item
+            self.configureWithItem(item)
+        }
+    }
     
     
 
