@@ -22,6 +22,7 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
     var currentUser: User?
     var newListUID: String?
     var newList: List?
+    var leepFrog: Bool?
 //    var delegate: NewListCreatedDelegate?
     
     override func viewDidLoad()
@@ -92,7 +93,15 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
     {
         print("added member to list")
 //        delegate?.listCreated(newListUID!)
-        performSegueWithIdentifier("NewListCreated", sender: nil)
+        
+        if leepFrog == true
+        {
+            performSegueWithIdentifier("LeepFrogSegue", sender: nil)
+        }
+        else
+        {
+            performSegueWithIdentifier("NewListCreated", sender: nil)
+        }
     }
     
     func connectionManagerDidFailToAddMember()

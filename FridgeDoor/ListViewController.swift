@@ -174,6 +174,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBAction func onSettingsButtonTapped(sender: UIBarButtonItem)
     {
         menuDelegate?.toggleLeftPanel?()
+        print("menu delegate: \(menuDelegate)")
     }
 
     func enableBoughtButton()
@@ -427,6 +428,14 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
 //        sourceVC.delegate = self
 //        print("Create Group delegate was fired")
     }
+    
+    
+    @IBAction func newUserCreated(segue: UIStoryboardSegue)
+    {
+        //Unwinds to ListVC from CreateAccountVC
+
+    }
+
     
     @IBAction func loggedOut(segue: UIStoryboardSegue)
     {

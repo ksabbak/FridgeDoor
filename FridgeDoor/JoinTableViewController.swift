@@ -109,6 +109,8 @@ class JoinTableViewController: UITableViewController, ConnectionManagerUserChang
             tableView.reloadData()
         }
     }
+    
+
 }
 
 

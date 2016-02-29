@@ -25,7 +25,17 @@ class StartOrJoinGroupViewController: UIViewController
         if segue.identifier == "CreateNewGroup"
         {
             let dvc = segue.destinationViewController as! CreateGroupViewController
+            
+            dvc.leepFrog = true
+            
             dvc.currentUser = currentUser
         }
     }
+    
+    @IBAction func leepFrogSegue(segue: UIStoryboardSegue)
+    {
+        //Unwinds to StartOrJoinVC from CreateGroupVC
+        performSegueWithIdentifier("FroggerTwoSegue", sender: nil)
+    }
+
 }
