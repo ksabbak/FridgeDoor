@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ConnectionManagerAddItemDelegate
+class AddItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ConnectionManagerAddItemDelegate, ConnectionManagerListChangesDelegate
 {
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -26,7 +26,7 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         
         searchBar.autocapitalizationType = UITextAutocapitalizationType.None
         connectionManager.addItemDelegate = self
-        
+        connectionManager.listChangedDelegate = self
         chosenItems = list.items
     }
     
@@ -217,6 +217,19 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         tableView.reloadData()
         resignFirstResponder()
+    }
+    
+    func connectionManagerListWasChanged(list: List)
+    {
+        if self.list.UID == list.UID
+        {
+            self.list = list
+            //connectionManager.setupMemberObservers(theList)
+            
+            getDisplayItems()
+        }
+        
+        tableView.reloadData()
     }
     
 }

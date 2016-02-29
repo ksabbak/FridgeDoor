@@ -191,7 +191,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
-
     
     //MARK: - Tableview delegate stuff
     
@@ -336,7 +335,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let dvc = segue.destinationViewController as! JoinTableViewController
             dvc.currentUser = currentUser
         }
-        
     }
     
     
@@ -356,6 +354,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     //Mark: Unwind from ProfileVC and ProfileVC Delegate
+    
     @IBAction func listSelectedFromProfile(segue: UIStoryboardSegue)
     {
         //Unwinds to ListVC from ProfileVC
@@ -367,6 +366,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func listSelected(listUID: String)
     {
         currentListUID = listUID
+        theList = connectionManager.getListFor(listUID: currentListUID)
+        tableView.reloadData()
     }
     
     //Mark: Unwind from CreateGroupVC and CreateGroupVC Delegate

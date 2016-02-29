@@ -262,6 +262,14 @@ class ConnectionManager {
             
             print("Successfully created user account with uid: \(uid)")
             
+            self.checkFloatingPendingRequestsFor(newUserEmail: user.email, completion: { (list, fromUser) -> () in
+                if list.characters.count > 0
+                {
+                    self.setPendingRequest(fromUser, toUID: user.UID, forList: list)
+                }
+            })
+            
+            
             let newUserRef = self.usersRef.childByAppendingPath(uid)
             
             user.UID = uid
@@ -322,7 +330,6 @@ class ConnectionManager {
                 self.setupCurrentUserDelegate?.connectionmanagerDidFailToSetUpCurrentUser()
             }
         }
-
     }
     
     func getUserFor(userUID userUID: String) -> User?
@@ -340,7 +347,6 @@ class ConnectionManager {
             }
         }
         
-        
         guard matchingUser != nil
             else {
                 Debug.log("No Such user")
@@ -353,6 +359,7 @@ class ConnectionManager {
         return matchingUser
     }
     
+    ///Returns a user in the completion block
     func getUserFor(userUID: String, completion: (User) -> Void)
     {
         let matchingUser: User!
@@ -368,7 +375,6 @@ class ConnectionManager {
             }
         }
     }
-    
     
     func allUsers() -> [User] {
         return users
@@ -415,6 +421,8 @@ class ConnectionManager {
         return listRef.key
     }
     
+    
+    ///Deletes a list entirely
     func deleteList(listUID: String)
     {
         let listRef = listsRef.childByAppendingPath(listUID)
@@ -433,6 +441,7 @@ class ConnectionManager {
         
     }
     
+    ///Returns the List corresponding with the listUID that a user is a member of.
     func getListFor(listUID listUID: String) -> List?
     {
         var matchingList: List!
@@ -455,20 +464,32 @@ class ConnectionManager {
         return matchingList
     }
     
-    func getListFor(listUID: String, completion: (List) -> Void)
+    
+    
+    
+    ///Grabs from ALL the lists from the backend, not just the one the current user is part of.
+    func getListFromAllListsFor(listUID: String, completion: (List) -> Void)
     {
-        let matchingList: List!
         
-        for list in lists
-        {
-            if list.UID == listUID
+        //listsRef.observeSingleEventOfType(.Value) { (snapshot:FDataSnapshot!) -> Void in
+        listsRef.observeEventType(.Value) { (snapshot: FDataSnapshot!) -> Void in
+            
+            let keys = snapshot.value.allKeys as! [String]
+            
+            for key in keys
             {
-                matchingList = list
-                completion(matchingList)
-                break
+                print("this is a key: \(key)")
+                if key == listUID
+                {
+                    let listData = snapshot.value.objectForKey(key) as? [String:AnyObject]
+                    
+                    let returnList = self.unpackList(listData!)
+                    
+                    completion(returnList)
+                    return
+                }
             }
         }
-        
     }
 
     
@@ -1089,7 +1110,9 @@ class ConnectionManager {
             
             for request in pending
             {
-                newUser.pending.append(request.1)
+                var pendingDictionary = request.1
+                pendingDictionary["pending"] = request.0
+                newUser.pending.append(pendingDictionary)
             }
         }
         
@@ -1193,7 +1216,6 @@ class ConnectionManager {
     }
     
     
-    
     //MARK: - Regarding Pending Requests
     
     
@@ -1218,20 +1240,25 @@ class ConnectionManager {
     ///For request to users that already have an account
     func setPendingRequest(fromUID: String, toUID: String, forList: String)
     {
-        let requestData =
-        ["from":fromUID,
-        "forList":forList]
-        
-        let firstRef = usersRef.childByAppendingPath("/\(toUID)/Pending")
-        let requestRef = firstRef.childByAutoId()
-        print(requestRef)
-        
-        requestRef.setValue(requestData)
+        let newRef = self.usersRef.childByAppendingPath("/\(fromUID)/username/")
+        newRef.observeSingleEventOfType(.Value, withBlock: { (snap:FDataSnapshot!) -> Void in
+            
+            let requestData =
+            ["from":snap.value,
+            "forList":forList]
+            
+            
+            let firstRef = self.usersRef.childByAppendingPath("/\(toUID)/Pending")
+            let requestRef = firstRef.childByAutoId()
+            print(requestRef)
+            
+            requestRef.setValue(requestData)
+        })
     }
     
     
     
-    
+    ///Checks an email against all possible users to see if the user already exists. If yes, the completion block will return the userUID for email's user, if not the completion block will return an empty string.
     func checkEmailAgainstExistingUsers(email: String, completion: (success: String) -> Void)
     {
         
@@ -1261,9 +1288,79 @@ class ConnectionManager {
                     }
                 })
             }
-            
-            
         }
+    }
+    
+    ///Deletes pending request
+    func deletePending(userUID: String, pendingUID: String)
+    {
+        let pendingRef = usersRef.childByAppendingPath("\(userUID)/Pending/\(pendingUID)")
+    
+        pendingRef.removeValue()
+    }
+    
+    ///Checks if the invited user is already a list member
+    func checkUser(userUID: String, againstExistingList listUID: String, completion: (doesExist: Bool) -> ())
+    {
+        let checkRef = self.usersRef.childByAppendingPath("/\(userUID)/user_lists/")
+        
+        var noListExistsCount = 0
+        
+        checkRef.observeSingleEventOfType(.Value, withBlock: { (snapshot:FDataSnapshot!) -> Void in
+            for snap in snapshot.value.allKeys
+            {
+                if snap as! String == listUID
+                {
+                    print("We did find a matching list")
+                    completion(doesExist: true)
+                    return
+                }
+                
+                //BE VERY CAREFUL WITH THIS PLACEMENT
+                noListExistsCount++                     //This can only be incremented AFTER a possible return statement.
+                
+                if noListExistsCount == snapshot.value.allKeys.count
+                {
+                    print("We did not find a matching list")
+                    completion(doesExist: false) //This will only be called once we go through the FULL list and the list isn't found.
+                }
+            }
+        })
+    }
+
+    //I mean there's no reason for this to be private except that there's no reason for it to be public if it's only called in the connection manager.
+    private func checkFloatingPendingRequestsFor(newUserEmail email: String, completion: (list: String, fromUser: String) -> ())
+    {
+        let checkRef = self.rootRef.childByAppendingPath("/Pending")
+        
+        checkRef.observeSingleEventOfType(.Value, withBlock: { (snapshot:FDataSnapshot!) -> Void in
+            let keys = snapshot.value.allKeys
+            
+            var noEmailExistsCount = 0
+            for key in keys
+            {
+                let newRef = self.usersRef.childByAppendingPath("/\(key)/")
+                newRef.observeSingleEventOfType(.Value, withBlock: { (snap:FDataSnapshot!) -> Void in
+                    
+                    let pendingDictionary = snap.value as! [String:String]
+                    
+                    if pendingDictionary["to"] == email
+                    {
+                        completion(list: pendingDictionary["onList"]!, fromUser: pendingDictionary["from"]!)
+                        return
+                    }
+                    
+                    //BE VERY CAREFUL WITH THIS PLACEMENT
+                    noEmailExistsCount++                     //This can only be incremented AFTER a possible return statement.
+                    
+                    if noEmailExistsCount == keys.count
+                    {
+                        completion(list: "", fromUser: "") //This will only be called once we go through the FULL list and no one is found.
+                    }
+                })
+            }
+        })
+
     }
     
     

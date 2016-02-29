@@ -8,109 +8,107 @@
 
 import UIKit
 
-class JoinTableViewController: UITableViewController {
+class JoinTableViewController: UITableViewController, ConnectionManagerUserChangesDelegate {
 
     var currentUser: User!
     let connectionManager = ConnectionManager.sharedManager
-    var usersArray = [User]()
-    var listsArray = [List]()
+    var requestsArray = [[String:AnyObject]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
+        connectionManager.userChangedDelegate = self
         
+        print(currentUser.pending)
+        requestsArray = []
+        setUpRequestArray()
+    }
+    
+    
+    func setUpRequestArray()
+    {
         for request in currentUser.pending
         {
-           let userID = request["from"]
             let listID = request["forList"]
-            
-            connectionManager.getUserFor(userID!, completion: { (user: User) -> Void in
-                self.usersArray.append(user)
+            connectionManager.getListFromAllListsFor(listID!, completion: { (list: List) -> Void in
+                self.requestsArray.append(["username": request["from"]!, "list": list, "pendingUID": request["pending"]!])
                 self.tableView.reloadData()
-                print("everything is awesome")
-            })
-            connectionManager.getListFor(listID!, completion: { (list: List) -> Void in
-                self.listsArray.append(list)
             })
         }
-        
-        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
+    ///Presents an alert controller that allows the user to accept, decline or do nothing about a pending request
+    func handleRequestAlert(relevantInfo: [String:AnyObject])
+    {
+        let list = relevantInfo["list"] as! List
+        let pendingUID = relevantInfo["pendingUID"] as! String
+        
+        let requestAlert = UIAlertController(title: "Join List?", message: "Would you like to accept access to this list?", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        //Adds current user to the list, the list to the current user's lists and removes the pending request
+        let joinAction = UIAlertAction(title: "Join", style: .Default ) { (UIAlertAction) -> Void in
+            self.connectionManager.addListToUser(list.UID, toUser: self.currentUser.UID)
+            self.connectionManager.addMember(self.currentUser.UID, toList: list.UID)
+            self.connectionManager.deletePending(self.currentUser.UID, pendingUID: pendingUID)
+            self.tableView.reloadData()
+        }
+        
+        //removes the pending request
+        let declineAction = UIAlertAction(title: "Decline", style: .Destructive) { (UIAlertAction) -> Void in
+            self.connectionManager.deletePending(self.currentUser.UID, pendingUID: pendingUID)
+            self.tableView.reloadData()
+        }
+        
+        //does nothing
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        
+        requestAlert.addAction(joinAction)
+        requestAlert.addAction(declineAction)
+        requestAlert.addAction(cancelAction)
+        
+        presentViewController(requestAlert, animated: true, completion: nil);
+    }
+    
+    
     // MARK: - Table view data source
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return usersArray.count
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return requestsArray.count
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID", forIndexPath: indexPath)
 
-        
-        if usersArray.count > 0
+        if requestsArray.count > 0
         {
-            cell.textLabel?.text = "Request from: \(usersArray[indexPath.row].username) to join list: \(listsArray[indexPath.row].name)"
+            let username = requestsArray[indexPath.row]["username"] as! String
+            let list = requestsArray[indexPath.row]["list"] as! List
+            
+            cell.textLabel?.text = "Request from: \(username) to join list: \(list.name)"
         }
 
         return cell
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        handleRequestAlert(requestsArray[indexPath.row])
     }
-    */
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    func connectionManagerUserWasChanged(user: User)
+    {
+        if user.UID == currentUser.UID
+        {
+            currentUser = connectionManager.getUserFor(userUID: user.UID)
+            requestsArray = []
+            setUpRequestArray()
+            tableView.reloadData()
+        }
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
+

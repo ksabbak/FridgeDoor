@@ -27,40 +27,66 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
         // Do any additional setup after loading the view.
     }
 
+    //Invite button that doesn't send an email
     @IBAction func onRegularInviteTapped(sender: AnyObject)
     {
-        
+        //If there's text in the text field and the text looks vaguely like an email address
         if userTextField.text != nil && userTextField.text!.containsString("@") && userTextField.text!.containsString(".")
         {
             let userInvite = (userTextField.text?.stringByReplacingOccurrencesOfString(" ", withString: ""))!
             connectionManager.checkEmailAgainstExistingUsers(userInvite, completion: { (success) -> Void in
                 
+                //If the email address belongs to an existing user
                 if success.characters.count > 0
                 {
-                    print("\(self.getPickerRowAsTuple().1)")
-                    self.connectionManager.setPendingRequest(self.currentUser.UID, toUID: success, forList: self.getPickerRowAsTuple().1)
-                    self.userTextField.text = ""
-                    return
+                    self.connectionManager.checkUser(success, againstExistingList: self.getPickerRowAsTuple().1, completion: { (doesExist) -> () in
+                        
+                        //If all conditions have been met for this to work
+                        if doesExist == false
+                        {
+                            self.connectionManager.setPendingRequest(self.currentUser.UID, toUID: success, forList: self.getPickerRowAsTuple().1)
+                            self.userTextField.text = ""
+                            return
+                        }
+                        //The user is already a member of the list
+                        else
+                        {
+                            self.userExistsAlert()
+                        }
+                    })
                 }
+                //The user doesn't already exist. Tell them to send an email
                 else
                 {
                     self.noExistingUserAlert()
                 }
             })
         }
+        //The text doesn't even vaguely resemble an email address
         else
         {
             badEmailAlert()
         }
-
+    }
+    
+    ///To be displayed when a user is already a member of the list
+    func userExistsAlert()
+    {
+        let oopsAlert = UIAlertController(title: "Oops!", message: "Looks like that person already has access!", preferredStyle: UIAlertControllerStyle.Alert)
         
+        let okayAction = UIAlertAction(title: "Okay", style: .Default ) { (UIAlertAction) -> Void in
+        }
+        
+        oopsAlert.addAction(okayAction)
+        
+        presentViewController(oopsAlert, animated: true, completion: nil);
     }
  
     //MARK: - Email stuff
     
+    //Invite with email button
     @IBAction func onEmailInviteTapped(sender: AnyObject)
     {
-        
         if !MFMailComposeViewController.canSendMail() {
             print("Mail services are not available")
             return
@@ -86,12 +112,9 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
         let emailVC = MFMailComposeViewController()
         emailVC.mailComposeDelegate = self
         
-        
         emailVC.setToRecipients([toInvited])
         emailVC.setSubject("FridgeDoor invite!")
         
-        //TODO: Edit list name when we have a list here.
-        //print("ChosenList.0: \(chosenList.0)")
         emailVC.setMessageBody("Hello! \n\nI would like to invite you to my shopping list \"\(getPickerRowAsTuple().0)\" on the app FridgeDoor. Just open the app and accept my invitation. If you don't have the app yet, download it and sign up with this email to get started with the list I want you to join!", isHTML: false)
         
         // Present the view controller modally.
@@ -127,7 +150,6 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
         presentViewController(noUser, animated: true, completion: nil);
     }
 
-    
     
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?)
     {
@@ -175,6 +197,7 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
         return listTitle
     }
     
+    ///Actively gets picker row information
     func getPickerRowAsTuple() -> (String, String)
     {
         let row = listPicker.selectedRowInComponent(0)
