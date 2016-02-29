@@ -341,6 +341,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             
             dvc.item = visibleList[(sender?.row)!]
             dvc.list = theList
+            dvc.currentUser = currentUser
         }
         
         if segue.identifier == "Profile"

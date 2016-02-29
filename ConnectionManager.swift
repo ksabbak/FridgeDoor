@@ -117,6 +117,15 @@ protocol ConnectionManagerLogOutDelegate {
     func connectionManagerDidLogOut()
 }
 
+protocol ConnectionManagerCommentCreatedDelegate {
+    func connectionManagerDidSetUpComment(comments: [Comment])
+    func connectionmanagerDidFailToSetUpComment()
+}
+
+protocol ConnectionManagerItemChangedDelegate {
+    func connectionManagerItemWasChanged(item: Item)
+}
+
 //MARK:
 class ConnectionManager {
     
@@ -155,6 +164,8 @@ class ConnectionManager {
     var historyItemsChangedDelegate:  ConnectionManagerHistoryItemChangesDelegate?
     var getUserAndUpdateListsDelegate: ConnectionManagerGetUserAndUpdateListsDelegate?
     var getListAndUpdateUsersDelegate: ConnectionManagerGetListAndUpdateUsersDelegate?
+    var commentCreatedDelegate: ConnectionManagerCommentCreatedDelegate?
+    var itemChangedDelegate: ConnectionManagerItemChangedDelegate?
     
     private
     
@@ -558,10 +569,22 @@ class ConnectionManager {
     
     //MARK: - Member Handling
     
-    func addMember(userUID: String, toList listUID: String)
+    func addMember(userUID: String, toList list: List)
     {
-        let memberRef = listsRef.childByAppendingPath("\(listUID)/members/\(userUID)")
+        let memberRef = listsRef.childByAppendingPath("\(list.UID)/members/\(userUID)")
         let memberData = ["time":String(NSDate().timeIntervalSince1970)]
+        
+        for item in list.items
+        {
+            if item.rotating == "true" || item.rotating == "false"
+            {
+                let rotateRef = listsRef.childByAppendingPath("\(list.UID)/items/\(item.UID)/Rotate")
+                
+                let placeInLine = item.rotate.count + 1
+                let currentUserData = ["\(userUID)":"\(placeInLine)"]
+                rotateRef.updateChildValues(currentUserData)
+            }
+        }
         
         memberRef.updateChildValues(memberData) { (error:NSError!, snapshot:Firebase!) -> Void in
             guard error == nil else {
@@ -573,10 +596,18 @@ class ConnectionManager {
 
     }
 
-    func deleteMember(userUID: String, fromList listUID: String)
+    func deleteMember(userUID: String, fromList list: List)
     {
-        let memberRef = listsRef.childByAppendingPath("\(listUID)/members/\(userUID)")
+        let memberRef = listsRef.childByAppendingPath("\(list.UID)/members/\(userUID)")
         memberRef.removeValue()
+        for item in list.items
+        {
+            if item.rotating == "true" || item.rotating == "false"
+            {
+                let rotateRef = listsRef.childByAppendingPath("\(list.UID)/items/\(item.UID)/Rotate/\(userUID)")
+                rotateRef.removeValue()
+            }
+        }
     }
     
     //MARK: - Item Handling
@@ -620,7 +651,31 @@ class ConnectionManager {
                         "time":NSDate().timeIntervalSince1970,
                         "user_UID":selfUserUID]
         
-        listCommentRef.setValue(metaData)
+        listCommentRef.setValue(metaData) { (error: NSError!, snapshot: Firebase!) -> Void in
+            guard error == nil else {
+                print("Comment not added")
+                return
+            }
+            
+            let listCommentsRef = self.listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/comments/")
+            listCommentsRef.observeSingleEventOfType(.Value) { (snapshot:FDataSnapshot!) -> Void in
+                
+                guard let commentsData = snapshot.value as? [String:AnyObject]
+                    else { Debug.log("Comment not yet in database"); return}
+                
+                let comments = self.unpackComments(commentsData)
+                
+                if comments.count > 0
+                {
+                    self.commentCreatedDelegate?.connectionManagerDidSetUpComment(comments)
+                }
+                else
+                {
+                    self.commentCreatedDelegate?.connectionmanagerDidFailToSetUpComment()
+                }
+            }
+
+        }
     }
     
     func deleteComment(commentUID: String, fromItem itemUID: String, onList listUID: String)
@@ -714,6 +769,8 @@ class ConnectionManager {
     
     func volunteer(volunteerUID: String, forItem itemUID: String, onList listUID: String)
     {
+        print("Volunteer Function fired")
+        print("VolunteerUID: \(volunteerUID), itemUID: \(itemUID), listUID: \(listUID)")
         let listItemVolunteerRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Volunteer")
         let volunteerData = ["volunteerUID":"\(volunteerUID)"]
         
@@ -722,9 +779,9 @@ class ConnectionManager {
     
     func unvolunteer(volunteerUID: String, forItem itemUID: String, fromList listUID: String)
     {
-        let listItemHighAlertRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Volunteer")
+        let listItemVolunteerRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Volunteer")
         
-        listItemHighAlertRef.removeValue()
+        listItemVolunteerRef.removeValue()
     }
 
     //MARK: - Rotate Handling
@@ -757,11 +814,22 @@ class ConnectionManager {
         rotateRef.updateChildValues(rotatingData)
     }
     
-    func rotate(itemUID: String, onList listUID: String, updatedMemberUIDsAndOrder: [String:String])
+    func rotate(item: Item, onList listUID: String)
     {
-        let rotateRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)/Rotate")
+        let rotateRef = listsRef.childByAppendingPath("\(listUID)/items/\(item.UID)/Rotate")
+        var userTurnArray = item.rotate
+        userTurnArray.sortInPlace({ $0.turn < $1.turn })
+        userTurnArray.append(userTurnArray.removeAtIndex(0))
         
-        rotateRef.updateChildValues(updatedMemberUIDsAndOrder)
+        var memberDictionary = [String:String]()
+        var i = 1
+        for userTurn in userTurnArray
+        {
+            memberDictionary["\(userTurn.userTurnUID)"] = "\(i)"
+            i = i + 1
+        }
+        
+        rotateRef.updateChildValues(memberDictionary)
     }
 
     
@@ -801,6 +869,23 @@ class ConnectionManager {
             currentListMemberUIDs.append(memberUID)
         }
         setupMemberListeners()
+    }
+    
+    func setupItemObserver(itemUID: String, listUID: String)
+    {
+        print("Item Observer Fired")
+        let thisItemRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)")
+        thisItemRef.observeEventType(.Value) { (snapshot:FDataSnapshot!) -> Void in
+            
+            let itemData = snapshot.value as! [String:AnyObject]
+            
+            let updatedItem = self.unpackItem(itemData)
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                self.itemChangedDelegate?.connectionManagerItemWasChanged(updatedItem)
+            })
+        }
     }
     
     private func setupMemberListeners()
@@ -1036,7 +1121,7 @@ class ConnectionManager {
             newItem.highAlert = highAlert["high_alert"]!
         }
         
-        if let volunteer = itemData["Voluteer"] as? [String:String]
+        if let volunteer = itemData["Volunteer"] as? [String:String]
         {
             newItem.volunteerUID = volunteer["volunteerUID"]!
         }
@@ -1072,6 +1157,24 @@ class ConnectionManager {
         }
         
         return newItem
+    }
+    
+    private func unpackComments(commentsData: [String:AnyObject]) -> [Comment]
+    {
+        var comments = [Comment]()
+            for comment in commentsData
+            {
+                let time = comment.1["time"] as! Double
+                let message = comment.1["comment"] as! String
+                let userUID = comment.1["user_UID"] as! String
+                
+                let UID = comment.0
+                
+                let newComment = Comment(time: time, userUID: userUID, message: message, UID: UID)
+                comments.append(newComment)
+            }
+        
+        return comments
     }
 
     private func unpackHistoryItem(historyData: [String:AnyObject]) -> History

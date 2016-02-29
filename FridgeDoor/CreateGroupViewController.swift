@@ -21,6 +21,7 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
     let connectionManager = ConnectionManager.sharedManager
     var currentUser: User?
     var newListUID: String?
+    var newList: List?
 //    var delegate: NewListCreatedDelegate?
     
     override func viewDidLoad()
@@ -60,8 +61,8 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
         }
         
 
-        let newList = List(name: listTitleTextField.text!)
-        self.newListUID = connectionManager.createListReturnListUID(newList)
+        self.newList = List(name: listTitleTextField.text!)
+        self.newListUID = connectionManager.createListReturnListUID(newList!)
     }
     
     func connectionManagerDidMakeList()
@@ -78,7 +79,7 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
     func connectionManagerDidAddListToUser()
     {
         print("added list to user")
-        connectionManager.addMember(currentUser!.UID, toList: newListUID!)
+        connectionManager.addMember(currentUser!.UID, toList: newList!)
     }
     
     func connectionManagerDidFailToAddListToUser()
