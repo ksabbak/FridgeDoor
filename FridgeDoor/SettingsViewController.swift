@@ -28,13 +28,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         //let currentUser = connectionManager.getUserFor(userUID: connectionManager.userUID()!)
         
+        self.settingsList = ["Profile", "Add Member", "View History", "Create New List"]
+        
         connectionManager.getUserFor(connectionManager.userUID()!) { (currentUser: User) -> Void in
             
             print("PENDING REQUESTS???????????????????????? \n\(currentUser.pending)")
             
             
             //NOTE: These are the titles of the cell.textLabel in the SettingsVC AND the name of the segue
-            self.settingsList = ["Profile", "Add Member", "View History", "Create New List"]
+            
             
             
             if currentUser.pending.count > 1
