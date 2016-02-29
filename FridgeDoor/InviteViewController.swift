@@ -97,7 +97,7 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
             {
                 let userInvite = (userTextField.text?.stringByReplacingOccurrencesOfString(" ", withString: ""))!
                 makeEmail(userInvite)
-                connectionManager.setPendingRequest(self.currentUser.UID, toEmail: userTextField.text!, forList: self.getPickerRowAsTuple().1)
+                
             }
             else
             {
@@ -165,7 +165,9 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
         if result == MFMailComposeResultSent
         {
            // connectionManager.setPendingRequest(self.currentUser.UID, toEmail: userTextField.text!, forList: self.chosenList.1)
+            connectionManager.setPendingRequest(self.currentUser.UID, toEmail: userTextField.text!, forList: self.getPickerRowAsTuple().1)
             print(result)
+            print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         }
         
         controller.dismissViewControllerAnimated(true, completion: nil)

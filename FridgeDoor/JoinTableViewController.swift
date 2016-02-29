@@ -49,7 +49,7 @@ class JoinTableViewController: UITableViewController, ConnectionManagerUserChang
         //Adds current user to the list, the list to the current user's lists and removes the pending request
         let joinAction = UIAlertAction(title: "Join", style: .Default ) { (UIAlertAction) -> Void in
             self.connectionManager.addListToUser(list.UID, toUser: self.currentUser.UID)
-            self.connectionManager.addMember(self.currentUser.UID, toList: list.UID)
+            self.connectionManager.addMember(self.currentUser.UID, toList: list)
             self.connectionManager.deletePending(self.currentUser.UID, pendingUID: pendingUID)
             self.tableView.reloadData()
         }

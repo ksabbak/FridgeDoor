@@ -721,6 +721,9 @@ class ConnectionManager {
                 return
             }
             
+            print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+            completion()
+            
         }
     }
     
@@ -1089,7 +1092,7 @@ class ConnectionManager {
             {
                 if historyItem.0.characters.count > 0
                 {
-                    print("Historyitem: \(historyItem)")
+                    //print("Historyitem: \(historyItem)")
                 let newHistoryItem = self.unpackHistoryItem([historyItem.0:historyItem.1])
                 newList.historyItems.append(newHistoryItem)
                 }

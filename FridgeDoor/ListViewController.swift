@@ -49,9 +49,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         //TODO: figure out the right numbers.
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
                 
-        connectionManager.setupCurrentUserDelegate = self
-        connectionManager.userChangedDelegate = self
-        connectionManager.listChangedDelegate = self
+
         
         disableBoughtButton()
     }
@@ -59,6 +57,10 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(animated)
+        
+        connectionManager.setupCurrentUserDelegate = self
+        connectionManager.userChangedDelegate = self
+        connectionManager.listChangedDelegate = self
         
         print("checkUserAuth")
         checkUserAuth()
@@ -111,6 +113,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         
         tableView.reloadData()
+        
+        print("OKAY BUT CAN WE JUST GET ALONG?")
     }
     
     func connectionManagerUserWasChanged(user: User)
@@ -153,6 +157,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
          connectionManager.makeInctive(item.UID, onList: theList.UID, completion: { () -> Void in
             if count == self.itemsPendingRemoval.count      //Tableview shouldn't reload until all items are inactive
             {
+                print("item removed: \(item)")
+                //self.setVisibleList()
                 self.tableView.reloadData()
             }
             
@@ -312,7 +318,13 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         performSegueWithIdentifier("DetailSegue", sender: indexPath)
+        
+    }
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        print("Deselected")
     }
     
     
