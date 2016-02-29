@@ -61,13 +61,14 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
         }
         
 
-        self.newList = List(name: listTitleTextField.text!)
-        self.newListUID = connectionManager.createListReturnListUID(newList!)
+        let temporaryList = List(name: listTitleTextField.text!)
+        self.newListUID = connectionManager.createListReturnListUID(temporaryList)
     }
     
-    func connectionManagerDidMakeList()
+    func connectionManagerDidMakeList(list: List)
     {
         print("list was made")
+        self.newList = list
         connectionManager.addListToUser(newListUID!, toUser: currentUser!.UID)
     }
     

@@ -61,7 +61,7 @@ protocol ConnectionManagerAddHistoryItemDelegate {
 }
 
 protocol ConnectionManagerMakeListDelegate {
-    func connectionManagerDidMakeList()
+    func connectionManagerDidMakeList(list: List)
     func connectionManagerDidFailToMakeList()
 }
 
@@ -427,7 +427,16 @@ class ConnectionManager {
                 self.makeListDelegate?.connectionManagerDidFailToMakeList()
                 return
             }
-            self.makeListDelegate?.connectionManagerDidMakeList()
+            
+            listRef.observeSingleEventOfType(.Value) { (snapshot:FDataSnapshot!) -> Void in
+                
+                guard let listData = snapshot.value as? [String:AnyObject]
+                    else { Debug.log("Invalid list in database"); return}
+                
+                let list = self.unpackList(listData)
+                self.makeListDelegate?.connectionManagerDidMakeList(list)
+            }
+
         }
         return listRef.key
     }
