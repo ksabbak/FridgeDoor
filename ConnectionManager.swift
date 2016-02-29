@@ -1454,13 +1454,18 @@ class ConnectionManager {
         checkRef.observeSingleEventOfType(.Value, withBlock: { (snapshot:FDataSnapshot!) -> Void in
             let keys = snapshot.value.allKeys
             
+            
+            
             var noEmailExistsCount = 0
             for key in keys
             {
-                let newRef = self.usersRef.childByAppendingPath("/\(key)/")
+                let newRef = checkRef.childByAppendingPath("/\(key)/")
                 newRef.observeSingleEventOfType(.Value, withBlock: { (snap:FDataSnapshot!) -> Void in
                     
+                    print("This is the snap.value: \(snap.value)")
+                    print("This is teh key: \(key)")
                     let pendingDictionary = snap.value as! [String:String]
+                    
                     
                     if pendingDictionary["to"] == email
                     {
