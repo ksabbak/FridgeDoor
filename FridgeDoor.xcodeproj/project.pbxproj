@@ -10,7 +10,6 @@
 		5A8C3E971C7E5E1000D3F899 /* UIColor+CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3E961C7E5E1000D3F899 /* UIColor+CustomColors.swift */; };
 		5A8C3E991C7F1E9500D3F899 /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3E981C7F1E9500D3F899 /* InviteViewController.swift */; };
 		5A8C3E9B1C7F1EAA00D3F899 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8C3E9A1C7F1EAA00D3F899 /* MessageUI.framework */; };
-		5A8C3EB41C81F50400D3F899 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A8C3EB31C81F50400D3F899 /* Main.storyboard */; };
 		5A8C3EB81C83886100D3F899 /* JoinTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3EB71C83886100D3F899 /* JoinTableViewController.swift */; };
 		5A8C3EBA1C847E0600D3F899 /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3EB91C847E0600D3F899 /* HistoryTableViewController.swift */; };
 		5ADEA8411C73ABF20089BB1D /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA8371C73ABF20089BB1D /* CreateAccountViewController.swift */; };
@@ -44,7 +43,6 @@
 		5A8C3E961C7E5E1000D3F899 /* UIColor+CustomColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+CustomColors.swift"; sourceTree = "<group>"; };
 		5A8C3E981C7F1E9500D3F899 /* InviteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
 		5A8C3E9A1C7F1EAA00D3F899 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		5A8C3EB31C81F50400D3F899 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5A8C3EB71C83886100D3F899 /* JoinTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoinTableViewController.swift; sourceTree = "<group>"; };
 		5A8C3EB91C847E0600D3F899 /* HistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
 		5ADEA8371C73ABF20089BB1D /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
@@ -227,7 +225,7 @@
 				TargetAttributes = {
 					A964EDA31C7396F4000697DE = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = M4GJ798P8H;
+						DevelopmentTeam = RSW6FWFLGL;
 					};
 				};
 			};
@@ -454,7 +452,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FridgeDoor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ksabbak.mobilemakers.FridgeDoor;
+				PRODUCT_BUNDLE_IDENTIFIER = steve.mobilemakers.FridgeDoor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -469,7 +467,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FridgeDoor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ksabbak.mobilemakers.FridgeDoor;
+				PRODUCT_BUNDLE_IDENTIFIER = steve.mobilemakers.FridgeDoor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

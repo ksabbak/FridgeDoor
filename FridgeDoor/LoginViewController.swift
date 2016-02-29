@@ -65,12 +65,6 @@ class LoginViewController: UIViewController, ConnectionManagerLogInUserDelegate,
     
     //MARK: - Actions
     
-    @IBAction func onViewTapped(sender: AnyObject)
-    {
-        emailTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
-    }
-    
     @IBAction func onSignInTapped(segue: UIStoryboardSegue)
     {
         //Unwinds to LoginViewController from either SignUpVC or SignUpDetailVC
@@ -94,4 +88,13 @@ class LoginViewController: UIViewController, ConnectionManagerLogInUserDelegate,
             emailTextField.resignFirstResponder()
         }
     }
+    
+    
+    @IBAction func onScreenTapped(sender: UITapGestureRecognizer)
+    {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+    }
+   
+    
 }
