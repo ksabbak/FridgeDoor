@@ -18,17 +18,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="K2I-bv-3zU">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gqr-rz-S4m">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.23137254900000001" green="0.53333333329999999" blue="0.6588235294" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FridgeDoorLaunch500" translatesAutoresizingMaskIntoConstraints="NO" id="K2I-bv-3zU">
+                                <rect key="frame" x="200" y="200" width="200" height="200"/>
+                                <color key="backgroundColor" red="0.23137254900000001" green="0.53333333329999999" blue="0.6588235294" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="6uo-ah-B2E"/>
+                                    <constraint firstAttribute="height" constant="200" id="bwe-N2-paF"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="K2I-bv-3zU" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" id="0kc-k0-cUJ"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="K2I-bv-3zU" secondAttribute="bottom" id="6bQ-hg-kPv"/>
+                            <constraint firstItem="gqr-rz-S4m" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="7FP-PW-wOt"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="gqr-rz-S4m" secondAttribute="bottom" id="ICB-mk-vNz"/>
+                            <constraint firstAttribute="trailing" secondItem="gqr-rz-S4m" secondAttribute="trailing" id="Qzx-fv-Xq5"/>
+                            <constraint firstItem="K2I-bv-3zU" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="U4N-4o-ij0"/>
+                            <constraint firstItem="gqr-rz-S4m" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="W9Z-Z3-hKc"/>
+                            <constraint firstItem="K2I-bv-3zU" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="YEM-bm-ihv"/>
                             <constraint firstAttribute="trailingMargin" secondItem="K2I-bv-3zU" secondAttribute="trailing" constant="-20" id="rht-We-WPI"/>
                             <constraint firstItem="K2I-bv-3zU" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-20" id="sRs-di-XGY"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="0kc-k0-cUJ"/>
+                                <exclude reference="rht-We-WPI"/>
+                                <exclude reference="sRs-di-XGY"/>
+                                <exclude reference="6bQ-hg-kPv"/>
+                            </mask>
+                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -36,4 +59,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="FridgeDoorLaunch500" width="500" height="506"/>
+    </resources>
 </document>
