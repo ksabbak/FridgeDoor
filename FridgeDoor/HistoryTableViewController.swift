@@ -25,30 +25,20 @@ class HistoryTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
         return listHistory.count
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("CellID", forIndexPath: indexPath)
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        guard let cell = tableView.dequeueReusableCellWithIdentifier("CellID", forIndexPath: indexPath) as? HistoryTableViewCell else { return UITableViewCell() }
 
-        if listHistory.count > 0
-        {
+            listHistory.sortInPlace({ $0.time.timeIntervalSince1970 > $1.time.timeIntervalSince1970 })
             let historyItem = listHistory[indexPath.row]
-            connectionManager.getUserFor(historyItem.purchaserUID, completion: { (purchaser: User) -> Void in
-            
-            
-            cell.textLabel?.text = historyItem.itemName
-            
-            let formatter = NSDateFormatter()
-            formatter.dateStyle = .MediumStyle
-            formatter.stringFromDate(historyItem.time)
-            
-            cell.detailTextLabel?.text = "Purchased by: \(purchaser.username) on: \(formatter.stringFromDate(historyItem.time))"
-            })
-        }
-        
+            cell.configureWithHistoryItem(historyItem)
+                    
         return cell
     }
     

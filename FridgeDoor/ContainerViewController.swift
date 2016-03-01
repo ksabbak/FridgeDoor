@@ -43,7 +43,6 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
         // wrap the centerViewController in a navigation controller, so we can push views to it
         // and display bar button items in the navigation bar
         centerNavigationController = UINavigationController(rootViewController: centerViewController)
-        centerNavigationController.view.backgroundColor = UIColor.whiteColor()  
         view.addSubview(centerNavigationController.view)
         addChildViewController(centerNavigationController)
         

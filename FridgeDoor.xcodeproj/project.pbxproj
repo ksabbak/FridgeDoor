@@ -28,6 +28,7 @@
 		5ADEA85F1C7788480089BB1D /* AvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADEA85E1C7788480089BB1D /* AvatarViewController.swift */; };
 		A90EF08E1C8099F20087773F /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90EF08D1C8099F20087773F /* CommentTableViewCell.swift */; };
 		A90EF0961C8242300087773F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A90EF0941C8242300087773F /* Main.storyboard */; };
+		A90EF0981C85EEA90087773F /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90EF0971C85EEA90087773F /* HistoryTableViewCell.swift */; };
 		A964EDA81C7396F4000697DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A964EDA71C7396F4000697DE /* AppDelegate.swift */; };
 		A964EDAF1C7396F4000697DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A964EDAE1C7396F4000697DE /* Assets.xcassets */; };
 		A964EDB21C7396F4000697DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */; };
@@ -62,6 +63,7 @@
 		8F24CBA4B6B60AF0B1B016C6 /* Pods_FridgeDoor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FridgeDoor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A90EF08D1C8099F20087773F /* CommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		A90EF0951C8242300087773F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A90EF0971C85EEA90087773F /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		A964EDA41C7396F4000697DE /* FridgeDoor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FridgeDoor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A964EDA71C7396F4000697DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A964EDAE1C7396F4000697DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				A964EDD21C742079000697DE /* View */,
 				A964EDD31C742081000697DE /* Controller */,
 				A964EDA71C7396F4000697DE /* AppDelegate.swift */,
+				5A8C3EB91C847E0600D3F899 /* HistoryTableViewController.swift */,
 				5ADEA8371C73ABF20089BB1D /* CreateAccountViewController.swift */,
 				A964EDD41C74213E000697DE /* ConnectionManager.swift */,
 				5ADEA85A1C763A210089BB1D /* ListViewController.swift */,
@@ -158,6 +161,7 @@
 				A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */,
 				A90EF0941C8242300087773F /* Main.storyboard */,
 				A90EF08D1C8099F20087773F /* CommentTableViewCell.swift */,
+				A90EF0971C85EEA90087773F /* HistoryTableViewCell.swift */,
 				5ADEA85C1C77878B0089BB1D /* AvatarCollectionViewCell.swift */,
 				5ADEA8581C7527170089BB1D /* ListItemTableViewCell.swift */,
 				A964EDAE1C7396F4000697DE /* Assets.xcassets */,
@@ -168,7 +172,6 @@
 		A964EDD31C742081000697DE /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				5A8C3EB91C847E0600D3F899 /* HistoryTableViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				5A8C3E991C7F1E9500D3F899 /* InviteViewController.swift in Sources */,
 				A964EDD71C7421C3000697DE /* List.swift in Sources */,
 				5ADEA8421C73ABF20089BB1D /* CreateGroupViewController.swift in Sources */,
+				A90EF0981C85EEA90087773F /* HistoryTableViewCell.swift in Sources */,
 				A964EDA81C7396F4000697DE /* AppDelegate.swift in Sources */,
 				5ADEA8471C73ABF20089BB1D /* ProfileViewController.swift in Sources */,
 				5ADEA8531C74BD6E0089BB1D /* ContainerViewController.swift in Sources */,
