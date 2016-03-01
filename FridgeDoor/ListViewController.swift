@@ -46,7 +46,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         //TODO: figure out the right numbers.
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
         
-        //tableView.backgroundColor
+        tableView.backgroundColor = UIColor.appVeryLightBlueColor()
 
         
         disableBoughtButton()

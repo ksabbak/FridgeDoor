@@ -33,4 +33,12 @@ extension UIColor {
         return UIColor(red:0.012, green:0.294, blue:0.420, alpha:1.00)
         
     }
+    
+    public class func appVeryLightBlueColor() -> UIColor {
+        
+        return UIColor(red:0.624, green:0.769, blue:0.827, alpha:1.00)
+               
+    }
+
+    
 }

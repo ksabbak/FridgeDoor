@@ -31,7 +31,7 @@ class ListItemTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        
+        backgroundColor = UIColor.appVeryLightBlueColor()
         
         topIcon.image = UIImage(named: "alert")
         bottomIcon.image = UIImage(named: "comment")
