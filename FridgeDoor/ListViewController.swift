@@ -30,12 +30,9 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var itemsPendingRemoval = [Item]()
     var members: [User] = []
     
-    //var passedItem: Item!
-    
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var mintView: UIImageView!
     @IBOutlet weak var boughtButton: UIButton!
-    
     
     var tempArray:[String] = ["Banana", "Apple"]       //DELETE ME: This is a temporary array for testing reasons.
     
@@ -48,7 +45,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         //This is to fix that stupid uglyass gap between the rows and the edge of the screen. 
         //TODO: figure out the right numbers.
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
-                
+        
+        //tableView.backgroundColor
 
         
         disableBoughtButton()
@@ -64,11 +62,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         print("checkUserAuth")
         checkUserAuth()
-//        if currentListUID != ""
-//        {
-//            setVisibleList()
-//        }
-        tableView.reloadData()
+
+//        tableView.reloadData()
     }
     
     
@@ -103,7 +98,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             mintView.hidden = true
             print(currentUser.username)
             print(currentUser.userLists)
-            tableView.reloadData()
+//            tableView.reloadData()
         }
     }
     
@@ -267,20 +262,23 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             
             if item.highAlert.characters.count > 0
             {
-                cell.bottomIcon.hidden = false
-            }
-            else
-            {
-                cell.bottomIcon.hidden = true
-            }
-            
-            if item.comments.count > 0
-            {
                 cell.topIcon.hidden = false
             }
             else
             {
                 cell.topIcon.hidden = true
+            }
+            
+            if item.comments.count > 0
+            {
+                cell.bottomIcon.hidden = false
+                cell.numberOfComments.hidden = false
+                cell.numberOfComments.text = "\(item.comments.count)"
+            }
+            else
+            {
+                cell.bottomIcon.hidden = true
+                cell.numberOfComments.hidden = true
             }
             
             if itemsPendingRemoval.contains(item)
@@ -296,6 +294,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             {
                print("rotating is true")
                 cell.volunteerAvatar.hidden = false
+                cell.usernameLabel.hidden = false
                 var userTurnUID = String()
                 for userTurn in item.rotate
                 {
@@ -308,6 +307,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 connectionManager.getUserFor(userTurnUID, completion: { (user: User) -> Void in
                     print("in rotating closure")
                     cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
+                    cell.usernameLabel.text = user.username
                 })
             }
             else if item.volunteerUID.characters.count > 0
@@ -317,11 +317,13 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 connectionManager.getUserFor(item.volunteerUID, completion: { (user: User) -> Void in
                     print("volunteer closure")
                     cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
+                    cell.usernameLabel.text = user.username
                 })
             }
             else
             {
                 cell.volunteerAvatar.hidden = true
+                cell.usernameLabel.hidden = true
             }
         }
         

@@ -44,8 +44,7 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
         }
         else
         {
-            selectAvatar.enabled = false
-            selectAvatar.hidden = true
+            selectAvatar.setTitle("", forState: .Normal)
             imageView.image = UIImage(named: avatarImageName)
         }
         print(":) \(avatarImageName)")

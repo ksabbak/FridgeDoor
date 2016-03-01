@@ -28,6 +28,13 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
 
 
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let screenRect: CGRect = UIScreen.mainScreen().bounds
+        let screenWidth: CGFloat = screenRect.size.width
+        let cellWidth: CGFloat = screenWidth / 3.2
+        let size: CGSize = CGSizeMake(cellWidth, cellWidth)
+        return size
+    }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
     {

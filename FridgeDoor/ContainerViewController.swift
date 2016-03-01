@@ -45,8 +45,7 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
         centerNavigationController = UINavigationController(rootViewController: centerViewController)
         centerNavigationController.navigationBar.barTintColor = UIColor.appDarkBlueColor()
         centerNavigationController.view.backgroundColor = UIColor.appDarkBlueColor()
-        centerNavigationController.navigationBar.tintColor = UIColor.whiteColor()   
-        //centerNavigationController.view.backgroundColor = UIColor.cyanColor()
+        centerNavigationController.navigationBar.tintColor = UIColor.whiteColor()
         view.addSubview(centerNavigationController.view)
         addChildViewController(centerNavigationController)
         

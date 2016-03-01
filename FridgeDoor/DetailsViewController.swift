@@ -178,7 +178,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 if item.volunteerUID == currentUser!.UID
                 {
                     voluteerToPurchaseButton.backgroundColor = UIColor.appLightBlueColor()
-                    voluteerToPurchaseButton.setTitle("Undo Volunteer to Purchase", forState: .Normal)
+                    voluteerToPurchaseButton.setTitle("Undo Volunteer", forState: .Normal)
                     voluteerToPurchaseButton.enabled = true
                     volunteerImage.image = UIImage(named: "\(currentUser!.imageName)")
                 }

@@ -23,6 +23,8 @@ class ListItemTableViewCell: UITableViewCell {
     @IBOutlet weak var topIcon: UIImageView!
     @IBOutlet weak var bottomIcon: UIImageView!
     @IBOutlet weak var volunteerAvatar: UIImageView!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var numberOfComments: UILabel!
     
     var delegate: ListItemTableViewCellDelegate?
     
@@ -31,8 +33,8 @@ class ListItemTableViewCell: UITableViewCell {
         
         
         
-        topIcon.image = UIImage(named: "bubble")
-        bottomIcon.image = UIImage(named: "staple")
+        topIcon.image = UIImage(named: "alert")
+        bottomIcon.image = UIImage(named: "comment")
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
