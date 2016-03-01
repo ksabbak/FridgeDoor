@@ -398,7 +398,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last purchased by username 00 days ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CuP-PR-mWn">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CuP-PR-mWn">
                                 <rect key="frame" x="38" y="609" width="313" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="Yd9-ed-naa"/>
@@ -754,8 +754,12 @@
                             <outlet property="delegate" destination="jXe-QS-3LF" id="TaE-ZO-h9l"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="MjF-9K-73w" kind="unwind" identifier="NowHaveListSegue" unwindAction="unwindToListVC:" id="t20-Od-NaD"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jxj-yE-ksJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="MjF-9K-73w" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-2412.5" y="716.5"/>
         </scene>
@@ -928,7 +932,7 @@
                         <outlet property="usernameTextField" destination="cpN-Fi-jVL" id="P7h-pm-5a6"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="" id="I3Q-bW-vzL"/>
                         <segue destination="yRe-Ye-pJl" kind="presentation" identifier="ProfileToAvatar" id="GO8-Xx-t2T"/>
-                        <segue destination="dsW-Rq-rpX" kind="unwind" identifier="ProfileLogout" unwindAction="loggedOut:" id="Jsz-tM-MQ5"/>
+                        <segue destination="dsW-Rq-rpX" kind="unwind" identifier="ProfileLogout" unwindAction="unwindToListVC:" id="Jsz-tM-MQ5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6N5-Wy-LJd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1303,7 +1307,7 @@
                         <outlet property="passwordTextField" destination="4D1-T7-h5Z" id="E2C-hl-7LD"/>
                         <outlet property="selectAvatar" destination="i6s-SO-qsF" id="Yn1-nK-QxD"/>
                         <outlet property="userNameTextField" destination="Rle-Xg-3ue" id="Eb9-n5-YYm"/>
-                        <segue destination="ltT-HB-XP5" kind="unwind" identifier="BackToList" unwindAction="newUserCreated:" id="Elx-RI-x8r"/>
+                        <segue destination="ltT-HB-XP5" kind="unwind" identifier="BackToList" unwindAction="unwindToListVC:" id="Elx-RI-x8r"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hDW-sE-LMe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1501,6 +1505,9 @@
                                         <integer key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="jXe-QS-3LF" kind="presentation" identifier="NewJoinerSegue" id="5t3-fo-FZU"/>
+                                </connections>
                             </button>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CqK-Hs-RxW">
                                 <rect key="frame" x="102.5" y="268.5" width="170" height="30"/>
@@ -1537,11 +1544,10 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <segue destination="17k-Gg-4Vz" kind="unwind" identifier="FroggerTwoSegue" unwindAction="newListCreated:" id="s6l-Pb-4mW"/>
+                        <outlet property="joinButton" destination="mp0-EQ-N7u" id="A02-k2-m3z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DJ7-Qo-Alp" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="17k-Gg-4Vz" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-480.5" y="1130.5"/>
         </scene>
@@ -1599,8 +1605,8 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="listTitleTextField" destination="npT-u0-Pav" id="76o-nq-Pwt"/>
-                        <segue destination="Bea-sj-ASA" kind="unwind" identifier="NewListCreated" unwindAction="newListCreated:" id="Jd4-qa-Jyj"/>
-                        <segue destination="Bea-sj-ASA" kind="unwind" identifier="LeepFrogSegue" unwindAction="leepFrogSegue:" id="TIZ-2l-SF7"/>
+                        <segue destination="Bea-sj-ASA" kind="unwind" identifier="NewListCreated" unwindAction="unwindToListVC:" id="Jd4-qa-Jyj"/>
+                        <segue destination="Bea-sj-ASA" kind="unwind" identifier="LeepFrogSegue" unwindAction="unwindToListVC:" id="TIZ-2l-SF7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mEV-Q5-W1E" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1633,8 +1639,9 @@
         <image name="box" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="1zs-aj-LoX"/>
         <segue reference="DZ4-gC-jXx"/>
+        <segue reference="VmH-x7-IEo"/>
         <segue reference="iW6-aB-1Fl"/>
-        <segue reference="cyk-Xs-jvR"/>
     </inferredMetricsTieBreakers>
 </document>

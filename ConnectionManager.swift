@@ -648,6 +648,16 @@ class ConnectionManager {
         
     }
     
+    func deleteItem(itemUID: String, fromList listUID: String, withClosure complete: () -> ())
+    {
+        let itemRef = listsRef.childByAppendingPath("\(listUID)/items/\(itemUID)")
+        
+        itemRef.removeValue()
+        
+        complete()
+        
+    }
+    
     //MARK: - Comment Handling
     
     
@@ -1433,7 +1443,14 @@ class ConnectionManager {
         
         var noListExistsCount = 0
         
-        checkRef.observeSingleEventOfType(.Value, withBlock: { (snapshot:FDataSnapshot!) -> Void in
+        checkRef.observeEventType(.Value, withBlock: { (snapshot: FDataSnapshot!) -> Void in
+            if snapshot.value.allKeys == nil
+            {
+                print("We did not find a matching list")        //This user has no lists.
+                completion(doesExist: false)
+            }
+            else
+            {
             for snap in snapshot.value.allKeys
             {
                 if snap as! String == listUID
@@ -1452,7 +1469,19 @@ class ConnectionManager {
                     completion(doesExist: false) //This will only be called once we go through the FULL list and the list isn't found.
                 }
             }
-        })
+            }
+
+            }) { (error: NSError!) -> Void in
+                if (error != nil)
+                {
+                    print("Oh no!")
+                }
+        }
+//        checkRef.observeSingleEventOfType(.Value, withBlock: { (snapshot:FDataSnapshot!) -> Void in
+//            if snapshot.value.allKeys.count > 0
+//            {
+//                        }
+//        })
     }
 
     //I mean there's no reason for this to be private except that there's no reason for it to be public if it's only called in the connection manager.
@@ -1462,8 +1491,6 @@ class ConnectionManager {
         
         checkRef.observeSingleEventOfType(.Value, withBlock: { (snapshot:FDataSnapshot!) -> Void in
             let keys = snapshot.value.allKeys
-            
-            
             
             var noEmailExistsCount = 0
             for key in keys
@@ -1479,6 +1506,7 @@ class ConnectionManager {
                     if pendingDictionary["to"] == email
                     {
                         completion(list: pendingDictionary["onList"]!, fromUser: pendingDictionary["from"]!)
+                        newRef.removeValue()
                         return
                     }
                     
@@ -1492,7 +1520,6 @@ class ConnectionManager {
                 })
             }
         })
-
     }
     
     

@@ -43,15 +43,18 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
         // wrap the centerViewController in a navigation controller, so we can push views to it
         // and display bar button items in the navigation bar
         centerNavigationController = UINavigationController(rootViewController: centerViewController)
-        centerNavigationController.view.backgroundColor = UIColor.whiteColor()  
+        centerNavigationController.navigationBar.barTintColor = UIColor.appDarkBlueColor()
+        centerNavigationController.view.backgroundColor = UIColor.appDarkBlueColor()
+        centerNavigationController.navigationBar.tintColor = UIColor.whiteColor()   
+        //centerNavigationController.view.backgroundColor = UIColor.cyanColor()
         view.addSubview(centerNavigationController.view)
         addChildViewController(centerNavigationController)
         
         centerNavigationController.didMoveToParentViewController(self)
         
         
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePanGesture:")
-        centerNavigationController.view.addGestureRecognizer(panGestureRecognizer)
+//        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePanGesture:")
+//        centerNavigationController.view.addGestureRecognizer(panGestureRecognizer)
         //panGestureRecognizer.delegate = self
         
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleTapGesture:")
@@ -159,20 +162,36 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
     func handlePanGesture(recognizer: UIPanGestureRecognizer) {
         let gestureIsDraggingFromLeftToRight = (recognizer.velocityInView(view).x > 0)
         
+//        if !gestureIsDraggingFromLeftToRight
+//        {
+//            recognizer.enabled = false
+//        }
+//        else
+//        {
+//            recognizer.enabled = true
+//        }
+        
+        if gestureIsDraggingFromLeftToRight
+        {
         switch(recognizer.state) {
         case .Began:
             if (currentState == .Collapsed) {
-                if (gestureIsDraggingFromLeftToRight) {
+                if (gestureIsDraggingFromLeftToRight)
+                {
                     addLeftPanelViewController()
+                    showShadowForCenterViewController(true)
                 }
                 
-                showShadowForCenterViewController(true)
+                if !gestureIsDraggingFromLeftToRight
+                {
+                    recognizer.cancelsTouchesInView = true
+                }
             }
         case .Changed:
             if recognizer.velocityInView(view).x > 0 || currentState == .MenuPanelExpanded
             {
-            recognizer.view!.center.x = recognizer.view!.center.x + recognizer.translationInView(view).x
-            recognizer.setTranslation(CGPointZero, inView: view)
+                recognizer.view!.center.x = recognizer.view!.center.x + recognizer.translationInView(view).x
+                recognizer.setTranslation(CGPointZero, inView: view)
             }
         case .Ended:
             if (leftViewController != nil) {
@@ -194,6 +213,11 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate, Ce
         default:
             break
         }
+        }
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     

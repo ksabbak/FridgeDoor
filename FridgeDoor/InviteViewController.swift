@@ -46,6 +46,7 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
                         {
                             self.connectionManager.setPendingRequest(self.currentUser.UID, toUID: success, forList: self.getPickerRowAsTuple().1)
                             self.userTextField.text = ""
+                            print("All should be well?")
                             return
                         }
                         //The user is already a member of the list

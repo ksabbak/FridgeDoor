@@ -156,7 +156,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             if count == self.itemsPendingRemoval.count      //Tableview shouldn't reload until all items are inactive
             {
                 print("item removed: \(item)")
-                //self.setVisibleList()
                 self.tableView.reloadData()
             }
             
@@ -164,7 +163,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             {
                 self.connectionManager.rotate(item, onList: self.theList.UID)
             }
-            
          })
             count++
             connectionManager.addHistoryItem(item, toList: theList.UID, purchasedBy: currentUser.UID)
@@ -199,7 +197,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     ///Pulls active items from backend list
     func setVisibleList()
     {
-//        let reloadTestCount = visibleList.count
         visibleList = []
         for item in theList.items
         {
@@ -208,13 +205,50 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 visibleList.append(item)
             }
         }
+    }
+    
+    ///Removes an item from the pendingRemoval array without changing its Active status.
+    func removeItemFromPendingRemoval(item: Item)
+    {
+        for i in 0 ..< itemsPendingRemoval.count
+        {
+            if itemsPendingRemoval[i] == item
+            {
+                itemsPendingRemoval.removeAtIndex(i)
+                break
+            }
+        }
+
+    }
+    
+    
+    func deleteOrRemoveAlert(item: Item)
+    {
+        let deletionAlert = UIAlertController(title: "Are you sure?", message: "Do you want to permanently remove the item and all its data or remove it from the active shopping list but leave it available for later?", preferredStyle: UIAlertControllerStyle.Alert)
         
-//        if visibleList.count != reloadTestCount
-//        {
-//            tableView.reloadData()
-//            print("Test this call")
-//        }
+        let deleteAction = UIAlertAction(title: "DELETE Item", style: .Destructive ) { (UIAlertAction) -> Void in
+            self.connectionManager.deleteItem(item.UID, fromList: self.theList.UID, withClosure: { () -> Void in
+                self.removeItemFromPendingRemoval(item)
+                print("Item successfully deleted from existence")
+            })
+        }
         
+        let removeAction = UIAlertAction(title: "Remove Item", style: .Default ) { (UIAlertAction) -> Void in
+            self.connectionManager.makeInctive(item.UID, onList: self.theList.UID, completion: { () -> Void in
+                self.removeItemFromPendingRemoval(item)
+                print("Item successfully removed from list")
+            })
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel ) { (UIAlertAction) -> Void in
+        }
+        
+        deletionAlert.addAction(removeAction)
+        deletionAlert.addAction(deleteAction)
+        deletionAlert.addAction(cancelAction)
+        
+        presentViewController(deletionAlert, animated: true, completion: nil);
+ 
     }
     
     
@@ -224,8 +258,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID")! as! ListItemTableViewCell
         cell.delegate = self
-        
-//        setVisibleList()
         
         if visibleList.count > 0
         {
@@ -264,7 +296,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             {
                print("rotating is true")
                 cell.volunteerAvatar.hidden = false
-                //cell.usernameLabel.hidden = false
                 var userTurnUID = String()
                 for userTurn in item.rotate
                 {
@@ -277,32 +308,27 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 connectionManager.getUserFor(userTurnUID, completion: { (user: User) -> Void in
                     print("in rotating closure")
                     cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
-                    //cell.usernameLabel.text = user.username
                 })
             }
             else if item.volunteerUID.characters.count > 0
             {
                 print("there is a volunteer for this item")
                 cell.volunteerAvatar.hidden = false
-                //cell.usernameLabel.hidden = false
                 connectionManager.getUserFor(item.volunteerUID, completion: { (user: User) -> Void in
                     print("volunteer closure")
                     cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
-                    //cell.username = user.username
                 })
             }
             else
             {
                 cell.volunteerAvatar.hidden = true
-                //cell.usernameLabel.hidden = true
             }
-            
-            
         }
         
         return cell
     }
     
+    //For making sure all data passed between the lists is visible immediately
     func backButtonDataReload()
     {
         theList = connectionManager.getListFor(listUID: theList.UID)
@@ -332,14 +358,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             tableView.reloadData()
             
             //remove row item from itemsPendingRemoval when its box is unchecked
-            for i in 0 ..< itemsPendingRemoval.count
-            {
-                if itemsPendingRemoval[i] == rowItem
-                {
-                    itemsPendingRemoval.removeAtIndex(i)
-                    break
-                }
-            }
+           removeItemFromPendingRemoval(rowItem)
         }
         
         if itemsPendingRemoval.count > 0
@@ -368,6 +387,25 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         print("Deselected")
+    }
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+    {
+        return true
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
+    {
+        if (editingStyle == UITableViewCellEditingStyle.Delete)
+        {
+            let item = visibleList[indexPath.row]
+            deleteOrRemoveAlert(item)
+            tableView.reloadData()
+        }
     }
     
     
@@ -461,27 +499,15 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.reloadData()
     }
     
-    //Mark: Unwind from CreateGroupVC and CreateGroupVC Delegate
     
-    @IBAction func newListCreated(segue: UIStoryboardSegue)
+    @IBAction func unwindToListVC(segue: UIStoryboardSegue)
     {
-        //Unwinds to ListVC from CreateGroupVC
-//        let sourceVC = segue.sourceViewController as! CreateGroupViewController
-//        sourceVC.delegate = self
-//        print("Create Group delegate was fired")
-    }
-    
-    
-    @IBAction func newUserCreated(segue: UIStoryboardSegue)
-    {
-        //Unwinds to ListVC from CreateAccountVC
-
-    }
-
-    
-    @IBAction func loggedOut(segue: UIStoryboardSegue)
-    {
-        //Unwinds on logout
+        //Unwinds from a lot of places
+        //1. On Logout
+        //2. from CreateAccount
+        //3. From CreateGroup
+        //4. From JoinGroup.
+        //5. ? Maybe, probably.
     }
     
     

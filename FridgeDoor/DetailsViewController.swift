@@ -23,6 +23,8 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var lastPurchasedByLabel: UILabel!
     @IBOutlet weak var highAlertButton: UIButton!
     
+    let connectionManager = ConnectionManager.sharedManager
+    
     var list: List!
     var item: Item!
     var comments: [Comment] = []
@@ -37,6 +39,69 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.rowHeight = UITableViewAutomaticDimension
         ConnectionManager.sharedManager.itemChangedDelegate = self
         ConnectionManager.sharedManager.setupItemObserver(item.UID, listUID: list.UID)
+        
+        
+        
+        
+        
+        
+        //Start code that fills in the "last bought by" info on the bottom
+        list.historyItems.sortInPlace({ $0.time.timeIntervalSince1970 > $1.time.timeIntervalSince1970 })
+        
+        for historyItem in list.historyItems
+        {
+            if historyItem.itemName == item.name
+            {
+                connectionManager.getUserFor(historyItem.purchaserUID, completion: { (user: User) -> Void in
+                    
+                    let date = NSDate()
+                    let time = Int(date.timeIntervalSinceDate(historyItem.time))
+                    let (d, h, m, s) = self.secondsToDaysHoursMinutesSeconds(time)
+                    var timeSince = ""
+                    if d < 1
+                    {
+                        if h < 1
+                        {
+                            if m < 1
+                            {
+                                timeSince = "just now"
+                            }
+                            else
+                            {
+                                timeSince = "\(m) minutes ago"
+                            }
+                        }
+                        else
+                        {
+                            if h > 1
+                            {
+                            timeSince = "\(h) hours ago"
+                            }
+                            else
+                            {
+                                timeSince = "\(h) hour ago"
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if d > 1
+                        {
+                            timeSince = "\(d) days ago"
+                        }
+                        else
+                        {
+                            timeSince = "\(d) day ago"
+                        }
+                    }
+ 
+                    self.lastPurchasedByLabel.text = "Last purchased by \(user.username) " + timeSince + "."
+                })
+                break
+            }
+        }
+        //End code that fills in the "last bought by" code at the bottom. If no previous purchase was made, it will be blank.
+        
     }
 
 
@@ -306,6 +371,11 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    //Seconds is not really ever used, but hey, it's here if we need it.
+    func secondsToDaysHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int, Int) {
+        return (seconds / 86400, seconds / 3600, seconds / 60, seconds)
+    }
+
     
 
 }

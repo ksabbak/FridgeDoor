@@ -30,7 +30,7 @@ extension UIColor {
     
     public class func appDarkBlueColor() -> UIColor {
         
-        return UIColor(red: CGFloat(0x03) / 255.0, green: CGFloat(0x4b) / 255.0, blue: CGFloat(0x6b) / 255.0, alpha: 1.0)
+        return UIColor(red:0.012, green:0.294, blue:0.420, alpha:1.00)
         
     }
 }

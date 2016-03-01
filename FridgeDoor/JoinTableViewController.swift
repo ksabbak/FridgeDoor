@@ -14,8 +14,18 @@ class JoinTableViewController: UITableViewController, ConnectionManagerUserChang
     let connectionManager = ConnectionManager.sharedManager
     var requestsArray = [[String:AnyObject]]()
     
+    var dismiss: Bool?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        if dismiss == true
+        {
+            let tableHeader = UIView.init(frame: CGRectMake(0, 0, 0, 75))
+            
+            tableView.tableHeaderView = tableHeader
+        }
         
         connectionManager.userChangedDelegate = self
         
@@ -52,12 +62,21 @@ class JoinTableViewController: UITableViewController, ConnectionManagerUserChang
             self.connectionManager.addMember(self.currentUser.UID, toList: list)
             self.connectionManager.deletePending(self.currentUser.UID, pendingUID: pendingUID)
             self.tableView.reloadData()
+            if self.dismiss == true
+            {
+                self.performSegueWithIdentifier("NowHaveListSegue", sender: self)
+            }
         }
         
         //removes the pending request
         let declineAction = UIAlertAction(title: "Decline", style: .Destructive) { (UIAlertAction) -> Void in
             self.connectionManager.deletePending(self.currentUser.UID, pendingUID: pendingUID)
             self.tableView.reloadData()
+            
+            if self.dismiss == true
+            {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
         }
         
         //does nothing
@@ -109,6 +128,12 @@ class JoinTableViewController: UITableViewController, ConnectionManagerUserChang
             tableView.reloadData()
         }
     }
+    
+//    @IBAction func newUserWantsToJoin(segue: UIStoryboardSegue)
+//    {
+//        //Let's hope this doesn't break things.
+//       print("Nope?")
+//    }
     
 
 }

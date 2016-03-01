@@ -14,8 +14,20 @@ class StartOrJoinGroupViewController: UIViewController
     var currentUser: User?
     let connectionManager = ConnectionManager.sharedManager
     
+    @IBOutlet weak var joinButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if currentUser!.pending.count > 0
+        {
+           joinButton.enabled = true
+        }
+        else
+        {
+            joinButton.enabled = false
+            joinButton.backgroundColor = UIColor.appDarkBlueColor()
+        }
 
     }
     
@@ -28,6 +40,14 @@ class StartOrJoinGroupViewController: UIViewController
             
             dvc.leepFrog = true
             
+            dvc.currentUser = currentUser
+        }
+        
+        if segue.identifier == "NewJoinerSegue"
+        {
+            let dvc = segue.destinationViewController as! JoinTableViewController
+            
+            dvc.dismiss = true
             dvc.currentUser = currentUser
         }
     }
