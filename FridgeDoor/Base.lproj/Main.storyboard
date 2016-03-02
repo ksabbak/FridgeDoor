@@ -1613,7 +1613,7 @@
                                     <action selector="onEmailInviteTapped:" destination="fha-Tk-CPy" eventType="touchUpInside" id="LaW-f5-ErQ"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="friend@email.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EB8-JU-2sJ">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="friend@email.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EB8-JU-2sJ">
                                 <rect key="frame" x="19" y="123" width="336" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="bSb-dJ-1ra"/>
@@ -1624,7 +1624,7 @@
                                     <outlet property="delegate" destination="fha-Tk-CPy" id="V7q-bH-LkD"/>
                                 </connections>
                             </textField>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Kg-Gu-bgn">
+                            <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Kg-Gu-bgn">
                                 <rect key="frame" x="0.0" y="207" width="375" height="216"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="216" id="4vO-Ja-8aC"/>
@@ -1749,7 +1749,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name your shopping list!" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="npT-u0-Pav">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name your shopping list!" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="npT-u0-Pav">
                                 <rect key="frame" x="42" y="182" width="290" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Au2-G5-rqm"/>
@@ -1761,7 +1761,7 @@
                                     <outlet property="delegate" destination="Wg3-rw-1n0" id="WrA-7f-Qku"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uWe-CY-q2d">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uWe-CY-q2d">
                                 <rect key="frame" x="155" y="351" width="65" height="30"/>
                                 <color key="backgroundColor" red="0.56862745100000001" green="0.086274509799999996" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
