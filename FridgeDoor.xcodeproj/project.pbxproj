@@ -29,6 +29,7 @@
 		A90EF08E1C8099F20087773F /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90EF08D1C8099F20087773F /* CommentTableViewCell.swift */; };
 		A90EF0961C8242300087773F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A90EF0941C8242300087773F /* Main.storyboard */; };
 		A90EF0981C85EEA90087773F /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90EF0971C85EEA90087773F /* HistoryTableViewCell.swift */; };
+		A90EF09A1C866BA90087773F /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90EF0991C866BA90087773F /* NavigationViewController.swift */; };
 		A964EDA81C7396F4000697DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A964EDA71C7396F4000697DE /* AppDelegate.swift */; };
 		A964EDAF1C7396F4000697DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A964EDAE1C7396F4000697DE /* Assets.xcassets */; };
 		A964EDB21C7396F4000697DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */; };
@@ -64,6 +65,7 @@
 		A90EF08D1C8099F20087773F /* CommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		A90EF0951C8242300087773F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A90EF0971C85EEA90087773F /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
+		A90EF0991C866BA90087773F /* NavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		A964EDA41C7396F4000697DE /* FridgeDoor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FridgeDoor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A964EDA71C7396F4000697DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A964EDAE1C7396F4000697DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				5ADEA8391C73ABF20089BB1D /* DetailsViewController.swift */,
 				5ADEA8561C74F47F0089BB1D /* AddItemViewController.swift */,
 				5ADEA8521C74BD6E0089BB1D /* ContainerViewController.swift */,
+				A90EF0991C866BA90087773F /* NavigationViewController.swift */,
 				5ADEA83B1C73ABF20089BB1D /* Info.plist */,
 				5ADEA83C1C73ABF20089BB1D /* LoginViewController.swift */,
 				5ADEA83D1C73ABF20089BB1D /* ProfileViewController.swift */,
@@ -228,7 +231,7 @@
 				TargetAttributes = {
 					A964EDA31C7396F4000697DE = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = M4GJ798P8H;
+						DevelopmentTeam = RSW6FWFLGL;
 					};
 				};
 			};
@@ -320,6 +323,7 @@
 				A964EDD91C7421CF000697DE /* User.swift in Sources */,
 				A964EDDE1C74DEE6000697DE /* Debug.swift in Sources */,
 				5ADEA8461C73ABF20089BB1D /* LoginViewController.swift in Sources */,
+				A90EF09A1C866BA90087773F /* NavigationViewController.swift in Sources */,
 				5ADEA85D1C77878B0089BB1D /* AvatarCollectionViewCell.swift in Sources */,
 				5ADEA8411C73ABF20089BB1D /* CreateAccountViewController.swift in Sources */,
 				5ADEA8591C7527170089BB1D /* ListItemTableViewCell.swift in Sources */,
@@ -456,7 +460,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FridgeDoor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ksabbak.mobilemakers.FridgeDoor;
+				PRODUCT_BUNDLE_IDENTIFIER = steve.mobilemakers.FridgeDoor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -471,7 +475,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FridgeDoor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ksabbak.mobilemakers.FridgeDoor;
+				PRODUCT_BUNDLE_IDENTIFIER = steve.mobilemakers.FridgeDoor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

@@ -175,16 +175,20 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func enableBoughtButton()
     {
-        boughtButton.backgroundColor = UIColor.appWineColor()
-        boughtButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+//        boughtButton.backgroundColor = UIColor.appWineColor()
+//        boughtButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         boughtButton.enabled = true
+        UIView.animateWithDuration(0.2) { () -> Void in
+            self.boughtButton.alpha = 1.0
+        }
     }
     
     func disableBoughtButton()
     {
-        boughtButton.backgroundColor = UIColor.appLightBlueColor()
-        boughtButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
         boughtButton.enabled = false
+        UIView.animateWithDuration(0.2) { () -> Void in
+            self.boughtButton.alpha = 0
+        }
     }
 
     //MARK: - Housekeeping

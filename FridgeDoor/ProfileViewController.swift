@@ -34,6 +34,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         super.viewDidLoad()
         connectionManager.logoutDelegate = self
+        view.backgroundColor = UIColor.appVeryLightBlueColor()
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
 
     }
 
@@ -42,6 +44,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         usernameTextField.delegate = self
         
         configureWithUser(passedUser!)
+        tableView.backgroundColor = UIColor.appVeryLightBlueColor()
     }
     
     func configureWithUser(user: User)
@@ -78,6 +81,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID")
         let list = lists[indexPath.row]
         cell?.textLabel?.text = list.name
+        cell?.textLabel?.textColor = UIColor.appBrownColor()
+        cell?.backgroundColor = UIColor.appVeryLightBlueColor()
         
         return cell!
     }
