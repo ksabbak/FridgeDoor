@@ -34,7 +34,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         super.viewDidLoad()
         connectionManager.logoutDelegate = self
-
     }
 
     override func viewWillAppear(animated: Bool)

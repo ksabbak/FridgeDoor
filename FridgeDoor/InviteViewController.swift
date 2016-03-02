@@ -10,6 +10,11 @@ import UIKit
 import MessageUI
 
 class InviteViewController: UIViewController, MFMailComposeViewControllerDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+    
+  
+    
+    @IBOutlet weak var emailButton: UIButton!
+    @IBOutlet weak var inviteButton: UIButton!
 
     @IBOutlet weak var userTextField: UITextField!
     @IBOutlet weak var listPicker: UIPickerView!
@@ -23,6 +28,9 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
         
         listPicker.delegate = self
         listPicker.dataSource = self
+        view.backgroundColor = UIColor.appVeryLightBlueColor()
+        emailButton.layer.cornerRadius = 5
+        inviteButton.layer.cornerRadius = 5
         
         // Do any additional setup after loading the view.
     }

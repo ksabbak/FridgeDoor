@@ -26,6 +26,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     {
         super.viewDidLoad()
         
+        tableView.backgroundColor = UIColor.appDarkBlueColor()
+        view.backgroundColor = UIColor.appDarkBlueColor()
+        
+        
         //let currentUser = connectionManager.getUserFor(userUID: connectionManager.userUID()!)
         
         self.settingsList = ["Profile", "Add Member", "View History", "Create New List"]
@@ -57,6 +61,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath)
+        
+        cell.textLabel?.textColor = UIColor.whiteColor()
+        cell.backgroundColor = UIColor.appDarkBlueColor()
+        
         let settingName = settingsList[indexPath.row]
         cell.textLabel?.text = settingName
         
