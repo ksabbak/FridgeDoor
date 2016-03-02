@@ -19,10 +19,13 @@ class JoinTableViewController: UITableViewController, ConnectionManagerUserChang
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.backgroundColor = UIColor.appVeryLightBlueColor()
+        view.backgroundColor = UIColor.appVeryLightBlueColor()
         
         if dismiss == true
         {
             let tableHeader = UIView.init(frame: CGRectMake(0, 0, 0, 75))
+            tableHeader.backgroundColor = UIColor.appVeryLightBlueColor()
             
             tableView.tableHeaderView = tableHeader
         }
@@ -101,7 +104,9 @@ class JoinTableViewController: UITableViewController, ConnectionManagerUserChang
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID", forIndexPath: indexPath)
-
+        
+        cell.backgroundColor = UIColor.appVeryLightBlueColor()
+        
         if requestsArray.count > 0
         {
             let username = requestsArray[indexPath.row]["username"] as! String

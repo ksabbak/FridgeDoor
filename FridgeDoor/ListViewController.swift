@@ -47,7 +47,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, -5)
         
         tableView.backgroundColor = UIColor.appVeryLightBlueColor()
-
+        tableView.separatorColor = UIColor.appDarkBlueColor()
         
         disableBoughtButton()
     }

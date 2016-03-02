@@ -34,6 +34,9 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         connectionManager.addItemDelegate = self
         connectionManager.listChangedDelegate = self
         chosenItems = list.items
+        
+        tableView.backgroundColor = UIColor.appVeryLightBlueColor()
+        tableView.separatorColor = UIColor.appDarkBlueColor()
     }
     
     //Starts searching the array.
@@ -155,6 +158,8 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         let item = displayItems[indexPath.row]
         
         cell.textLabel?.text = item.name
+        
+        cell.backgroundColor = UIColor.appVeryLightBlueColor()
         
         
         if item.active != ""

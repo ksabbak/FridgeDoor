@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A4F59AE1C8746C10074AFD5 /* ListPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4F59AD1C8746C10074AFD5 /* ListPickerViewController.swift */; };
 		5A8C3E971C7E5E1000D3F899 /* UIColor+CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3E961C7E5E1000D3F899 /* UIColor+CustomColors.swift */; };
 		5A8C3E991C7F1E9500D3F899 /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C3E981C7F1E9500D3F899 /* InviteViewController.swift */; };
 		5A8C3E9B1C7F1EAA00D3F899 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A8C3E9A1C7F1EAA00D3F899 /* MessageUI.framework */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		373F2E3CB8C799D34C932288 /* Pods-FridgeDoor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FridgeDoor.release.xcconfig"; path = "Pods/Target Support Files/Pods-FridgeDoor/Pods-FridgeDoor.release.xcconfig"; sourceTree = "<group>"; };
+		5A4F59AD1C8746C10074AFD5 /* ListPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListPickerViewController.swift; sourceTree = "<group>"; };
 		5A8C3E961C7E5E1000D3F899 /* UIColor+CustomColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+CustomColors.swift"; sourceTree = "<group>"; };
 		5A8C3E981C7F1E9500D3F899 /* InviteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
 		5A8C3E9A1C7F1EAA00D3F899 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -127,6 +129,7 @@
 				A964EDD31C742081000697DE /* Controller */,
 				A964EDA71C7396F4000697DE /* AppDelegate.swift */,
 				5A8C3EB91C847E0600D3F899 /* HistoryTableViewController.swift */,
+				5A4F59AD1C8746C10074AFD5 /* ListPickerViewController.swift */,
 				5ADEA8371C73ABF20089BB1D /* CreateAccountViewController.swift */,
 				A964EDD41C74213E000697DE /* ConnectionManager.swift */,
 				5ADEA85A1C763A210089BB1D /* ListViewController.swift */,
@@ -330,6 +333,7 @@
 				5A8C3E971C7E5E1000D3F899 /* UIColor+CustomColors.swift in Sources */,
 				5A8C3EB81C83886100D3F899 /* JoinTableViewController.swift in Sources */,
 				5ADEA8491C73ABF20089BB1D /* SettingsViewController.swift in Sources */,
+				5A4F59AE1C8746C10074AFD5 /* ListPickerViewController.swift in Sources */,
 				5ADEA84A1C73ABF20089BB1D /* StartOrJoinGroupViewController.swift in Sources */,
 				5A8C3EBA1C847E0600D3F899 /* HistoryTableViewController.swift in Sources */,
 				5ADEA85B1C763A210089BB1D /* ListViewController.swift in Sources */,

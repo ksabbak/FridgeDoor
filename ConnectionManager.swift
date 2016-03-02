@@ -704,6 +704,28 @@ class ConnectionManager {
         listCommentRef.removeValue()
     }
     
+    //MARK: - Default toggling
+    
+    
+    func makeDefault(onList listUID: String)
+    {
+        let defaultListRef = listsRef.childByAppendingPath("\(listUID)/")
+        let status = ["default":"true"]
+        
+        defaultListRef.setValue(status)
+    }
+    
+    
+    
+    func makeUndefault(onList listUID: String)
+    {
+        let listItemStatusRef = listsRef.childByAppendingPath("\(listUID)/default")
+        
+        listItemStatusRef.removeValue()
+    }
+
+    
+    
     //MARK: - Active toggling
     
     func makeActive(itemUID: String, onList listUID: String)

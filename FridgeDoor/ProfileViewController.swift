@@ -36,7 +36,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         connectionManager.logoutDelegate = self
         view.backgroundColor = UIColor.appVeryLightBlueColor()
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
-
+        
     }
 
     override func viewWillAppear(animated: Bool)
