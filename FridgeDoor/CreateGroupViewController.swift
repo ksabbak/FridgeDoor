@@ -70,6 +70,10 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
 
         let temporaryList = List(name: listTitleTextField.text!)
         self.newListUID = connectionManager.createListReturnListUID(temporaryList)
+        if currentUser?.userLists.count == 1
+        {
+            connectionManager.makeDefault((currentUser?.UID)!, onList: newListUID!)
+        }
     }
     
     func connectionManagerDidMakeList(list: List)
