@@ -24,19 +24,35 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     
     var list: List!
     var chosenItems = [Item]()
-    //var displayItems = [Item]()
+    var filteredItems = [Item]()
+    var topItems = [Item]()
+    var regularItems = [Item]()
+    var onListItems = [Item]()
+    var dictionary = [String : [Item]]()
+    var filtering = false
+    var itemSections = [ItemSection]()
+    
+    struct ItemSection
+    {
+        var sectionName : String!
+        var sectionObjects : [Item]!
+    }
+    
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         searchBar.autocapitalizationType = UITextAutocapitalizationType.None
-        connectionManager.addItemDelegate = self
+//        connectionManager.addItemDelegate = self
         connectionManager.listChangedDelegate = self
         chosenItems = list.items
         
+        fillArraysWith(list.items)
+        
         tableView.backgroundColor = UIColor.appVeryLightBlueColor()
         tableView.separatorColor = UIColor.appDarkBlueColor()
+        //tableView.headerViewForSection(0)?.backgroundColor = UIColor.appLightBlueColor()
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         imageView.contentMode = .ScaleAspectFit
@@ -44,37 +60,82 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         navigationItem.titleView = imageView
     }
     
+    func fillArraysWith(items: [Item])
+    {
+        onListItems.removeAll()
+        topItems.removeAll()
+        regularItems.removeAll()
+        itemSections.removeAll()
+        
+        for item in items
+        {
+            if item.active == "true"
+            {
+                onListItems.append(item)
+            }
+            else if item.essential == "true"
+            {
+                topItems.append(item)
+            }
+            else
+            {
+                regularItems.append(item)
+            }
+        }
+        
+//        dictionary = ["Add Top Items" : topItems, "Add Items" : regularItems, "On List" : onListItems]
+        
+        if topItems.count > 0
+        {
+            itemSections.append(ItemSection(sectionName: "Add Top Items", sectionObjects: topItems))
+        }
+        if regularItems.count > 0
+        {
+            itemSections.append(ItemSection(sectionName: "Add Items", sectionObjects: regularItems))
+        }
+        if onListItems.count > 0
+        {
+            itemSections.append(ItemSection(sectionName: "On List", sectionObjects: onListItems))
+        }
+        
+        
+        tableView.reloadData()
+
+    }
+    
     //Starts searching the array.
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
+    {
         
         if (searchText.isEmpty == false)
         {
+            filtering = true
             let searchString = searchBar.text! as String
             searchTextArray(searchString.lowercaseString)
         }
         else
         {
-            chosenItems = list.items
+            filtering = false
+            fillArraysWith(list.items)
         }
-        
-        
-        tableView.reloadData()
     }
     
     //The actually search check
     func searchTextArray(searchText: String)
     {
         
-        chosenItems = []
+        filteredItems = []
         
         for item in list.items
         {
             let lowerChar = item.name.lowercaseString
             if lowerChar.containsString(searchText)
             {
-                chosenItems.append(item)
+                filteredItems.append(item)
             }
         }
+        
+        fillArraysWith(filteredItems)
         
     }
     
@@ -86,23 +147,23 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         if searchBar.text?.characters.count > 0
         {
         
-        if list.items.count > 0
-        {
-            
-            for item in list.items
+            if list.items.count > 0
             {
-                if item.name.lowercaseString == searchBar.text?.lowercaseString
+                
+                for item in list.items
                 {
-                    replaceItemAlert(item)
-                    return
+                    if item.name.lowercaseString == searchBar.text?.lowercaseString
+                    {
+                        replaceItemAlert(item)
+                        return
+                    }
                 }
             }
-        }
-        
-        connectionManager.addItem(searchBar.text!, toList: list.UID)
+            
+            connectionManager.addItem(searchBar.text!, toList: list.UID)
             searchBar.text = ""
             searchBar.resignFirstResponder()
-            tableView.reloadData()
+//            tableView.reloadData()
         
         }
     }
@@ -153,31 +214,38 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     
     
     
-    //Right now just displays item name
+    //Mark: TableView Functions
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    {
+        return itemSections.count
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return itemSections[section].sectionObjects.count
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    {
+        return itemSections[section].sectionName
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID")!
-        
-        let displayItems = getDisplayItems()
-        
-        let item = displayItems[indexPath.row]
-        
+        let item = itemSections[indexPath.section].sectionObjects[indexPath.row]
         cell.textLabel?.text = item.name
-        
         cell.backgroundColor = UIColor.appVeryLightBlueColor()
         
-        
-        if item.active != ""
+        if item.active == "true"
         {
             cell.textLabel?.textColor = UIColor.grayColor()
-            cell.detailTextLabel?.textColor = UIColor.grayColor()
-            cell.detailTextLabel?.text = "This item is already on your list"
             cell.userInteractionEnabled = false
             print("\(item.name) is \(item.active) active")
         }
         else
         {
-            cell.detailTextLabel?.text = ""
             cell.textLabel?.textColor = UIColor.blackColor()
             cell.userInteractionEnabled = true
             print("\(item.name) is \(item.active) inactive")
@@ -188,49 +256,45 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let item = chosenItems[indexPath.row]
+        let item = itemSections[indexPath.section].sectionObjects[indexPath.row]
         
         connectionManager.makeActive(item.UID, onList: list.UID) { () -> Void in
             tableView.reloadData()
         }
-        
-        
-        //        tableView.reloadData()
-        //        print("FIRE!" + "\(item.active)!")
-        
-        
     }
     
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
     {
-        return chosenItems.count
+        let headerView = view as! UITableViewHeaderFooterView
+        headerView.contentView.backgroundColor = UIColor.appLightBlueColor()
+        
+        headerView.textLabel?.textColor = UIColor.whiteColor()
     }
     
     
-    func getDisplayItems() -> [Item]
-    {
-        var displayItems = [Item]()
-        
-        for item in (connectionManager.getListFor(listUID: list.UID)?.items)!
-        {
-            if chosenItems.contains(item)
-            {
-                if item.active == ""
-                {
-                    displayItems.insert(item, atIndex: 0)
-                }
-                else
-                {
-                    displayItems.append(item)
-                }
-            }
-        }
-        
-        chosenItems = displayItems
-        
-        return displayItems
-    }
+//    func getDisplayItems() -> [Item]
+//    {
+//        var displayItems = [Item]()
+//        
+//        for item in (connectionManager.getListFor(listUID: list.UID)?.items)!
+//        {
+//            if chosenItems.contains(item)
+//            {
+//                if item.active == ""
+//                {
+//                    displayItems.insert(item, atIndex: 0)
+//                }
+//                else
+//                {
+//                    displayItems.append(item)
+//                }
+//            }
+//        }
+//        
+//        chosenItems = displayItems
+//        
+//        return displayItems
+//    }
     
     
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
@@ -248,12 +312,9 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         if self.list.UID == list.UID
         {
             self.list = list
-            //connectionManager.setupMemberObservers(theList)
-            
-            getDisplayItems()
+            fillArraysWith(list.items)
+            tableView.reloadData()
         }
-        
-        tableView.reloadData()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -265,3 +326,46 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
 }
+
+//var breeds = ["A": ["Affenpoo", "Affenpug", "Affenshire", "Affenwich", "Afghan Collie", "Afghan Hound"], "B": ["Bagle Hound", "Boxer"]]
+//
+//struct Objects {
+//    var sectionName : String!
+//    var sectionObjects : [String]!
+//}
+//
+//var objectArray = [Objects]()
+//
+//override func viewDidLoad() {
+//    super.viewDidLoad()
+//
+//    tableView.registerClass(UITableViewCell.classForCoder(), forCellReuseIdentifier: "Cell")
+//    // SORTING [SINCE A DICTIONARY IS AN UNSORTED LIST]
+//    var sortedBreeds = sorted(breeds) { $0.0 < $1.0 }
+//    for (key, value) in sortedBreeds {
+//        println("\(key) -> \(value)")
+//        objectArray.append(Objects(sectionName: key, sectionObjects: value))
+//    }
+//}
+//
+//override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+//    return objectArray.count
+//}
+//
+//override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//    return objectArray[section].sectionObjects.count
+//}
+//
+//override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+//    let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+//    // SETTING UP YOUR CELL
+//    cell.textLabel?.text = objectArray[indexPath.section].sectionObjects[indexPath.row]
+//    return cell
+//}
+//
+//override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//    return objectArray[section].sectionName
+//}
+//
+//
+//}
