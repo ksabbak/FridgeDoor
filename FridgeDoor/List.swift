@@ -47,6 +47,7 @@ struct Item: Equatable
     var rotate: [UserTurn]
     var rotating: String
     
+    
     init(name: String)
     {
         self.name = name

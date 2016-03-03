@@ -31,7 +31,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         //let currentUser = connectionManager.getUserFor(userUID: connectionManager.userUID()!)
         
-        self.settingsList = ["Profile", "Add Member", "View History", "Create New List"]
+        self.settingsList = ["Profile", "Add Member", "View History", "Switch List", "Create New List"]
         
         connectionManager.getUserFor(connectionManager.userUID()!) { (currentUser: User) -> Void in
             

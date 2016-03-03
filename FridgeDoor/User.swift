@@ -15,10 +15,20 @@ struct UserList
 {
     var listUID: String
     var time: NSDate
+     var defaultList: String
+    
     init(time: String, listUID: String)
     {
         self.time = NSDate(timeIntervalSince1970: Double(time)!)
         self.listUID = listUID
+        defaultList = ""
+    }
+    
+    init(time: String, listUID: String, defaultList: String)
+    {
+        self.time = NSDate(timeIntervalSince1970: Double(time)!)
+        self.listUID = listUID
+        self.defaultList = defaultList
     }
 }
 

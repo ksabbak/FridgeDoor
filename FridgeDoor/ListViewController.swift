@@ -17,7 +17,7 @@ protocol CenterViewControllerDelegate
 }
 
 
-class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate, PerformSeguesForSettingsVCDelegate, ListItemTableViewCellDelegate, ProfileListSelectedDelegate, AddItemBackButtonDelegate
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ConnectionManagerSetUpCurrentUserDelegate, ConnectionManagerListChangesDelegate, ConnectionManagerUserChangesDelegate, PerformSeguesForSettingsVCDelegate, ListItemTableViewCellDelegate, ListSelectedDelegate, AddItemBackButtonDelegate
 {
 
     @IBOutlet weak var tableView: UITableView!
@@ -86,6 +86,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func connectionManagerDidSetUpCurrentUser(currentUser: User)
     {
         print("Setup current user")
+        print(currentUser.userLists.count)
+        print("What the shit, I hate everything.")
         self.currentUser = currentUser
         
         if currentUser.userLists.count == 0
@@ -111,7 +113,20 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     {
         if currentListUID.characters.count == 0
         {
-            currentListUID = currentUser.userLists[0].listUID
+            print("This is the current user " + currentUser.username)
+            for list in currentUser.userLists
+            {
+                if list.defaultList == "true"
+                {
+                    currentListUID = list.listUID
+                    tableView.reloadData()
+                    break
+                }
+                else
+                {
+                    currentListUID = currentUser.userLists[0].listUID
+                }
+            }
         }
         if currentListUID == list.UID
         {
@@ -470,6 +485,12 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             dvc.listHistory = theList.historyItems
         }
         
+        if segue.identifier == "Switch List"
+        {
+            let dvc = segue.destinationViewController as! ListPickerViewController
+            dvc.currentUser = currentUser
+        }
+        
     }
     
     
@@ -492,16 +513,28 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     @IBAction func listSelectedFromProfile(segue: UIStoryboardSegue)
     {
+        
+        //Unwinds from ListPickerVC
+        if segue.identifier == "PickedListUnwind"
+        {
+            let sourceVC = segue.sourceViewController as! ListPickerViewController
+            sourceVC.delegate = self
+            print("ListPicker delegate!")
+        }
         //Unwinds to ListVC from ProfileVC
-        let sourceVC = segue.sourceViewController as! ProfileViewController
-        sourceVC.delegate = self
-        print("Profile delegate was fired")
+        else
+        {
+            let sourceVC = segue.sourceViewController as! ProfileViewController
+            sourceVC.delegate = self
+            print("Profile delegate was fired")
+        }
     }
     
     func listSelected(listUID: String)
     {
         currentListUID = listUID
         theList = connectionManager.getListFor(listUID: currentListUID)
+        print("Je veux te voir")
         tableView.reloadData()
     }
     
