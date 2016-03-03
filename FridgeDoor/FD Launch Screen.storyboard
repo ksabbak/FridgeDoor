@@ -17,24 +17,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FridgeDoorLaunch700" highlightedImage="FridgeDoorLaunch700" translatesAutoresizingMaskIntoConstraints="NO" id="K2I-bv-3zU">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright © 2016 FridgeDoor. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="obG-Y5-kRd">
+                                <rect key="frame" x="20" y="567.5" width="560" height="12"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FridgeDoorLaunch700" translatesAutoresizingMaskIntoConstraints="NO" id="sUa-gF-XQb">
                                 <rect key="frame" x="200" y="200" width="200" height="200"/>
-                                <color key="backgroundColor" red="0.23137254900000001" green="0.53333333329999999" blue="0.6588235294" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="LkG-lb-IMO"/>
-                                    <constraint firstAttribute="height" constant="200" id="pG8-8H-Usq"/>
+                                    <constraint firstAttribute="width" constant="200" id="I4D-8Q-9y4"/>
+                                    <constraint firstAttribute="height" constant="200" id="a8i-FC-bGO"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.23137254900000001" green="0.53333333329999999" blue="0.6588235294" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="K2I-bv-3zU" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="gbI-NR-a07"/>
-                            <constraint firstItem="K2I-bv-3zU" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="zJR-1z-G9h"/>
+                            <constraint firstAttribute="centerX" secondItem="obG-Y5-kRd" secondAttribute="centerX" id="5cz-MP-9tL"/>
+                            <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="20" symbolic="YES" id="SfN-ll-jLj"/>
+                            <constraint firstAttribute="bottom" secondItem="obG-Y5-kRd" secondAttribute="bottom" constant="20" id="Y44-ml-fuU"/>
+                            <constraint firstItem="sUa-gF-XQb" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="kNw-Ii-wR2"/>
+                            <constraint firstItem="sUa-gF-XQb" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="xUg-JD-AB3"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="imageView" destination="K2I-bv-3zU" id="nKv-dm-f4K"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

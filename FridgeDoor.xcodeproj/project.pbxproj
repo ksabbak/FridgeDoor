@@ -31,9 +31,9 @@
 		A90EF0961C8242300087773F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A90EF0941C8242300087773F /* Main.storyboard */; };
 		A90EF0981C85EEA90087773F /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90EF0971C85EEA90087773F /* HistoryTableViewCell.swift */; };
 		A90EF09A1C866BA90087773F /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90EF0991C866BA90087773F /* NavigationViewController.swift */; };
+		A90EF0A11C88BFEE0087773F /* FD Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A90EF0A01C88BFEE0087773F /* FD Launch Screen.storyboard */; };
 		A964EDA81C7396F4000697DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A964EDA71C7396F4000697DE /* AppDelegate.swift */; };
 		A964EDAF1C7396F4000697DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A964EDAE1C7396F4000697DE /* Assets.xcassets */; };
-		A964EDB21C7396F4000697DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */; };
 		A964EDD51C74213E000697DE /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A964EDD41C74213E000697DE /* ConnectionManager.swift */; };
 		A964EDD71C7421C3000697DE /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A964EDD61C7421C3000697DE /* List.swift */; };
 		A964EDD91C7421CF000697DE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A964EDD81C7421CF000697DE /* User.swift */; };
@@ -68,10 +68,10 @@
 		A90EF0951C8242300087773F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A90EF0971C85EEA90087773F /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		A90EF0991C866BA90087773F /* NavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
+		A90EF0A01C88BFEE0087773F /* FD Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "FD Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A964EDA41C7396F4000697DE /* FridgeDoor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FridgeDoor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A964EDA71C7396F4000697DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A964EDAE1C7396F4000697DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A964EDB11C7396F4000697DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A964EDB31C7396F4000697DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A964EDD41C74213E000697DE /* ConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionManager.swift; path = ../ConnectionManager.swift; sourceTree = "<group>"; };
 		A964EDD61C7421C3000697DE /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
@@ -164,13 +164,13 @@
 		A964EDD21C742079000697DE /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */,
 				A90EF0941C8242300087773F /* Main.storyboard */,
 				A90EF08D1C8099F20087773F /* CommentTableViewCell.swift */,
 				A90EF0971C85EEA90087773F /* HistoryTableViewCell.swift */,
 				5ADEA85C1C77878B0089BB1D /* AvatarCollectionViewCell.swift */,
 				5ADEA8581C7527170089BB1D /* ListItemTableViewCell.swift */,
 				A964EDAE1C7396F4000697DE /* Assets.xcassets */,
+				A90EF0A01C88BFEE0087773F /* FD Launch Screen.storyboard */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -234,7 +234,7 @@
 				TargetAttributes = {
 					A964EDA31C7396F4000697DE = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = M4GJ798P8H;
+						DevelopmentTeam = RSW6FWFLGL;
 					};
 				};
 			};
@@ -261,9 +261,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A964EDB21C7396F4000697DE /* LaunchScreen.storyboard in Resources */,
 				A964EDAF1C7396F4000697DE /* Assets.xcassets in Resources */,
 				5ADEA8451C73ABF20089BB1D /* Info.plist in Resources */,
+				A90EF0A11C88BFEE0087773F /* FD Launch Screen.storyboard in Resources */,
 				A90EF0961C8242300087773F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,14 +363,6 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		A964EDB01C7396F4000697DE /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A964EDB11C7396F4000697DE /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -464,7 +456,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FridgeDoor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ksabbak.mobilemakers.FridgeDoor;
+				PRODUCT_BUNDLE_IDENTIFIER = steve.mobilemakers.FridgeDoor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -479,7 +471,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FridgeDoor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ksabbak.mobilemakers.FridgeDoor;
+				PRODUCT_BUNDLE_IDENTIFIER = steve.mobilemakers.FridgeDoor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

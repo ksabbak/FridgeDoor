@@ -207,7 +207,7 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
     func pickerView(pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString?
     {
         let listTitle = (connectionManager.getListFor(listUID: currentUser.userLists[row].listUID)?.name)!
-        let attributedString = NSAttributedString(string: "\(listTitle)", attributes: [NSForegroundColorAttributeName : UIColor.appBrownColor()])
+        let attributedString = NSAttributedString(string: "\(listTitle)", attributes: [NSForegroundColorAttributeName : UIColor.appDarkBlueColor()])
         return attributedString
     }
     

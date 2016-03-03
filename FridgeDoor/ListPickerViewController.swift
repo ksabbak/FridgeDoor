@@ -67,11 +67,11 @@ class ListPickerViewController: UIViewController, UIPickerViewDataSource, UIPick
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+    func pickerView(pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString?
     {
         let listTitle = (connectionManager.getListFor(listUID: currentUser.userLists[row].listUID)?.name)!
-        
-        return listTitle
+        let attributedString = NSAttributedString(string: "\(listTitle)", attributes: [NSForegroundColorAttributeName : UIColor.appDarkBlueColor()])
+        return attributedString
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
