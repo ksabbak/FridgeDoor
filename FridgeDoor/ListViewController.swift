@@ -30,6 +30,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var itemsPendingRemoval = [Item]()
     var members: [User] = []
     
+    @IBOutlet weak var bottomConstraintBoughtButton: NSLayoutConstraint!
+    @IBOutlet weak var bottomConstraintTableView: NSLayoutConstraint!
     @IBOutlet weak var leftBarButtonItem: UIBarButtonItem!
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var mintView: UIImageView!
@@ -207,14 +209,16 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         boughtButton.enabled = true
         UIView.animateWithDuration(0.2) { () -> Void in
             self.boughtButton.alpha = 1.0
+            self.bottomConstraintTableView.constant = 44
         }
     }
     
     func disableBoughtButton()
     {
         boughtButton.enabled = false
-        UIView.animateWithDuration(0.2) { () -> Void in
+        UIView.animateWithDuration(0.3) { () -> Void in
             self.boughtButton.alpha = 0
+            self.bottomConstraintTableView.constant = 0
         }
     }
 
