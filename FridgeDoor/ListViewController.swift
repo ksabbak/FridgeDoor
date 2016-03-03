@@ -336,18 +336,27 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             connectionManager.getUserFor(userTurnUID, completion: { (user: User) -> Void in
                 print("in rotating closure")
                 cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
-                cell.usernameLabel.text = user.username
+                cell.usernameLabel.text = "\(user.username)"
             })
         }
         else if item.volunteerUID.characters.count > 0
         {
             print("there is a volunteer for this item")
             cell.volunteerAvatar.hidden = false
-            connectionManager.getUserFor(item.volunteerUID, completion: { (user: User) -> Void in
-                print("volunteer closure")
-                cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
-                cell.usernameLabel.text = user.username
-            })
+            if item.volunteerUID == currentUser.UID
+            {
+                cell.volunteerAvatar.image = UIImage(named: "\(currentUser.imageName)")
+                cell.usernameLabel.text = "\(currentUser.username)"
+            }
+            else
+            {
+                connectionManager.getUserFor(item.volunteerUID, completion: { (user: User) -> Void in
+                    print("volunteer closure")
+                    cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
+                    cell.usernameLabel.text = "\(user.username)"
+                    print ("Volunteer Username: \(user.username)")
+                })
+            }
         }
         else
         {

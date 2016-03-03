@@ -16,7 +16,8 @@ class StartOrJoinGroupViewController: UIViewController
     
     @IBOutlet weak var joinButton: UIButton!
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
         if currentUser!.pending.count > 0
@@ -28,6 +29,8 @@ class StartOrJoinGroupViewController: UIViewController
             joinButton.enabled = false
             joinButton.backgroundColor = UIColor.appDarkBlueColor()
         }
+        
+        view.backgroundColor = UIColor.appVeryLightBlueColor()
 
     }
     
