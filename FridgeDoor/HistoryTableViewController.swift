@@ -18,7 +18,16 @@ class HistoryTableViewController: UITableViewController {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        imageView.contentMode = .ScaleAspectFit
+        imageView.image = UIImage(named: "FridgeDoorLogoSmall")
+        navigationItem.titleView = imageView
         
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        tableView.backgroundColor = UIColor.appVeryLightBlueColor()
     }
 
     

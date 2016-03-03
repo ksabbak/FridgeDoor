@@ -37,6 +37,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         view.backgroundColor = UIColor.appVeryLightBlueColor()
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        imageView.contentMode = .ScaleAspectFit
+        imageView.image = UIImage(named: "FridgeDoorLogoSmall")
+        navigationItem.titleView = imageView
     }
 
     override func viewWillAppear(animated: Bool)
@@ -83,7 +87,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         cell?.textLabel?.text = list.name
         cell?.textLabel?.textColor = UIColor.appBrownColor()
         cell?.backgroundColor = UIColor.appVeryLightBlueColor()
-        
         return cell!
     }
     

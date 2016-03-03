@@ -14,8 +14,10 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
     var avatarImageName: String!
     var indexPathRow = String()
     var editAvatar = false
+    @IBOutlet weak var collectionView: UICollectionView!
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
@@ -25,8 +27,13 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
             avatarArray.append("\(i)")
         }
         
+        view.backgroundColor = UIColor.appDarkBlueColor()
     }
 
+    override func viewWillAppear(animated: Bool)
+    {
+//        collectionView.backgroundColor = UIColor.appVeryLightBlueColor()
+    }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let screenRect: CGRect = UIScreen.mainScreen().bounds
@@ -41,6 +48,7 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("AvatarCell", forIndexPath: indexPath) as! AvatarCollectionViewCell
         
         cell.avatarImageView.image = UIImage(imageLiteral: avatarArray[indexPath.item])
+//        cell.backgroundColor = UIColor.appVeryLightBlueColor()
         
         return cell
     }
@@ -64,7 +72,6 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
         else
         {
-//            self.dismissViewControllerAnimated(true, completion: nil)
             performSegueWithIdentifier("AvatarUnwindSegue", sender: indexPathRow)
         }
         
@@ -85,4 +92,10 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
             dvc.avatarImageName = avatarImageName
         }
     }
+    
+    @IBAction func dismissButtonTapped(sender: UIButton)
+    {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
 }

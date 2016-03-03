@@ -32,6 +32,12 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
         connectionManager.makeListDelegate = self
         connectionManager.addMemberDelegate = self
         connectionManager.addListToUserDelegate = self
+        view.backgroundColor = UIColor.appVeryLightBlueColor()
+        
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        imageView.contentMode = .ScaleAspectFit
+        imageView.image = UIImage(named: "FridgeDoorLogoSmall")
+        navigationItem.titleView = imageView
 
     }
     
@@ -129,5 +135,9 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
         }
     }
 
+    @IBAction func onScreenTapped(sender: UITapGestureRecognizer)
+    {
+        listTitleTextField.resignFirstResponder()
+    }
     
 }

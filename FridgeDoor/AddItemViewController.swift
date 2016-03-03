@@ -37,6 +37,11 @@ class AddItemViewController: UIViewController, UITableViewDataSource, UITableVie
         
         tableView.backgroundColor = UIColor.appVeryLightBlueColor()
         tableView.separatorColor = UIColor.appDarkBlueColor()
+        
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        imageView.contentMode = .ScaleAspectFit
+        imageView.image = UIImage(named: "FridgeDoorLogoSmall")
+        navigationItem.titleView = imageView
     }
     
     //Starts searching the array.

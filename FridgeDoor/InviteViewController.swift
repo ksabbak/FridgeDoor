@@ -23,16 +23,19 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
     var currentUser: User!
     //var chosenList: (String, String)!
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
         listPicker.delegate = self
         listPicker.dataSource = self
         view.backgroundColor = UIColor.appVeryLightBlueColor()
-        emailButton.layer.cornerRadius = 5
-        inviteButton.layer.cornerRadius = 5
-        
         // Do any additional setup after loading the view.
+        
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        imageView.contentMode = .ScaleAspectFit
+        imageView.image = UIImage(named: "FridgeDoorLogoSmall")
+        navigationItem.titleView = imageView
     }
 
     //Invite button that doesn't send an email
@@ -201,11 +204,11 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
             return 1
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
+    func pickerView(pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString?
+    {
         let listTitle = (connectionManager.getListFor(listUID: currentUser.userLists[row].listUID)?.name)!
-        
-        return listTitle
+        let attributedString = NSAttributedString(string: "\(listTitle)", attributes: [NSForegroundColorAttributeName : UIColor.appBrownColor()])
+        return attributedString
     }
     
     ///Actively gets picker row information
@@ -218,6 +221,13 @@ class InviteViewController: UIViewController, MFMailComposeViewControllerDelegat
         let tupleList = (title!, currentUser.userLists[row].listUID)
         return tupleList
     }
+    
+    @IBAction func onScreenTapped(sender: UITapGestureRecognizer)
+    {
+        userTextField.resignFirstResponder()
+    }
+    
+    
     
 //    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 //        

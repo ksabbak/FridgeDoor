@@ -37,6 +37,7 @@ class HistoryTableViewCell: UITableViewCell
             let formatter = NSDateFormatter()
             formatter.dateStyle = .MediumStyle
             self.dateLabel.text = "\(formatter.stringFromDate(historyItem.time))"
+            self.backgroundColor = UIColor.appVeryLightBlueColor()
         })
 
     }

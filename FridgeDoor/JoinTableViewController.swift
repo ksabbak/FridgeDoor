@@ -16,7 +16,8 @@ class JoinTableViewController: UITableViewController, ConnectionManagerUserChang
     
     var dismiss: Bool?
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
         tableView.backgroundColor = UIColor.appVeryLightBlueColor()
@@ -35,6 +36,11 @@ class JoinTableViewController: UITableViewController, ConnectionManagerUserChang
         print(currentUser.pending)
         requestsArray = []
         setUpRequestArray()
+        
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        imageView.contentMode = .ScaleAspectFit
+        imageView.image = UIImage(named: "FridgeDoorLogoSmall")
+        navigationItem.titleView = imageView
     }
     
     

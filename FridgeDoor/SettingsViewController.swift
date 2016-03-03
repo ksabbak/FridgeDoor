@@ -21,13 +21,19 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     let connectionManager = ConnectionManager.sharedManager
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var iconLeftConstraint: NSLayoutConstraint!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        tableView.backgroundColor = UIColor.appDarkBlueColor()
-        view.backgroundColor = UIColor.appDarkBlueColor()
+        tableView.backgroundColor = UIColor.appLightBlueColor()
+        view.backgroundColor = UIColor.appLightBlueColor()
+        
+        let screenRect: CGRect = UIScreen.mainScreen().bounds
+        let screenWidth: CGFloat = screenRect.size.width
+        let centerControl: CGFloat = 92
+        iconLeftConstraint.constant = screenWidth/2 - centerControl
         
         //let currentUser = connectionManager.getUserFor(userUID: connectionManager.userUID()!)
         
@@ -62,7 +68,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath)
         
         cell.textLabel?.textColor = UIColor.whiteColor()
-        cell.backgroundColor = UIColor.appDarkBlueColor()
+        cell.backgroundColor = UIColor.appLightBlueColor()
         
         let settingName = settingsList[indexPath.row]
         cell.textLabel?.text = settingName

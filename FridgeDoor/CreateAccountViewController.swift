@@ -59,6 +59,11 @@ class CreateAccountViewController: UIViewController, ConnectionManagerCreateUser
     func connectionManagerDidFailToCreateUser(error: NSError)
     {
         print("CM Failed to Create User: \(error.localizedDescription)")
+        loadingView.hidden = true
+        let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .Alert)
+        let cancel = UIAlertAction(title: "Dismiss", style: .Cancel, handler: nil)
+        alertController.addAction(cancel)
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
     

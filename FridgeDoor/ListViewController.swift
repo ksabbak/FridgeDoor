@@ -30,6 +30,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var itemsPendingRemoval = [Item]()
     var members: [User] = []
     
+    @IBOutlet weak var leftBarButtonItem: UIBarButtonItem!
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var mintView: UIImageView!
     @IBOutlet weak var boughtButton: UIButton!
@@ -50,6 +51,12 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.separatorColor = UIColor.appDarkBlueColor()
         
         disableBoughtButton()
+        
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        imageView.contentMode = .ScaleAspectFit
+        imageView.image = UIImage(named: "FridgeDoorLogoSmall")
+        navigationItem.titleView = imageView
+        
     }
     
     override func viewWillAppear(animated: Bool)
@@ -161,9 +168,16 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
          })
             count++
             connectionManager.addHistoryItem(item, toList: theList.UID, purchasedBy: currentUser.UID)
+            if item.highAlert == "true"
+            {
+                 connectionManager.unmarkHighAlert(item.UID, fromList: theList.UID)
+            }
+           
         }
         
-        itemsPendingRemoval = []
+        self.itemsPendingRemoval = []
+        tableView.reloadData()
+        
     }
     
     
@@ -258,77 +272,85 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCellWithIdentifier("CellID")! as! ListItemTableViewCell
         cell.delegate = self
         
-        if visibleList.count > 0
+        let item = visibleList[indexPath.row]
+        
+        cell.nameLabel.text = item.name
+        
+        if item.highAlert.characters.count > 0
         {
-            let item = visibleList[indexPath.row]
-            
-            cell.nameLabel.text = item.name
-            
-            if item.highAlert.characters.count > 0
+            cell.topIcon.hidden = false
+        }
+        else
+        {
+            cell.topIcon.hidden = true
+        }
+        
+        if item.comments.count > 0
+        {
+            cell.bottomIcon.hidden = false
+            cell.numberOfComments.hidden = false
+            cell.numberOfComments.text = "\(item.comments.count)"
+        }
+        else
+        {
+            cell.bottomIcon.hidden = true
+            cell.numberOfComments.hidden = true
+        }
+        
+        if itemsPendingRemoval.contains(item)
+        {
+            cell.checkboxButton.setImage(UIImage(named: "check"), forState: .Normal)
+        }
+        else
+        {
+            cell.checkboxButton.setImage(UIImage(named: "box"), forState: .Normal)
+        }
+        
+        if item.rotating == "true"
+        {
+            print("rotating is true")
+            cell.volunteerAvatar.hidden = false
+            cell.usernameLabel.hidden = false
+            var userTurnUID = String()
+            for userTurn in item.rotate
             {
-                cell.topIcon.hidden = false
-            }
-            else
-            {
-                cell.topIcon.hidden = true
-            }
-            
-            if item.comments.count > 0
-            {
-                cell.bottomIcon.hidden = false
-                cell.numberOfComments.hidden = false
-                cell.numberOfComments.text = "\(item.comments.count)"
-            }
-            else
-            {
-                cell.bottomIcon.hidden = true
-                cell.numberOfComments.hidden = true
-            }
-            
-            if itemsPendingRemoval.contains(item)
-            {
-                cell.checkboxButton.setImage(UIImage(named: "check"), forState: .Normal)
-            }
-            else
-            {
-                cell.checkboxButton.setImage(UIImage(named: "box"), forState: .Normal)
-            }
-            
-            if item.rotating == "true"
-            {
-               print("rotating is true")
-                cell.volunteerAvatar.hidden = false
-                cell.usernameLabel.hidden = false
-                var userTurnUID = String()
-                for userTurn in item.rotate
+                if userTurn.turn == "1"
                 {
-                    if userTurn.turn == "1"
-                    {
-                        print("found userTurnUID: \(userTurn.userTurnUID)")
-                        userTurnUID = userTurn.userTurnUID
-                    }
+                    print("found userTurnUID: \(userTurn.userTurnUID)")
+                    userTurnUID = userTurn.userTurnUID
                 }
-                connectionManager.getUserFor(userTurnUID, completion: { (user: User) -> Void in
-                    print("in rotating closure")
-                    cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
-                    cell.usernameLabel.text = user.username
-                })
             }
-            else if item.volunteerUID.characters.count > 0
-            {
-                print("there is a volunteer for this item")
-                cell.volunteerAvatar.hidden = false
-                connectionManager.getUserFor(item.volunteerUID, completion: { (user: User) -> Void in
-                    print("volunteer closure")
-                    cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
-                    cell.usernameLabel.text = user.username
-                })
-            }
-            else
-            {
-                cell.volunteerAvatar.hidden = true
-                cell.usernameLabel.hidden = true
-            }
+            connectionManager.getUserFor(userTurnUID, completion: { (user: User) -> Void in
+                print("in rotating closure")
+                cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
+                cell.usernameLabel.text = user.username
+            })
+        }
+        else if item.volunteerUID.characters.count > 0
+        {
+            print("there is a volunteer for this item")
+            cell.volunteerAvatar.hidden = false
+            connectionManager.getUserFor(item.volunteerUID, completion: { (user: User) -> Void in
+                print("volunteer closure")
+                cell.volunteerAvatar.image = UIImage(named: "\(user.imageName)")
+                cell.usernameLabel.text = user.username
+            })
+        }
+        else
+        {
+            cell.volunteerAvatar.hidden = true
+            cell.usernameLabel.hidden = true
+        }
+        
+        if itemsPendingRemoval.count > 0
+        {
+            print("is enabling bought button")
+            enableBoughtButton()
+        }
+        else
+        {
+            print("should disable bought button")
+            disableBoughtButton()
         }
         
         return cell
