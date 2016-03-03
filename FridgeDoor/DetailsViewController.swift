@@ -383,16 +383,17 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
     func pickImage() -> String
     {
         
-        let itemImages = ["apple",
-            "banana", "bread", "bacon",
-            "carrot", "cheese", "cherry", "chicken", "coffee",
+        let itemImages = ["apple", "avocado",
+            "banana", "bread", "bacon", "blueberry", "bowl",
+            "cookie", "cake", "carrot", "cheese", "cherry", "chicken", "coffee", "cereal", "chip",
             "egg",
             "garbagebag",
-            "juice",
+            "juice", "jar",
             "lettuce",
             "milk",
             "orange",
-            "paper", "pineapple",
+            "paper", "pineapple", "pea", "potato",
+            "raspberry",
             "shampoo", "soap", "soda", "strawberry",
             "tomato"]
         
@@ -446,7 +447,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
             return "soda"
         }
         
-        let hotDrinks = ["hotchocolate", "tea", "chai",]
+        let hotDrinks = ["hotchocolate", "tea", "chai", "cocoa"]
         for drink in hotDrinks
         {
             if simpleName.containsString(drink)
@@ -464,8 +465,16 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }
         
+        let jarArray = ["jelly", "jam", "nutb", "cashewb", "almondb", "salsa", "pesto"]
+        for jar in jarArray
+        {
+            if simpleName.containsString(jar)
+            {
+                return "jar"
+            }
+        }
         
-        let candyArray = ["snicker", "reese", "milkyway", "chocolate", "skittle", "m&m", "kitkat"]
+        let candyArray = ["snicker", "reese", "milkyway", "chocolate", "skittle", "m&m", "kitkat", "jellybean", "hershey"]
         for candy in candyArray
         {
             if simpleName.containsString(candy)
@@ -497,6 +506,11 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
             return "shampoo"
         }
         
+        if simpleName.containsString("bean")
+        {
+            return "pea"
+        }
+        
         
         let cheeseArray = ["swis", "cheddar", "muenster", "mozzarella", "brie", "camembert", "chevre", "parmesan", "romano", "asiago"]
         for cheese in cheeseArray
@@ -507,12 +521,45 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }
         
-       
+        let cereals = ["cheerio", "crunch", "chex", "life"]
+        for cereal in cereals
+        {
+            if simpleName.containsString(cereal)
+            {
+                return "cereal"
+            }
+        }
+        
+        let bowlItems = ["soup", "campbell", "oatmeal", "progresso"]
+        for bowl in bowlItems
+        {
+            if simpleName.containsString(bowl)
+            {
+                return "bowl"
+            }
+        }
+        
+        if simpleName.containsString("trash")
+        {
+            return "garbagebag"
+        }
+        
+        if simpleName.containsString("guac")
+        {
+            return "avocado"
+        }
+        
+        if simpleName.containsString("pie")
+        {
+            return "cake"
+        }
+        
         
         if arc4random_uniform(2) == 0
         {
             return "other1"
         }
+        
         
         
         return "other2"

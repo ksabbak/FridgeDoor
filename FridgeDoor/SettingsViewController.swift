@@ -37,34 +37,33 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         //let currentUser = connectionManager.getUserFor(userUID: connectionManager.userUID()!)
         
-        self.settingsList = ["Profile", "Add Member", "View History", "Switch List", "Create New List"]
+        //NOTE: These are the titles of the cell.textLabel in the SettingsVC AND the name of the segue
+        self.settingsList = ["Profile", "Add Member", "View History", "Switch List", "Create New List", "About"]
         
         connectionManager.getUserFor(connectionManager.userUID()!) { (currentUser: User) -> Void in
             
             print("PENDING REQUESTS???????????????????????? \n\(currentUser.pending)")
-            
-            
-            //NOTE: These are the titles of the cell.textLabel in the SettingsVC AND the name of the segue
-            
-            
-            
+        
+            //"About" will always be last. If there's a pending request, it will be inserted before "About". Conditional for if there's a pending request at all, and also for the "s" at the end of request(s).
             if currentUser.pending.count > 1
             {
-                self.settingsList.append("Pending Requests: \(currentUser.pending.count)")
+                self.settingsList.insert("Pending Requests: \(currentUser.pending.count)", atIndex: self.settingsList.indexOf("About")!)
             }
             else if currentUser.pending.count > 0
             {
-                self.settingsList.append("Pending Request: \(currentUser.pending.count)")
+                self.settingsList.insert("Pending Request: \(currentUser.pending.count)", atIndex: self.settingsList.indexOf("About")!)
             }
             self.tableView.reloadData()
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
         return settingsList.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
         let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell", forIndexPath: indexPath)
         
         cell.textLabel?.textColor = UIColor.whiteColor()
@@ -72,7 +71,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         let settingName = settingsList[indexPath.row]
         cell.textLabel?.text = settingName
-
         
         return cell
     }
@@ -85,17 +83,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         {
             setting = "Pending"
         }
-     
-            performSeguesForSettingsVCDelegate!.settingTapped(setting)
-
+        
+        performSeguesForSettingsVCDelegate!.settingTapped(setting)
     }
     
-
 }
-
-
-
-
-
-
-
