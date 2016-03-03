@@ -124,6 +124,7 @@ class CreateGroupViewController: UIViewController, ConnectionManagerMakeListDele
     
     func textFieldShouldReturn(textField: UITextField) -> Bool
     {
+        onCreateButtonTapped(UIButton())
         return textField.resignFirstResponder()
     }
     

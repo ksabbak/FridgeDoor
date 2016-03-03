@@ -1532,6 +1532,16 @@ The creators would like to give thanks to the MobileMakers program.</string>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FridgeDoor" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ak-Qf-r0i">
+                                <rect key="frame" x="49" y="40" width="277" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="8P2-OX-ZCv"/>
+                                    <constraint firstAttribute="width" constant="277" id="mmv-DA-cET"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Palatino-Roman" family="Palatino" pointSize="50"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QM3-vJ-YJf">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
@@ -1558,16 +1568,6 @@ The creators would like to give thanks to the MobileMakers program.</string>
                                     </mask>
                                 </variation>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FridgeDoor" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ak-Qf-r0i">
-                                <rect key="frame" x="49" y="40" width="277" height="70"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="8P2-OX-ZCv"/>
-                                    <constraint firstAttribute="width" constant="277" id="mmv-DA-cET"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Palatino-Roman" family="Palatino" pointSize="50"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.23137254900000001" green="0.53333333329999999" blue="0.6588235294" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -1954,7 +1954,7 @@ The creators would like to give thanks to the MobileMakers program.</string>
                                     <constraint firstAttribute="width" constant="290" id="kqK-L5-l2t"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="go"/>
                                 <connections>
                                     <outlet property="delegate" destination="Wg3-rw-1n0" id="WrA-7f-Qku"/>
                                 </connections>
