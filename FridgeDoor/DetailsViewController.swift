@@ -112,6 +112,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     func configureWithItem (item: Item)
     {
+        iconImageView.image = UIImage(named: pickImage())
         print("Item name: \(item.name)")
         itemNameLabel.text = item.name
         itemNameLabel.textColor = UIColor.appLightBlueColor()
@@ -376,6 +377,193 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         return (seconds / 86400, seconds / 3600, seconds / 60, seconds)
     }
 
+    
+    //MARK: - Icon Image Picker
+    
+    func pickImage() -> String
+    {
+        
+        let itemImages = ["apple", "avocado",
+            "banana", "bread", "bacon", "blueberry", "bowl",
+            "cookie", "cake", "carrot", "cheese", "cherry", "chicken", "coffee", "cereal", "chip",
+            "egg",
+            "garbagebag",
+            "juice", "jar",
+            "lettuce",
+            "milk",
+            "orange",
+            "paper", "pineapple", "pea", "potato",
+            "raspberry",
+            "shampoo", "soap", "soda", "strawberry",
+            "tomato"]
+        
+        var simpleName = item.name.lowercaseString
+        
+        simpleName = simpleName.stringByReplacingOccurrencesOfString(" ", withString: "")
+        
+        if item.name.characters.last == "s"
+        {
+            simpleName = item.name.substringToIndex(item.name.endIndex.predecessor()).lowercaseString
+            
+            if simpleName.characters.last == "e" && simpleName.characters[simpleName.endIndex.advancedBy(-2)] == "i"
+            {
+                
+                simpleName = item.name.substringToIndex(item.name.endIndex.advancedBy(-3)).lowercaseString + "y"
+                print("Yes, Kessica, this fucking worked. I honestly don't know how you are even functioning right now. \(simpleName)")
+            }
+        }
+        
+        for image in itemImages
+        {
+            if simpleName == image
+            {
+                return image
+            }
+            else if simpleName.containsString(image) && simpleName != "grapefruit"
+            {
+                return image
+            }
+        }
+        
+        if simpleName == "lemon"
+            || simpleName == "lime"
+            || simpleName == "grapefruit"
+            || simpleName == "citrus"
+            || simpleName == "clementine"
+            || simpleName == "tangerine"
+        {
+            return "orange"
+        }
+        
+        if simpleName == "pop"
+            || simpleName == "coke"
+            || simpleName == "pepsi"
+            || simpleName == "sprite"
+            || simpleName == "cola"
+            || simpleName == "gingerale"
+            || simpleName.containsString("beer")
+            || simpleName == "drink"
+        {
+            return "soda"
+        }
+        
+        let hotDrinks = ["hotchocolate", "tea", "chai", "cocoa"]
+        for drink in hotDrinks
+        {
+            if simpleName.containsString(drink)
+            {
+                return "coffee"
+            }
+        }
+        
+        let greenArray = ["spinach", "kale", "collard", "chard", "cabbage", "salad"]
+        for green in greenArray
+        {
+            if simpleName.containsString(green)
+            {
+                return "lettuce"
+            }
+        }
+        
+        let jarArray = ["jelly", "jam", "nutb", "cashewb", "almondb", "salsa", "pesto"]
+        for jar in jarArray
+        {
+            if simpleName.containsString(jar)
+            {
+                return "jar"
+            }
+        }
+        
+        let candyArray = ["snicker", "reese", "milkyway", "chocolate", "skittle", "m&m", "kitkat", "jellybean", "hershey"]
+        for candy in candyArray
+        {
+            if simpleName.containsString(candy)
+            {
+                return "candy"
+            }
+        }
+        
+        let chickenArray = ["turkey", "poultry"]
+        for meat in chickenArray
+        {
+            if simpleName.containsString(meat)
+            {
+                return "chicken"
+            }
+        }
+        
+        let meatArray = ["pork", "meat", "jerky", "ham", "salami", "pepperoni"]
+        for meat in meatArray
+        {
+            if simpleName.containsString(meat)
+            {
+                return "bacon"
+            }
+        }
+        
+        if simpleName == "conditioner"
+        {
+            return "shampoo"
+        }
+        
+        if simpleName.containsString("bean")
+        {
+            return "pea"
+        }
+        
+        
+        let cheeseArray = ["swis", "cheddar", "muenster", "mozzarella", "brie", "camembert", "chevre", "parmesan", "romano", "asiago"]
+        for cheese in cheeseArray
+        {
+            if simpleName.containsString(cheese)
+            {
+                return "cheese"
+            }
+        }
+        
+        let cereals = ["cheerio", "crunch", "chex", "life"]
+        for cereal in cereals
+        {
+            if simpleName.containsString(cereal)
+            {
+                return "cereal"
+            }
+        }
+        
+        let bowlItems = ["soup", "campbell", "oatmeal", "progresso"]
+        for bowl in bowlItems
+        {
+            if simpleName.containsString(bowl)
+            {
+                return "bowl"
+            }
+        }
+        
+        if simpleName.containsString("trash")
+        {
+            return "garbagebag"
+        }
+        
+        if simpleName.containsString("guac")
+        {
+            return "avocado"
+        }
+        
+        if simpleName.containsString("pie")
+        {
+            return "cake"
+        }
+        
+        
+        if arc4random_uniform(2) == 0
+        {
+            return "other1"
+        }
+        
+        
+        
+        return "other2"
+    }
     
 
 }

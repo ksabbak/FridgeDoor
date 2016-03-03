@@ -69,8 +69,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         print("checkUserAuth")
         checkUserAuth()
-
-//        tableView.reloadData()
     }
     
     
@@ -107,7 +105,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             mintView.hidden = true
             print(currentUser.username)
             print(currentUser.userLists)
-//            tableView.reloadData()
         }
     }
     
@@ -157,6 +154,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         else
         {
             self.members.append(user)
+        
         }
         tableView.reloadData()
     }
