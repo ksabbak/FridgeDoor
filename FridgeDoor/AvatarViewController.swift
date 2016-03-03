@@ -22,7 +22,7 @@ class AvatarViewController: UIViewController, UICollectionViewDataSource, UIColl
 
         // Do any additional setup after loading the view.
   
-        for i in 1 ... 5
+        for i in 1 ... 20
         {
             avatarArray.append("\(i)")
         }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ProfileListSelectedDelegate
+protocol ListSelectedDelegate
 {
     func listSelected(listUID: String)
 }
@@ -26,7 +26,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     let connectionManager = ConnectionManager.sharedManager
     var passedUser: User?
     var lists = [List]()
-    var delegate: ProfileListSelectedDelegate?
+    var delegate: ListSelectedDelegate?
     var inEditMode = false
     var avatarImageName = String()
     

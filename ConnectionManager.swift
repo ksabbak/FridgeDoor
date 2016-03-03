@@ -707,21 +707,25 @@ class ConnectionManager {
     //MARK: - Default toggling
     
     
-    func makeDefault(onList listUID: String)
+    func makeDefault(forUserUID: String, onList listUID: String)
     {
-        let defaultListRef = listsRef.childByAppendingPath("\(listUID)/")
+        let defaultListRef = usersRef.childByAppendingPath("/\(forUserUID)/user_lists/\(listUID)")
         let status = ["default":"true"]
         
-        defaultListRef.setValue(status)
+        defaultListRef.updateChildValues(status)
     }
     
     
     
-    func makeUndefault(onList listUID: String)
+    func makeUndefault(forUserUID: String, onList listUID: String)
     {
-        let listItemStatusRef = listsRef.childByAppendingPath("\(listUID)/default")
+        let defaultListRef = usersRef.childByAppendingPath("/\(forUserUID)/user_lists/\(listUID)/default")
         
-        listItemStatusRef.removeValue()
+        print("undefault is firing")
+        
+        defaultListRef.removeValueWithCompletionBlock { (error: NSError!, firebase: Firebase!) -> Void in
+            print("We tried to remove default but failed because of this reason: \(error)")
+        }
     }
 
     
@@ -1139,6 +1143,7 @@ class ConnectionManager {
                 }
             }
         }
+
                
         return newList
     }
@@ -1259,7 +1264,14 @@ class ConnectionManager {
         {
             for userList in userLists
             {
-                newUser.userLists.append(UserList(time: userList.1["time"]!, listUID: userList.0))
+                if let defaultList = userList.1["default"]
+                {
+                    newUser.userLists.append(UserList(time: userList.1["time"]!, listUID: userList.0, defaultList: defaultList))
+                }
+                else
+                {
+                    newUser.userLists.append(UserList(time: userList.1["time"]!, listUID: userList.0))
+                }
             }
         }
         
