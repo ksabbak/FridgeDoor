@@ -1465,7 +1465,9 @@ class ConnectionManager {
     ///Deletes pending request
     func deletePending(userUID: String, pendingUID: String)
     {
-        let pendingRef = usersRef.childByAppendingPath("\(userUID)/Pending/\(pendingUID)")
+        let pendingRef = usersRef.childByAppendingPath("/\(userUID)/Pending/\(pendingUID)")
+        
+        print("Things should be removed from here now: \(pendingRef)")
     
         pendingRef.removeValue()
     }

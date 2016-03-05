@@ -42,7 +42,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         connectionManager.getUserFor(connectionManager.userUID()!) { (currentUser: User) -> Void in
             
-            print("PENDING REQUESTS???????????????????????? \n\(currentUser.pending)")
+            //print("PENDING REQUESTS???????????????????????? \n\(currentUser.pending)")
         
             //"About" will always be last. If there's a pending request, it will be inserted before "About". Conditional for if there's a pending request at all, and also for the "s" at the end of request(s).
             if currentUser.pending.count > 1
